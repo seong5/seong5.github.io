@@ -7,25 +7,6 @@ import SectionHead from './SectionHead';
 
 const INITIAL_COUNT = 3;
 
-/** "2025.08 — current" / "2025.06.05 — 2025.06.24 (3w)" 등에서 날짜를 정렬용 숫자로 변환 */
-function dateValue(part: string | undefined): number {
-  if (!part) return 0;
-  if (/current/i.test(part)) return Number.POSITIVE_INFINITY;
-  const m = part.match(/(\d{4})\.(\d{2})(?:\.(\d{2}))?/);
-  if (!m) return 0;
-  const [, y, mo, d] = m;
-  return Number(y) * 10000 + Number(mo) * 100 + Number(d ?? '01');
-}
-
-/** 시작 시점 기준 최근순 정렬 — 동률이면 종료 시점으로 보정 */
-const sortedProjects = [...projects].sort((a, b) => {
-  const [aStart, aEnd] = a.period.split('—').map((s) => s.trim());
-  const [bStart, bEnd] = b.period.split('—').map((s) => s.trim());
-  const startDiff = dateValue(bStart) - dateValue(aStart);
-  if (startDiff !== 0) return startDiff;
-  return dateValue(bEnd ?? bStart) - dateValue(aEnd ?? aStart);
-});
-
 function ProjectCard({ p }: { p: Project }) {
   return (
     <Link
@@ -61,8 +42,8 @@ function ProjectCard({ p }: { p: Project }) {
 
 export default function Projects() {
   const [showAll, setShowAll] = useState(false);
-  const visible = showAll ? sortedProjects : sortedProjects.slice(0, INITIAL_COUNT);
-  const hiddenCount = sortedProjects.length - INITIAL_COUNT;
+  const visible = showAll ? projects : projects.slice(0, INITIAL_COUNT);
+  const hiddenCount = projects.length - INITIAL_COUNT;
 
   return (
     <section
