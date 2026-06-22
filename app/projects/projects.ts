@@ -34,6 +34,10 @@ export type Trouble = {
   task: string;
   action: string[];
   result: string[];
+  /** Task(Goal) 아래에 붙는 다이어그램 */
+  taskImage?: Figure;
+  /** Action 아래에 붙는 다이어그램 */
+  actionImage?: Figure;
   /** Result 아래에 붙는 다이어그램 */
   image?: Figure;
 };
@@ -139,25 +143,153 @@ export const projects: Project[] = [
   },
   {
     slug: "umust-erp",
-    title: "UMUST R&D ERP — 재고·매출 관리",
+    title: "UMUST R&D ERP — 재고·CRO 통합 관리",
     org: "UMUST R&D · 사업부 IT팀",
-    period: "2026.03 — 2026.06",
-    role: "Frontend",
-    type: "ERP / Internal",
-    scale: "사내 ERP",
+    period: "2026.04.28 — 2026.06.30",
+    role: "Frontend Intern",
+    type: "사내 ERP",
+    scale: "2인 개발 · 풀사이클",
     summary:
-      "전체 재고 현황과 입출고·매출을 관리하는 사내 ERP. 품목·거래 이력·매출 관리와 대시보드 통계를 구축하고 통합.",
+      "재고·자원관리에 더해 CRO(임상시험 수탁) 절차 추적까지 통합한 사내 ERP. ERD 설계부터 FE 구현·배포까지 풀사이클로 진행.",
     detail:
-      "전체 재고 현황과 이달의 입출고 통계를 한눈에 확인하는 사내 ERP 서비스입니다. 대시보드, 품목 관리, 거래 이력, 매출 관리 화면을 구축하고 기존 사내 시스템과 통합했습니다.",
+      "UMUST R&D의 사내 조직용 재고·판매 관리 ERP 서비스입니다. 재고 및 자원관리뿐 아니라 CRO 서비스(임상시험 수탁기관) 절차의 전체적인 내용 추적 및 프로세스 관리의 필요에 따라 기획되었습니다. FE 1명·BE/인프라 1명 총 2인으로 기획부터 배포까지 진행했습니다.",
     highlights: [
-      "총 품목 수·발주 필요·전체 거래 건수·전체 매출·유통기한 임박 등 운영 핵심 지표 대시보드 구현.",
-      "월별 입출고 추이 차트와 재고 부족·유통기한 임박 알림 영역 구성.",
-      "품목 관리·거래 이력·매출 관리 화면을 구축하고 사내 시스템과 통합.",
+      "서비스 전반의 ERD를 설계하고 DB·스키마 데이터 모델링부터 FE 전반 구현·배포까지 풀사이클을 직접 주도.",
+      "재고관리와 CRO(연구용역) 두 도메인을 하나의 서비스로 통합해 전체 데이터 서비스 흐름을 구축.",
+      "Zod 스키마로 폼·API 응답을 런타임 검증해 TypeScript 컴파일 단계의 한계를 보완.",
+      "상태 전이·뮤테이션 등 핵심 비즈니스 로직에 단위 테스트를 우선 작성하고 MSW API Mocking 환경을 구축해 코드 퀄리티와 이후 API 작업의 안정성을 확보.",
     ],
-    stack: ["Next.js", "TypeScript", "Tailwind CSS", "Tanstack Query", "Recharts"],
+    stack: [
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "Zustand",
+      "Tanstack Query",
+      "React Hook Form",
+      "Zod",
+      "Axios",
+      "MSW",
+      "Testing Library",
+    ],
     links: [],
     thumbnail: "umust-erp.jpg",
     image: "/projects/umust-erp.png",
+    insights: [
+      {
+        title: "쿼리키는 화면 상태가 아니라 서버 응답의 정체성으로 설계한다",
+        intro:
+          "CRO 목록 화면의 필터에는 성격이 다른 두 종류가 섞여 있었습니다. 처음엔 모든 필터를 queryKey에 넣었더니, 상태 탭만 눌러도 키가 바뀌어 캐시 미스가 나고 동일한 데이터를 매번 다시 요청했습니다. 키에는 서버 응답을 가르는 값만 넣고 나머지는 select에서 후처리하도록 분리했습니다.",
+        steps: [
+          {
+            title: "서버사이드 필터 — queryKey에 포함",
+            points: [
+              "search처럼 값이 바뀌면 서버 응답 자체가 달라지는 필터(거래처는 orgName, 의뢰는 testItem 파라미터로 전송)는 queryKey에 포함합니다.",
+              "값이 바뀌면 실제로 서버를 다시 호출해 다른 응답을 받아옵니다.",
+            ],
+          },
+          {
+            title: "클라이언트사이드 필터 — select에서 후처리",
+            points: [
+              "clientId·status·priority·orgType처럼 서버가 모르는, 이미 받아온 같은 응답을 거르기만 하면 되는 값은 queryKey에서 제외합니다.",
+              "select는 서버 캐시를 건드리지 않고 파생 결과만 만들어, status 탭을 아무리 눌러도 네트워크는 0회·메모리에서 filter()만 다시 돕니다.",
+              "keepPreviousData를 더해 search가 바뀌어 재요청이 나가는 동안에도 이전 목록이 유지돼 깜빡임이 없습니다.",
+            ],
+          },
+          {
+            title: "기준을 코드 주석에 박제",
+            points: [
+              "\"클라이언트 필터는 queryKey에 넣지 않는다\"를 주석으로 남겨 거래처·의뢰·프로젝트 훅 전반에서 같은 실수가 반복되지 않게 했습니다.",
+              "핵심 교훈: 쿼리 키 설계의 질문은 '이 값이 바뀌면 화면이 달라지나?'가 아니라 '이 값이 바뀌면 서버가 다른 응답을 주나?'다. 이 기준을 잡고 나서 중복 패치가 구조적으로 사라졌습니다.",
+            ],
+          },
+        ],
+        image: { src: "/projects/umust-erp-querykey.svg", w: 680, h: 468 },
+      },
+      {
+        title: "단건 조회는 목록 캐시에서 파싱하되 상황에 맞는 전략을 세운다",
+        intro:
+          "상세 화면 진입 시 단건 API(GET /{id}) 존재 여부에 따라 캐시 전략을 다르게 가져갔습니다.",
+        steps: [
+          {
+            title: "전략 A · initialData — 단건 API가 있을 때",
+            points: [
+              "목록 캐시로 첫 페인트를 시드해 즉시 화면을 그립니다.",
+              "queryFn은 유지해 백그라운드에서 최신 단건으로 갱신 — 신선도를 우선합니다.",
+            ],
+          },
+          {
+            title: "전략 B · 키 공유 — 단건 API가 없을 때",
+            points: [
+              "select로 목록에서 하나만 선택해 목록과 같은 캐시를 공유합니다.",
+              "네트워크 0회로 요청을 절약하면서 목록과의 정합성을 유지합니다.",
+            ],
+          },
+        ],
+        image: { src: "/projects/umust-erp-single-query.svg", w: 680, h: 474 },
+      },
+      {
+        title: "뮤테이션은 트리거와 무효화 범위가 항상 함께 가야 한다",
+        intro:
+          "서버 상태를 바꾸는 액션은 관련 캐시를 함께 무효화하지 않으면 화면이 어긋납니다. 의뢰 → 프로젝트 전환 한 번이 의뢰 상세·의뢰 목록·프로젝트 목록 세 군데에 영향을 줍니다.",
+        steps: [
+          {
+            title: "무효화 범위를 키 집합으로 추적",
+            points: [
+              "'방금 만든 프로젝트가 목록에 안 보인다' 같은 버그는 대부분 무효화 범위 누락입니다.",
+              "query-keys 팩토리에서 lists() / detail(id)를 계층적으로 설계해, 무효화 범위를 '이 액션이 건드리는 키 집합'으로 명시적으로 추적할 수 있게 했습니다.",
+              "onSuccess에서 전환 1회로 더럽혀진 캐시 3곳(의뢰 상세 detail(inquiryId)·의뢰 목록 lists()·프로젝트 목록)을 함께 무효화합니다.",
+            ],
+          },
+        ],
+        image: { src: "/projects/umust-erp-invalidation.svg", w: 680, h: 434 },
+      },
+      {
+        title: "에러 메시지를 한곳에서 정리한다",
+        intro:
+          "에러 메시지를 컴포넌트마다 처리하면 톤이 제각각이 되고 서버의 \"Internal Server Error\" 같은 영문이 그대로 사용자에게 노출됩니다. 추출 우선순위를 getErrorMessage 한 곳에 정의했습니다.",
+        steps: [
+          {
+            title: "추출 우선순위 4단계",
+            points: [
+              "1. 백엔드 본문(message·error·detail) — 의미 있는 본문은 살리고 무의미·영문 일반 메시지는 건너뜁니다.",
+              "2. HTTP 상태별 안내 — 400·404·409·500을 한국어로 치환(예: 409 → '다른 데이터와 연결되어 있어 삭제할 수 없습니다').",
+              "3. 네트워크/타임아웃 — ECONNABORTED·no response 케이스 처리.",
+              "4. fallback — 호출부가 넘긴 기본 메시지.",
+            ],
+          },
+          {
+            title: "배운 점",
+            points: [
+              "서버가 준 메시지가 곧 사용자 메시지가 아닙니다. 의미 있는 본문은 살리고 일반·영문 메시지는 한국어 안내로 치환하는 분기가 UX를 좌우했습니다.",
+              "상태 코드별 안내를 중앙화해, 새 뮤테이션은 fallback 한 줄만 넘기면 일관된 에러 UX를 얻을 수 있었습니다.",
+            ],
+          },
+        ],
+        image: { src: "/projects/umust-erp-error.svg", w: 680, h: 394 },
+      },
+    ],
+    troubleshooting: [
+      {
+        title: "배포 환경에서 발생한 CRO API 404 에러",
+        situation:
+          "로컬 개발 환경에서는 정상 동작하던 서비스가 배포 환경에서 CRO 도메인의 모든 API 호출이 404로 실패했습니다. 재고·거래 API는 정상 동작했고 CRO만 실패하는 상황이라, 도메인 단위로 어딘가 잘못되었다고 판단했습니다.",
+        task:
+          "로컬은 되고 배포만 안 되는 환경 차이를 역추적하여, 프론트에서 만드는 요청 경로와 게이트웨이(Nginx)·백엔드 라우팅을 하나의 일관된 규칙으로 정합화하는 것을 목표로 했습니다.",
+        taskImage: { src: "/projects/umust-erp-404-broken.svg", w: 680, h: 368 },
+        action: [
+          "운영 서버에 SSH로 접속해 docker ps로 실제 떠 있는 컨테이너와 포트 매핑을 확인하고, 재고 백엔드와 CRO 백엔드가 별도 컨테이너로 분리돼 있다는 사실을 파악했습니다.",
+          "게이트웨이 컨테이너에 직접 들어가 병합된 Nginx 설정 전체를 덤프해 location을 확인한 결과, /api/ location은 재고용으로 잡혀 있고 CRO용 라우팅이 없어 'CRO 요청이 재고 API로 폴백'되고 있음을 확정했습니다. (로컬은 Vite dev 프록시가 라우팅 차이를 가려 증상이 드러나지 않았습니다.)",
+          "CRO의 외부 공개 경로를 재고 API와 네임스페이스가 겹치지 않게 분리하고, 수십 곳에 하드코딩돼 있던 경로 문자열을 croApiPath() 헬퍼 호출로 교체했습니다.",
+          "게이트웨이가 공개 경로(/cro-api)를 받아도 그대로 루트로 흘려보내던 rewrite 불일치를, CRO 백엔드 실제 경로(/api/cro)로 rewrite하도록 수정하고, Vite dev 프록시와 CI 빌드 env를 추가해 로컬·배포가 같은 접두사 규칙을 공유하게 했습니다.",
+        ],
+        actionImage: { src: "/projects/umust-erp-404-fixed.svg", w: 680, h: 360 },
+        result: [
+          "배포 404가 완전히 해소되었습니다.",
+          "공개 경로(/cro-api)·내부 경로(/api/cro)·프론트 호출부 세 층의 책임이 분리되고, 프론트 경로 생성이 croApiPath() 한 곳으로 수렴돼 CRO API가 늘어도 같은 클래스의 라우팅 버그가 재발할 표면이 사라졌습니다.",
+          "추측 대신 SSH·docker ps·nginx -T로 운영 환경의 실제 라우팅 테이블을 직접 검증한 것이 원인 도달의 결정적 단계였습니다. 공개 API 네임스페이스는 서비스별로 분리하지 않으면 게이트웨이 prefix 매칭에서 다른 서비스로 조용히 폴백되는 사고가 난다는 것을 확인했습니다.",
+        ],
+      },
+    ],
   },
   {
     slug: "claude-log",

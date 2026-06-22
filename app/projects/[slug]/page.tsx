@@ -214,6 +214,17 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                       </span>
                       <p className="text-[0.90625rem] font-light leading-[1.7] text-ink2">{t.task}</p>
                     </div>
+                    {t.taskImage && (
+                      <Image
+                        src={t.taskImage.src}
+                        alt={`${t.title} 문제 구조 다이어그램`}
+                        width={t.taskImage.w}
+                        height={t.taskImage.h}
+                        sizes="(max-width: 920px) 100vw, 860px"
+                        className="h-auto w-full rounded-[8px] border border-line bg-panel"
+                        unoptimized={t.taskImage.src.endsWith('.svg')}
+                      />
+                    )}
                     <div className="grid grid-cols-[64px_1fr] gap-x-4 gap-y-2 max-wrap:grid-cols-1">
                       <span className="font-mono text-[0.75rem] uppercase tracking-[.08em] text-muted">
                         Action
@@ -229,6 +240,17 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                         ))}
                       </ul>
                     </div>
+                    {t.actionImage && (
+                      <Image
+                        src={t.actionImage.src}
+                        alt={`${t.title} 해결 구조 다이어그램`}
+                        width={t.actionImage.w}
+                        height={t.actionImage.h}
+                        sizes="(max-width: 920px) 100vw, 860px"
+                        className="h-auto w-full rounded-[8px] border border-line bg-panel"
+                        unoptimized={t.actionImage.src.endsWith('.svg')}
+                      />
+                    )}
                     <div className="grid grid-cols-[64px_1fr] gap-x-4 gap-y-2 max-wrap:grid-cols-1">
                       <span className="font-mono text-[0.75rem] uppercase tracking-[.08em] text-accent">
                         Result
@@ -252,6 +274,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                         height={t.image.h}
                         sizes="(max-width: 920px) 100vw, 860px"
                         className="mt-1 h-auto w-full rounded-[8px] border border-line"
+                        unoptimized={t.image.src.endsWith('.svg')}
                       />
                     )}
                   </div>
@@ -273,7 +296,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                     {ins.title}
                   </h3>
                   {ins.intro && (
-                    <p className="mt-[14px] max-w-[68ch] text-[0.9375rem] font-light leading-[1.8] text-ink2">
+                    <p className="mt-[14px] text-[0.9375rem] font-light leading-[1.8] text-ink2">
                       {ins.intro}
                     </p>
                   )}
