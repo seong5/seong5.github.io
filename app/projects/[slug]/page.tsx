@@ -31,6 +31,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
 
   const index = projects.findIndex((p) => p.slug === project.slug);
   const order = String(index + 1).padStart(2, '0');
+  const prev = index > 0 ? projects[index - 1] : null;
   const next = projects[(index + 1) % projects.length];
 
   return (
@@ -41,7 +42,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
             className="flex items-center gap-2 font-mono text-[0.78125rem] text-muted transition hover:text-accent"
             href="/#projects"
           >
-            ← <span>BACK TO INDEX</span>
+            ← <span>메인으로 돌아가기</span>
           </Link>
           <span className="font-mono text-[0.75rem] text-muted">PROJECT / {order}</span>
         </div>
@@ -384,12 +385,18 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
         )}
 
         <div className="flex items-center justify-between border-t border-line pb-20 pt-10">
-          <Link
-            className="font-mono text-[0.8125rem] text-muted transition hover:text-accent"
-            href="/#projects"
-          >
-            ← Index
-          </Link>
+          {prev ? (
+            <Link
+              className="font-mono text-[0.8125rem] text-ink transition hover:text-accent"
+              href={`/projects/${prev.slug}`}
+            >
+              Previous project
+              <br />
+              <span className="font-semibold text-ink">← {prev.title.split(' — ')[0]}</span>
+            </Link>
+          ) : (
+            <span />
+          )}
           <Link
             className="text-right font-mono text-[0.8125rem] text-ink transition hover:text-accent"
             href={`/projects/${next.slug}`}
