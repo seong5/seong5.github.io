@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+@theme {
+  /* colors → bg-bg, text-ink, border-line, text-accent … */
+  --color-bg: #fafaf9;
+  --color-panel: #ffffff;
+  --color-ink: #1c1917;
+  --color-ink2: #44403c;
+  --color-muted: #6b645d;
+  --color-line: #e7e5e4;
+  --color-line2: #d6d3d1;
+  --color-accent: #4338ca;
+
+  /* fonts (next/font 변수 연결) → font-sans / font-mono */
+  --font-sans: var(--font-ibm-sans), "IBM Plex Sans KR", "IBM Plex Sans", -apple-system, sans-serif;
+  --font-mono: var(--font-ibm-mono), "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* 커스텀 breakpoint → nav: / max-nav: , wrap: / max-wrap: 변형 생성 */
+  --breakpoint-nav: 880px;
+  --breakpoint-wrap: 760px;
+
+  /* pulse 링 애니메이션 → animate-pulsering */
+  --animate-pulsering: pulsering 2.4s infinite;
+  @keyframes pulsering {
+    0% {
+      box-shadow: 0 0 0 0 rgba(67, 56, 202, 0.45);
+    }
+    70% {
+      box-shadow: 0 0 0 8px rgba(67, 56, 202, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(67, 56, 202, 0);
+    }
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-bg text-ink font-sans antialiased font-normal leading-[1.6];
+  }
+}
+
+/* 인라인으로 길어지는 특수 효과만 유틸로 분리 */
+@utility ph-frame {
+  /* 이미지 placeholder 사선 해치 배경 */
+  background:
+    repeating-linear-gradient(
+      135deg,
+      transparent,
+      transparent 7px,
+      rgba(28, 25, 23, 0.035) 7px,
+      rgba(28, 25, 23, 0.035) 8px
+    ),
+    var(--color-panel);
+}
+
+@utility proj-hover {
+  /* 프로젝트 카드 hover 그라디언트 (hover: 와 조합) */
+  background: linear-gradient(90deg, rgba(67, 56, 202, 0.05), transparent 70%);
+}
