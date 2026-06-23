@@ -33,11 +33,10 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
   const order = String(index + 1).padStart(2, '0');
   const prev = index > 0 ? projects[index - 1] : null;
   const next = projects[(index + 1) % projects.length];
-  const githubLink = project.links.find((l) => /github/i.test(l.href));
 
   return (
     <>
-      <nav className="sticky top-0 z-10 border-b border-line bg-[rgba(250,250,249,0.9)] backdrop-blur-[8px]">
+      <nav className="sticky top-0 z-10 border-b border-line bg-white/90 backdrop-blur-[8px]">
         <div className="mx-auto flex h-[62px] max-w-[920px] items-center justify-between px-8 max-wrap:px-[22px]">
           <Link
             className="flex items-center gap-2 font-mono text-[0.78125rem] text-muted transition hover:text-accent"
@@ -51,25 +50,30 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
 
       <div className="mx-auto max-w-[920px] px-8 max-wrap:px-[22px]">
         <header className="pb-[50px] pt-[74px]">
-          <div className="mb-[22px] flex flex-wrap gap-[10px] font-mono text-[0.78125rem] text-muted">
-            <span>{project.org}</span>
-            <span>{project.period}</span>
-          </div>
-          <div className="flex items-start justify-between gap-5 max-wrap:flex-col max-wrap:gap-3">
-            <h1 className="text-[clamp(1.75rem,4.4vw,2.625rem)] font-semibold leading-[1.2] tracking-[-.02em]">
-              {project.title}
-            </h1>
-            {githubLink && (
-              <a
-                className="mt-2 shrink-0 whitespace-nowrap rounded-[5px] border border-line bg-panel px-3 py-1.5 font-mono text-[0.75rem] text-ink transition hover:border-line2 hover:text-accent max-wrap:mt-0"
-                href={githubLink.href}
-                target="_blank"
-                rel="noreferrer"
-              >
-                {githubLink.label} ↗
-              </a>
+          <div className="mb-[22px] flex flex-wrap items-center justify-between gap-[10px] font-mono text-[0.78125rem] text-muted">
+            <div className="flex flex-wrap gap-[10px]">
+              <span>{project.org}</span>
+              <span>{project.period}</span>
+            </div>
+            {project.links.length > 0 && (
+              <div className="flex shrink-0 gap-2">
+                {project.links.map((link) => (
+                  <a
+                    key={link.href}
+                    className="whitespace-nowrap rounded-[5px] border border-line bg-panel px-3 py-1.5 text-[0.75rem] text-ink transition hover:border-line2 hover:text-accent"
+                    href={link.href}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {link.label} ↗
+                  </a>
+                ))}
+              </div>
             )}
           </div>
+          <h1 className="text-[clamp(1.75rem,4.4vw,2.625rem)] font-semibold leading-[1.2] tracking-[-.02em]">
+            {project.title}
+          </h1>
           <p className="mt-[18px] text-[1rem] font-light leading-[1.8] text-ink2">
             {project.detail ?? project.summary}
           </p>

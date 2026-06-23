@@ -118,7 +118,10 @@ export const projects: Project[] = [
       "Zustand",
       "Playwright",
     ],
-    links: [{ label: "GitHub", href: "https://github.com/seong5/claude-log" }],
+    links: [
+      { label: "GitHub", href: "https://github.com/seong5/claude-log" },
+      { label: "Release", href: "https://github.com/seong5/claude-log/releases/tag/v1.0.8" },
+    ],
     thumbnail: "claude-log.jpg",
     gallery: [
       { src: "/projects/claude-log-1.png", w: 920, h: 1162 },
@@ -895,7 +898,10 @@ export const projects: Project[] = [
       "GitHub Actions",
       "Vercel",
     ],
-    links: [],
+    links: [
+      { label: "GitHub", href: "https://github.com/Act-It-FE/global-nomad" },
+      { label: "Deploy", href: "https://global-nomad-omega.vercel.app/" },
+    ],
     thumbnail: "globalnomad.jpg",
     image: "/projects/globalnomad.png",
     insights: [
@@ -977,7 +983,10 @@ export const projects: Project[] = [
       "GitHub Actions",
       "Vercel",
     ],
-    links: [],
+    links: [
+      { label: "GitHub", href: "https://github.com/codeit-part3-team5/whyne" },
+      { label: "Deploy", href: "https://whyne-navy.vercel.app/" },
+    ],
     thumbnail: "whyne.jpg",
     image: "/projects/whyne.png",
     imageNoBorder: true,
