@@ -30,7 +30,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko" className={`${ibmPlexMono.variable} ${ibmPlexSansKR.variable}`}>
+    <html
+      lang="ko"
+      data-scroll-behavior="smooth"
+      className={`${ibmPlexMono.variable} ${ibmPlexSansKR.variable}`}
+    >
       <body>{children}</body>
     </html>
   );
