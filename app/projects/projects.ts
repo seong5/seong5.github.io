@@ -207,7 +207,7 @@ export const projects: Project[] = [
   {
     slug: "umust-erp",
     title: "UMUST R&D ERP — 재고·CRO 통합 관리",
-    org: "UMUST R&D · 사업부 IT팀",
+    org: "UMUST R&D · 사업부 IT팀 · 프론트엔드 인턴",
     period: "2026.04.28 — 2026.06.30",
     role: "Frontend Intern",
     type: "사내 ERP",
@@ -357,7 +357,7 @@ export const projects: Project[] = [
   {
     slug: "dobong-admin",
     title: "도봉라이프 어드민 — 운영 관리 콘솔",
-    org: "UMUST R&D · 사업부 IT팀",
+    org: "UMUST R&D · 사업부 IT팀 · 프론트엔드 인턴",
     period: "2026.03.23 — 2026.04.28",
     role: "Frontend",
     type: "Admin Console",
