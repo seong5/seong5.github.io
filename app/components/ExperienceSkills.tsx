@@ -8,8 +8,9 @@ export default function ExperienceSkills() {
     >
       <div className="grid grid-cols-2 gap-16 max-nav:grid-cols-1 max-nav:gap-[46px]">
         <div>
-          <SectionHead idx="03" title="Experience" rule={false} />
-          <div className="border-t border-line py-[22px] first:border-t-0 first:pt-0">
+          <SectionHead idx="03" title="Experience" />
+          <div className="flex flex-col gap-[26px]">
+          <div>
             <div className="font-mono text-[0.75rem] text-accent">2026.03 — 2026.06 · 4개월</div>
             <h4 className="mb-[3px] mt-[6px] text-[1rem] font-semibold">UMUST R&amp;D</h4>
             <div className="font-mono text-[0.78125rem] text-muted">프론트엔드 인턴 · 사업부 IT팀</div>
@@ -18,7 +19,7 @@ export default function ExperienceSkills() {
               통합까지 진행.
             </p>
           </div>
-          <div className="border-t border-line py-[22px] first:border-t-0 first:pt-0">
+          <div>
             <div className="font-mono text-[0.75rem] text-accent">2025.12 — 2026.01 · 1개월</div>
             <h4 className="mb-[3px] mt-[6px] text-[1rem] font-semibold">똑똑한개발자</h4>
             <div className="font-mono text-[0.78125rem] text-muted">프론트엔드 인턴 · TF팀</div>
@@ -27,7 +28,7 @@ export default function ExperienceSkills() {
               사용자 트래킹 구현.
             </p>
           </div>
-          <div className="border-t border-line py-[22px] first:border-t-0 first:pt-0">
+          <div>
             <div className="font-mono text-[0.75rem] text-accent">2023.01 — 2025.01 · 2년</div>
             <h4 className="mb-[3px] mt-[6px] text-[1rem] font-semibold">JFounders</h4>
             <div className="font-mono text-[0.78125rem] text-muted">F&amp;B 사업부 · 지점장</div>
@@ -36,7 +37,7 @@ export default function ExperienceSkills() {
               배달로 월 매출 최대 17% 증가, 상황별 매뉴얼 제작으로 운영 자동화.
             </p>
           </div>
-          <div className="border-t border-line py-[22px] first:border-t-0 first:pt-0">
+          <div>
             <div className="font-mono text-[0.75rem] text-accent">2018.11 — 2019.06 · 7개월</div>
             <h4 className="mb-[3px] mt-[6px] text-[1rem] font-semibold">호주 워킹홀리데이</h4>
             <div className="font-mono text-[0.78125rem] text-muted">Sydney, AU</div>
@@ -45,10 +46,12 @@ export default function ExperienceSkills() {
               목표를 계획하고 달성.
             </p>
           </div>
+          </div>
         </div>
         <div id="skills">
-          <SectionHead idx="04" title="Skills" rule={false} />
-          <div className="border-t border-line py-[18px] first:border-t-0 first:pt-0">
+          <SectionHead idx="04" title="Skills" />
+          <div className="flex flex-col gap-[22px]">
+          <div>
             <div className="mb-[11px] font-mono text-[0.75rem] uppercase tracking-[.08em] text-muted">
               Core
             </div>
@@ -67,7 +70,7 @@ export default function ExperienceSkills() {
               </span>
             </div>
           </div>
-          <div className="border-t border-line py-[18px] first:border-t-0 first:pt-0">
+          <div>
             <div className="mb-[11px] font-mono text-[0.75rem] uppercase tracking-[.08em] text-muted">
               State
             </div>
@@ -83,7 +86,7 @@ export default function ExperienceSkills() {
               </span>
             </div>
           </div>
-          <div className="border-t border-line py-[18px] first:border-t-0 first:pt-0">
+          <div>
             <div className="mb-[11px] font-mono text-[0.75rem] uppercase tracking-[.08em] text-muted">
               Styling
             </div>
@@ -96,7 +99,7 @@ export default function ExperienceSkills() {
               </span>
             </div>
           </div>
-          <div className="border-t border-line py-[18px] first:border-t-0 first:pt-0">
+          <div>
             <div className="mb-[11px] font-mono text-[0.75rem] uppercase tracking-[.08em] text-muted">
               Quality / Test
             </div>
@@ -118,7 +121,7 @@ export default function ExperienceSkills() {
               </span>
             </div>
           </div>
-          <div className="border-t border-line py-[18px] first:border-t-0 first:pt-0">
+          <div>
             <div className="mb-[11px] font-mono text-[0.75rem] uppercase tracking-[.08em] text-muted">
               Deploy / Infra
             </div>
@@ -136,6 +139,7 @@ export default function ExperienceSkills() {
                 Supabase
               </span>
             </div>
+          </div>
           </div>
         </div>
       </div>

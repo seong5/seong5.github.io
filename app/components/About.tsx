@@ -7,8 +7,8 @@ export default function About() {
       id="about"
     >
       <SectionHead idx="01" title="About" />
-      <div className="grid">
-        <div className="grid grid-cols-[48px_1fr] gap-7 border-t border-line py-[30px] first:border-t-0 first:pt-0">
+      <div className="flex flex-col gap-[44px]">
+        <div className="grid grid-cols-[48px_1fr] gap-7">
           <div className="font-mono text-[0.75rem] text-accent">A1</div>
           <div>
             <h3 className="mb-3 text-[1.3125rem] font-semibold tracking-[-.01em]">
@@ -21,7 +21,7 @@ export default function About() {
             </p>
           </div>
         </div>
-        <div className="grid grid-cols-[48px_1fr] gap-7 border-t border-line py-[30px] first:border-t-0 first:pt-0">
+        <div className="grid grid-cols-[48px_1fr] gap-7">
           <div className="font-mono text-[0.75rem] text-accent">A2</div>
           <div>
             <h3 className="mb-3 text-[1.3125rem] font-semibold tracking-[-.01em]">
@@ -35,7 +35,7 @@ export default function About() {
             </p>
           </div>
         </div>
-        <div className="grid grid-cols-[48px_1fr] gap-7 border-t border-line py-[30px] first:border-t-0 first:pt-0">
+        <div className="grid grid-cols-[48px_1fr] gap-7">
           <div className="font-mono text-[0.75rem] text-accent">A3</div>
           <div>
             <h3 className="mb-3 text-[1.3125rem] font-semibold tracking-[-.01em]">
