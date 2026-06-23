@@ -33,6 +33,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
   const order = String(index + 1).padStart(2, '0');
   const prev = index > 0 ? projects[index - 1] : null;
   const next = projects[(index + 1) % projects.length];
+  const githubLink = project.links.find((l) => /github/i.test(l.href));
 
   return (
     <>
@@ -54,9 +55,21 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
             <span>{project.org}</span>
             <span>{project.period}</span>
           </div>
-          <h1 className="text-[clamp(1.75rem,4.4vw,2.625rem)] font-semibold leading-[1.2] tracking-[-.02em]">
-            {project.title}
-          </h1>
+          <div className="flex items-start justify-between gap-5 max-wrap:flex-col max-wrap:gap-3">
+            <h1 className="text-[clamp(1.75rem,4.4vw,2.625rem)] font-semibold leading-[1.2] tracking-[-.02em]">
+              {project.title}
+            </h1>
+            {githubLink && (
+              <a
+                className="mt-2 shrink-0 whitespace-nowrap rounded-[5px] border border-line bg-panel px-3 py-1.5 font-mono text-[0.75rem] text-ink transition hover:border-line2 hover:text-accent max-wrap:mt-0"
+                href={githubLink.href}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {githubLink.label} ↗
+              </a>
+            )}
+          </div>
           <p className="mt-[18px] text-[1rem] font-light leading-[1.8] text-ink2">
             {project.detail ?? project.summary}
           </p>
@@ -100,7 +113,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                     height={g.h}
                     sizes="(max-width: 920px) 50vw, 460px"
                     className="h-auto max-h-[440px] w-auto max-w-full"
-                    priority={i === 0}
+                    priority
                   />
                 </div>
               ))}
@@ -122,9 +135,9 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
           <div className="mb-2 mt-[14px]">
             {project.image ? (
               <div
-                className={`relative aspect-[16/8] w-full overflow-hidden rounded-[10px] border border-line2 ${
-                  project.imageFit === 'contain' ? 'bg-panel' : ''
-                }`}
+                className={`relative aspect-[16/8] w-full overflow-hidden rounded-[10px] ${
+                  project.imageNoBorder ? '' : 'border border-line2'
+                } ${project.imageFit === 'contain' ? 'bg-panel' : ''}`}
               >
                 <Image
                   src={project.image}
@@ -362,27 +375,6 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
             ))}
           </div>
         </section>
-
-        {project.links.length > 0 && (
-          <section className="border-t border-line py-12">
-            <h2 className="mb-[26px] flex items-baseline gap-[14px] font-mono text-[0.8125rem] font-medium uppercase tracking-[.1em] text-ink">
-              <span className="text-[0.75rem] text-accent">/</span> Links
-            </h2>
-            <div className="flex flex-wrap gap-2">
-              {project.links.map((l) => (
-                <a
-                  className="rounded-[5px] border border-line bg-panel px-3 py-1.5 font-mono text-[0.75rem] text-ink transition hover:border-line2 hover:text-accent"
-                  key={l.href}
-                  href={l.href}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {l.label} ↗
-                </a>
-              ))}
-            </div>
-          </section>
-        )}
 
         <div className="flex items-center justify-between border-t border-line pb-20 pt-10">
           {prev ? (
