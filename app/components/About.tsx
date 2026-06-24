@@ -12,12 +12,14 @@ export default function About() {
           <div className="font-mono text-[0.75rem] text-accent">A1</div>
           <div>
             <h3 className="mb-3 text-[1.3125rem] font-semibold tracking-[-.01em]">
-              새로운 시도를 통한 문제 해결에 몰입합니다
+              <span className="text-accent">학습력</span>
+              <span className="mx-2 text-muted">—</span>
+              새로운 기술도 빠르게 흡수해 실무에 적용합니다
             </h3>
             <p className="max-w-[64ch] text-[0.9375rem] font-light leading-[1.85] text-ink2">
-              생소한 로직과 기술 스택을 도입할 때 두려움보다는 호기심과 흥미를 바탕으로 빠르게
-              수용합니다. 비즈니스 가치에 따라 우선순위를 정하고, 마주하는 기술적 난제를 주도적으로
-              해결하며 업무를 끝까지 완수하는 성향을 갖추고 있습니다.
+              처음 마주하는 기술이라도 사용법을 외우기보다 핵심 동작 원리부터 파악합니다. 공식
+              문서와 작은 예제로 직접 확인하며 빠르게 체화하고, &quot;왜 이렇게 동작하는가&quot;를
+              파악해 실제 문제에 맞게 응용할 수 있도록 적용합니다.
             </p>
           </div>
         </div>
@@ -25,13 +27,14 @@ export default function About() {
           <div className="font-mono text-[0.75rem] text-accent">A2</div>
           <div>
             <h3 className="mb-3 text-[1.3125rem] font-semibold tracking-[-.01em]">
-              직접 겪은 불편함을 개발로 해결합니다
+              <span className="text-accent">실행력</span>
+              <span className="mx-2 text-muted">—</span>
+              직접 겪은 불편을 서비스로 만듭니다
             </h3>
             <p className="max-w-[64ch] text-[0.9375rem] font-light leading-[1.85] text-ink2">
-              사용하며 느낀 불편함을 그냥 넘기지 않고, 이를 해결하는 도구를 기획부터 개발·배포까지 직접
-              완성합니다. Claude Code 사용량을 추적하는 macOS 메뉴바 앱을 1인 개발해 오픈소스로 공개했고,
-              실사용자 규모의 서비스도 End-to-End로 진행하며 피드백을 실제 기능으로 구현하는 과정에서 더
-              나은 경험을 제공할 때 큰 성취감을 느낍니다.
+              떠오른 아이디어를 구상에서 멈추지 않고, 기획·설계·개발·배포까지 직접 끌고 가 하나의
+              완성된 결과물로 만듭니다. 중간에 막히는 구간이 생겨도 끝까지 책임지고 마무리하며,
+              사용자의 반응을 다음 개선방향으로 설정하여 결과물을 꾸준히 키워나갑니다.
             </p>
           </div>
         </div>
@@ -39,12 +42,14 @@ export default function About() {
           <div className="font-mono text-[0.75rem] text-accent">A3</div>
           <div>
             <h3 className="mb-3 text-[1.3125rem] font-semibold tracking-[-.01em]">
-              목표를 끝까지 완수하여 성과로 증명합니다
+              <span className="text-accent">문제해결력</span>
+              <span className="mx-2 text-muted">—</span>
+              마주한 문제를 눈에 보이는 성과로 만듭니다
             </h3>
             <p className="max-w-[64ch] text-[0.9375rem] font-light leading-[1.85] text-ink2">
-              하프 마라톤 완주, 워킹홀리데이, 학위 취득 등 장기적인 목표를 달성해온 근성은 복잡한
-              로직을 풀어내는 인내심으로 이어집니다. 어떤 난관에서도 업무를 완수해내는 책임감으로 팀이
-              믿고 맡길 수 있는 동료가 되겠습니다.
+              문제가 생기면 증상에 임시방편을 두지 않고 원인을 끝까지 추적해 근본부터 해결합니다.
+              추측 대신 직접 측정한 데이터로 문제점을 진단하고, 개선 전후를 수치로 비교해 성과를
+              명확히 검증하는 방식으로 일하는 것을 지향합니다.
             </p>
           </div>
         </div>
