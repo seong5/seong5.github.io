@@ -39,10 +39,10 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
       <nav className="sticky top-0 z-10 border-b border-line bg-white/90 backdrop-blur-[8px]">
         <div className="mx-auto flex h-[62px] max-w-[920px] items-center justify-between px-8 max-wrap:px-[22px]">
           <Link
-            className="flex items-center gap-2 font-mono text-[0.78125rem] text-muted transition hover:text-accent"
+            className="flex items-center gap-2 text-[0.78125rem] text-muted transition hover:text-accent"
             href="/#projects"
           >
-            ← <span>메인으로 돌아가기</span>
+            <span className="font-mono">←</span> <span>메인으로 돌아가기</span>
           </Link>
           <span className="font-mono text-[0.75rem] text-muted">PROJECT / {order}</span>
         </div>
@@ -50,10 +50,10 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
 
       <div className="mx-auto max-w-[920px] px-8 max-wrap:px-[22px]">
         <header className="pb-[50px] pt-[74px]">
-          <div className="mb-[22px] flex flex-wrap items-center justify-between gap-[10px] font-mono text-[0.78125rem] text-muted">
+          <div className="mb-[22px] flex flex-wrap items-center justify-between gap-[10px] text-[0.78125rem] text-muted">
             <div className="flex flex-wrap gap-[10px]">
               <span>{project.org}</span>
-              <span>{project.period}</span>
+              <span className="font-mono">{project.period}</span>
             </div>
             {project.links.length > 0 && (
               <div className="flex shrink-0 gap-2">
@@ -383,23 +383,27 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
         <div className="flex items-center justify-between border-t border-line pb-20 pt-10">
           {prev ? (
             <Link
-              className="font-mono text-[0.8125rem] text-ink transition hover:text-accent"
+              className="text-[0.8125rem] text-ink transition hover:text-accent"
               href={`/projects/${prev.slug}`}
             >
               Previous project
               <br />
-              <span className="font-semibold text-ink">← {prev.title.split(' — ')[0]}</span>
+              <span className="font-semibold text-ink">
+                <span className="font-mono">←</span> {prev.title.split(' — ')[0]}
+              </span>
             </Link>
           ) : (
             <span />
           )}
           <Link
-            className="text-right font-mono text-[0.8125rem] text-ink transition hover:text-accent"
+            className="text-right text-[0.8125rem] text-ink transition hover:text-accent"
             href={`/projects/${next.slug}`}
           >
             Next project
             <br />
-            <span className="font-semibold text-ink">{next.title.split(' — ')[0]} →</span>
+            <span className="font-semibold text-ink">
+              {next.title.split(' — ')[0]} <span className="font-mono">→</span>
+            </span>
           </Link>
         </div>
       </div>

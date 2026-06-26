@@ -1,11 +1,11 @@
 export default function Hero() {
   return (
     <header className="max-w-[1080px] border-b border-line px-[72px] pb-[84px] pt-[96px] max-nav:px-[22px] max-nav:pb-[52px] max-nav:pt-[56px]">
-      <div className="mb-[30px] inline-flex flex-wrap items-center gap-[10px] font-mono text-[0.75rem] text-muted">
-        <span className="whitespace-nowrap rounded-[100px] border border-line2 px-[10px] py-[3px]">
+      <div className="mb-[30px] flex flex-wrap items-center gap-[10px] text-[0.75rem] text-muted">
+        <span className="whitespace-nowrap rounded-[100px] border border-line2 px-[10px] py-[3px] font-mono">
           {'2026 PORTFOLIO'}
-        </span>{' '}
-        사용자 경험을 기술로 풀어내는 프론트엔드 개발자
+        </span>
+        <span>사용자 경험을 기술로 풀어내는 프론트엔드 개발자</span>
       </div>
       <h2 className="max-w-[22ch] text-[clamp(1.875rem,4vw,3rem)] font-semibold leading-[1.22] tracking-[-.02em] break-keep">
         마주한 문제를 파고들어,

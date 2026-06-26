@@ -29,12 +29,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="ko"
-      data-scroll-behavior="smooth"
-      className={`${pretendard.variable} ${ibmPlexMono.variable}`}
-    >
-      <body>{children}</body>
+    <html lang="ko" data-scroll-behavior="smooth">
+      <body
+        className={`${pretendard.variable} ${pretendard.className} ${ibmPlexMono.variable} antialiased`}
+      >
+        {children}
+      </body>
     </html>
   );
 }
