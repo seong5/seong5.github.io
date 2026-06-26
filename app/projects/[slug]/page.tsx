@@ -74,7 +74,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
           <h1 className="text-[clamp(1.75rem,4.4vw,2.625rem)] font-semibold leading-[1.2] tracking-[-.02em]">
             {project.title}
           </h1>
-          <p className="mt-[18px] text-[1rem] font-light leading-[1.8] text-ink2">
+          <p className="mt-[18px] text-[1rem] font-normal leading-[1.8] text-ink2">
             {project.detail ?? project.summary}
           </p>
           <div className="mt-[34px] grid grid-cols-4 gap-px overflow-hidden rounded-lg border border-line bg-line max-wrap:grid-cols-2">
@@ -175,7 +175,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                 <span className="mt-0.5 font-mono text-[0.8125rem] text-accent">
                   {String(i + 1).padStart(2, '0')}
                 </span>
-                <p className="text-[0.9375rem] font-light leading-[1.7] text-ink2">{h}</p>
+                <p className="text-[0.9375rem] font-normal leading-[1.7] text-ink2">{h}</p>
               </div>
             ))}
           </div>
@@ -192,7 +192,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                   <div className="font-mono text-[clamp(1.375rem,3vw,1.75rem)] font-semibold leading-none tracking-[-.02em] text-accent">
                     {m.value}
                   </div>
-                  <div className="mt-[10px] text-[0.78125rem] font-light leading-[1.5] text-muted">
+                  <div className="mt-[10px] text-[0.78125rem] font-normal leading-[1.5] text-muted">
                     {m.label}
                   </div>
                 </div>
@@ -222,7 +222,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                       <span className="font-mono text-[0.75rem] uppercase tracking-[.08em] text-muted">
                         Problem
                       </span>
-                      <p className="text-[0.90625rem] font-light leading-[1.7] text-ink2">
+                      <p className="text-[0.90625rem] font-normal leading-[1.7] text-ink2">
                         {t.situation}
                       </p>
                     </div>
@@ -230,7 +230,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                       <span className="font-mono text-[0.75rem] uppercase tracking-[.08em] text-muted">
                         Goal
                       </span>
-                      <p className="text-[0.90625rem] font-light leading-[1.7] text-ink2">{t.task}</p>
+                      <p className="text-[0.90625rem] font-normal leading-[1.7] text-ink2">{t.task}</p>
                     </div>
                     {t.taskImage && (
                       <Image
@@ -250,7 +250,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                       <ul className="flex flex-col gap-[10px]">
                         {t.action.map((a, j) => (
                           <li
-                            className="relative pl-[18px] text-[0.90625rem] font-light leading-[1.7] text-ink2 before:absolute before:left-0 before:top-[11px] before:h-[5px] before:w-[5px] before:rounded-full before:bg-line2"
+                            className="relative pl-[18px] text-[0.90625rem] font-normal leading-[1.7] text-ink2 before:absolute before:left-0 before:top-[11px] before:h-[5px] before:w-[5px] before:rounded-full before:bg-line2"
                             key={j}
                           >
                             {a}
@@ -276,7 +276,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                       <ul className="flex flex-col gap-[10px]">
                         {t.result.map((r, j) => (
                           <li
-                            className="relative pl-[18px] text-[0.90625rem] font-light leading-[1.7] text-ink2 before:absolute before:left-0 before:top-[10px] before:h-[6px] before:w-[6px] before:rounded-full before:bg-accent"
+                            className="relative pl-[18px] text-[0.90625rem] font-normal leading-[1.7] text-ink2 before:absolute before:left-0 before:top-[10px] before:h-[6px] before:w-[6px] before:rounded-full before:bg-accent"
                             key={j}
                           >
                             {r}
@@ -314,7 +314,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                     {ins.title}
                   </h3>
                   {ins.intro && (
-                    <p className="mt-[14px] text-[0.9375rem] font-light leading-[1.8] text-ink2">
+                    <p className="mt-[14px] text-[0.9375rem] font-normal leading-[1.8] text-ink2">
                       {ins.intro}
                     </p>
                   )}
@@ -335,7 +335,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                         <ul className="mt-3 flex flex-col gap-[10px] pl-[30px]">
                           {s.points.map((p, k) => (
                             <li
-                              className="relative pl-[18px] text-[0.90625rem] font-light leading-[1.7] text-ink2 before:absolute before:left-0 before:top-[11px] before:h-[5px] before:w-[5px] before:rounded-full before:bg-line2"
+                              className="relative pl-[18px] text-[0.90625rem] font-normal leading-[1.7] text-ink2 before:absolute before:left-0 before:top-[11px] before:h-[5px] before:w-[5px] before:rounded-full before:bg-line2"
                               key={k}
                             >
                               {p}

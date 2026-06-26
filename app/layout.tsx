@@ -1,21 +1,20 @@
 import type { Metadata } from "next";
-import { IBM_Plex_Mono, IBM_Plex_Sans_KR } from "next/font/google";
+import localFont from "next/font/local";
+import { IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
+
+const pretendard = localFont({
+  src: "../node_modules/pretendard/dist/web/variable/woff2/PretendardVariable.woff2",
+  variable: "--font-pretendard",
+  display: "swap",
+  weight: "100 900",
+});
 
 const ibmPlexMono = IBM_Plex_Mono({
   weight: ["400", "500", "600"],
   subsets: ["latin"],
   variable: "--font-ibm-mono",
   display: "swap",
-});
-
-// IBM Plex Sans KR ships Korean glyphs in a subset next/font can't select,
-// so omit `subsets` and disable preload to pull the full face instead.
-const ibmPlexSansKR = IBM_Plex_Sans_KR({
-  weight: ["300", "400", "500", "600", "700"],
-  variable: "--font-ibm-sans",
-  display: "swap",
-  preload: false,
 });
 
 export const metadata: Metadata = {
@@ -33,7 +32,7 @@ export default function RootLayout({
     <html
       lang="ko"
       data-scroll-behavior="smooth"
-      className={`${ibmPlexMono.variable} ${ibmPlexSansKR.variable}`}
+      className={`${pretendard.variable} ${ibmPlexMono.variable}`}
     >
       <body>{children}</body>
     </html>

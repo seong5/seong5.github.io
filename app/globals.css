@@ -5,14 +5,14 @@
   --color-bg: #fafaf9;
   --color-panel: #ffffff;
   --color-ink: #1c1917;
-  --color-ink2: #44403c;
-  --color-muted: #6b645d;
+  --color-ink2: #3d3834;
+  --color-muted: #57534e;
   --color-line: #e7e5e4;
   --color-line2: #d6d3d1;
   --color-accent: #4338ca;
 
   /* fonts (next/font 변수 연결) → font-sans / font-mono */
-  --font-sans: var(--font-ibm-sans), "IBM Plex Sans KR", "IBM Plex Sans", -apple-system, sans-serif;
+  --font-sans: var(--font-pretendard), "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   --font-mono: var(--font-ibm-mono), "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
   /* 커스텀 breakpoint → nav: / max-nav: , wrap: / max-wrap: 변형 생성 */

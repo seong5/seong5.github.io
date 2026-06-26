@@ -14,7 +14,7 @@ export default function Hero() {
           확실한 <em className="not-italic text-accent">성과</em>로 전환합니다.
         </span>
       </h2>
-      <p className="mt-7 text-[1rem] font-light leading-[1.85] text-ink2">
+      <p className="mt-7 text-[1rem] font-normal leading-[1.85] text-ink2">
         개발하며 마주한 불편함과 문제점을 그냥 넘기지 않고, 하나의 서비스나 기능으로 풀어내며
         성취감을 느끼는 개발자입니다. <br /> 생소한 로직과 기술 스택 앞에서도 두려움보다 호기심과
         도전으로 빠르게 수용하고 학습해나가며 실무에 적용하는 것을 좋아합니다. <br /> 사용자
