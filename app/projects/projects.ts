@@ -62,6 +62,8 @@ export type Project = {
   detail?: string;
   /** 핵심 경험 및 성과 — 상세 "What I did" 번호 리스트 */
   highlights: string[];
+  /** 입사지원서용 간소화 불릿 (없으면 highlights 상위 3개 사용) */
+  resumeBullets?: string[];
   /** 기술 스택 */
   stack: string[];
   /** 외부 링크 (배포/저장소 등). URL 미확보 시 빈 배열 */
@@ -106,6 +108,11 @@ export const projects: Project[] = [
       "React StrictMode 이중 실행·자동 마운트·주기적 인터벌 등 정상적인 중복 호출이 rate-limit 오류로 노출되던 문제를, 실패 시 캐시를 반환하는 일관된 fallback 정책으로 통일해 해결.",
       "구조·데이터 흐름 설계 시 Claude Code로 여러 대안을 빠르게 비교·검증하고, 코드 리뷰용 sub-agent를 직접 구성해 주기적 리뷰로 코드 품질을 관리.",
       "GitHub에 오픈소스로 공개하고 macOS 전용 설치 파일을 v1.0.8까지 배포, 지속적인 버전 업데이트로 고도화·유지보수 진행.",
+    ],
+    resumeBullets: [
+      "메뉴바 % 상주 표시로 토큰 사용량 실시간 확인 UX 개선",
+      "3겹 캐싱·중복 제거로 Tray 앱 API 호출 과부하 방지",
+      "jsonl 증분 파싱으로 대용량 로그도 O(추가분) 갱신 비용 유지",
     ],
     stack: [
       "Electron",
@@ -221,6 +228,11 @@ export const projects: Project[] = [
       "재고관리와 CRO(연구용역) 두 도메인을 하나의 서비스로 통합해 전체 데이터 서비스 흐름을 구축.",
       "Zod 스키마로 폼·API 응답을 런타임 검증해 TypeScript 컴파일 단계의 한계를 보완.",
       "상태 전이·뮤테이션 등 핵심 비즈니스 로직에 단위 테스트를 우선 작성하고 MSW API Mocking 환경을 구축해 코드 퀄리티와 이후 API 작업의 안정성을 확보.",
+    ],
+    resumeBullets: [
+      "ERD 설계부터 FE 구현·배포까지 풀사이클 주도",
+      "재고·CRO 두 도메인 통합 ERP 서비스 구축",
+      "Zod 런타임 검증·MSW Mock으로 API 연동 안정성 확보",
     ],
     stack: [
       "React",
@@ -372,6 +384,11 @@ export const projects: Project[] = [
       "책임이 과중하던 위저드 컴포넌트를 순수 함수·상태 오케스트레이션 훅·표현 계층 3계층으로 분리해 테스트 용이성과 재사용성을 확보.",
       "next.config rewrites로 CORS를 우회하고 serverApi/clientApi를 이원화해 실행 환경별 토큰 주입을 일원화.",
       "Playwright E2E(3개 브라우저)와 Postman Mock Server를 도입해 인증·폼 검증 플로우와 에러 시나리오를 API 완성 전에 선행 검증하고 개발 공수를 단축.",
+    ],
+    resumeBullets: [
+      "middleware RBAC 가드로 /admin·/business 권한 분기·차단",
+      "RHF + Zod 다단계 위저드로 폼 검증 UX·성능 개선",
+      "Playwright E2E·Mock Server로 API 완성 전 선행 검증",
     ],
     stack: [
       "Next.js",
@@ -603,6 +620,11 @@ export const projects: Project[] = [
       "API 응답 필드 최적화로 제안서 목록 데이터 크기를 1,415KB → 206KB로 약 85% 축소하여 초기 로딩 속도 개선.",
       "Admin 페이지에 사용자 트래킹 기능을 직접 구현해 실제 사용자 데이터 기반의 서비스 고도화·운영 전략 수립에 기여.",
     ],
+    resumeBullets: [
+      "제안서 목록 API 1.4MB → 206KB (85%↓) 최적화",
+      "Mutation 후 리페치 제거로 네트워크 요청 50% 절감",
+      "Admin 사용자 트래킹 직접 구현",
+    ],
     stack: [
       "Next.js",
       "TypeScript",
@@ -729,6 +751,11 @@ export const projects: Project[] = [
       "알림 시스템을 Database Subscription에서 Supabase Broadcast로 전환해 등록 시점에 맞춘 정확한 실시간 알림을 구현.",
       "Zod 런타임 검증과 Jest 기반 TDD를 도입해 데이터 무결성과 안정적인 코드 품질을 확보.",
       "실사용자 20명을 확보하고 주기적인 피드백 수집을 바탕으로 UI/UX 개선·기능 고도화에 반영.",
+    ],
+    resumeBullets: [
+      "Lighthouse Performance 71 → 99점 (서버 컴포넌트 전환)",
+      "Supabase Broadcast로 실시간 알림 정확도 개선",
+      "실사용자 20명 확보·피드백 기반 UI/UX 고도화",
     ],
     stack: [
       "Next.js (App Router)",
@@ -884,6 +911,11 @@ export const projects: Project[] = [
       "Kakao Maps SDK를 지연 로딩으로 주입하고 window 참조 전 클라이언트 실행 여부를 검증해 SSR 참조 에러를 방지, Read-Only·Resize로 디바이스별 일관된 지도 뷰 유지.",
       "Zustand로 판매자 관리 로직의 Prop Drilling을 해소하고, TanStack Query staleTime으로 중복 API 요청을 차단해 서버 부하를 경감.",
     ],
+    resumeBullets: [
+      "디바이스별 Step형 예약 플로우 설계·구현",
+      "Kakao Maps SDK 지연 로딩·SSR 안전 연동",
+      "Tanstack Query staleTime으로 중복 API 요청 절감",
+    ],
     stack: [
       "Next.js (App Router)",
       "TypeScript",
@@ -968,6 +1000,11 @@ export const projects: Project[] = [
       "라이브러리 없이 Range Slider형 가격 필터(0~100만원)와 와인 타입·평점 다중 조건 필터링 로직을 직접 구현해 최적화.",
       "AWS(Route53·EC2)로 배포 전 과정을 직접 수행한 뒤, 비용·운영 안정성을 고려해 Vercel로 마이그레이션.",
       "컨테이너-프리젠테이션 패턴으로 비즈니스 로직과 뷰를 분리해 컴포넌트 재사용성과 유지보수성을 확보.",
+    ],
+    resumeBullets: [
+      "UI 라이브러리 없이 캐러셀·필터 직접 구현, 번들 최적화",
+      "AWS Route53·EC2 배포 후 Vercel로 마이그레이션",
+      "다중 필터·검색 로직 설계로 대량 목록 성능 유지",
     ],
     stack: [
       "Next.js (App Router)",

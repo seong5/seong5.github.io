@@ -1,0 +1,53 @@
+/* A4 입사지원서 — 화면에서는 PDF 미리보기처럼, 인쇄 시 정확히 3페이지로 분할 */
+
+@page {
+  size: A4;
+  margin: 0;
+}
+
+/* 화면(스크린)에서의 PDF 미리보기 셸 */
+@media screen {
+  .resume-shell {
+    background: #d6d3d1;
+    padding: 88px 16px 56px;
+  }
+  .resume-page {
+    margin: 0 auto 28px;
+    box-shadow: 0 10px 34px rgba(28, 25, 23, 0.18);
+  }
+  .resume-page:last-child {
+    margin-bottom: 0;
+  }
+}
+
+/* 인쇄 시 정확히 페이지 단위로 분할 + 색상 유지 */
+@media print {
+  html,
+  body {
+    background: #ffffff;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .resume-shell {
+    background: #ffffff;
+    padding: 0;
+  }
+  .resume-page {
+    margin: 0;
+    box-shadow: none;
+    break-after: page;
+  }
+  .resume-page:last-child {
+    break-after: auto;
+  }
+  /* 항목이 페이지 경계에서 잘리지 않도록 */
+  .avoid-break {
+    break-inside: avoid;
+  }
+  /* accent 컬러·배경이 인쇄에서 날아가지 않도록 */
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
