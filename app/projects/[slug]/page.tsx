@@ -74,7 +74,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
           <h1 className="text-[clamp(1.75rem,4.4vw,2.625rem)] font-semibold leading-[1.2] tracking-[-.02em]">
             {project.title}
           </h1>
-          <p className="mt-[18px] text-[1rem] font-normal leading-[1.8] text-ink2">
+          <p className="mt-[18px] text-[1rem] font-normal leading-[1.8] text-ink2 break-keep">
             {project.detail ?? project.summary}
           </p>
           <div className="mt-[34px] grid grid-cols-4 gap-px overflow-hidden rounded-lg border border-line bg-line max-wrap:grid-cols-2">

@@ -23,7 +23,7 @@ function ProjectCard({ p }: { p: Project }) {
           →
         </span>
       </h3>
-      <p className="mt-3 max-w-[60ch] text-[0.90625rem] font-normal leading-[1.8] text-ink2">
+      <p className="mt-3 max-w-[60ch] text-[0.90625rem] font-normal leading-[1.8] text-ink2 break-keep">
         {p.summary}
       </p>
       <div className="mt-[18px] flex flex-wrap gap-[7px]">
