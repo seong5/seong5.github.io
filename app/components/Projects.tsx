@@ -10,7 +10,7 @@ const INITIAL_COUNT = 3;
 function ProjectCard({ p }: { p: Project }) {
   return (
     <Link
-      className="group relative block -mx-[22px] rounded-lg border-t border-line px-[22px] py-[34px] transition-all duration-[180ms] first:border-t-0 hover:proj-hover"
+      className="group relative block -mx-[22px] rounded-lg border-t border-line px-[22px] py-[34px] transition-all duration-[180ms] first:border-t-0 first:pt-0 hover:proj-hover"
       href={`/projects/${p.slug}`}
     >
       <div className="mb-3 flex flex-wrap gap-[14px] text-[0.78125rem] text-muted [&_span]:whitespace-nowrap">
@@ -23,7 +23,7 @@ function ProjectCard({ p }: { p: Project }) {
           →
         </span>
       </h3>
-      <p className="mt-3 max-w-[60ch] text-[0.90625rem] font-normal leading-[1.8] text-ink2 break-keep">
+      <p className="mt-3 max-w-[78ch] text-pretty text-[0.90625rem] font-normal leading-[1.8] text-ink2 break-keep">
         {p.summary}
       </p>
       <div className="mt-[18px] flex flex-wrap gap-[7px]">
@@ -42,41 +42,47 @@ function ProjectCard({ p }: { p: Project }) {
 
 export default function Projects() {
   const [showAll, setShowAll] = useState(false);
-  const visible = showAll ? projects : projects.slice(0, INITIAL_COUNT);
-  const hiddenCount = projects.length - INITIAL_COUNT;
+  const initial = projects.slice(0, INITIAL_COUNT);
+  const rest = projects.slice(INITIAL_COUNT);
 
   return (
     <section
-      className="max-w-[1080px] border-b border-line px-[72px] py-[80px] max-nav:px-[22px] max-nav:py-[52px]"
+      className="max-w-[1080px] border-b border-line px-[72px] pb-[36px] pt-[80px] max-nav:px-[22px] max-nav:pb-[28px] max-nav:pt-[52px]"
       id="projects"
     >
       <SectionHead idx="02" title="Projects" />
       <div className="flex flex-col">
-        {visible.map((p) => (
+        {initial.map((p) => (
           <ProjectCard key={p.slug} p={p} />
         ))}
-      </div>
 
-      {hiddenCount > 0 && (
-        <div className="mt-[34px] flex justify-center border-t border-line pt-[34px]">
+        {rest.length > 0 && (
           <button
             type="button"
-            className="inline-flex items-center gap-2 rounded-[5px] border border-line bg-panel px-5 py-2.5 text-[0.78125rem] text-muted transition hover:border-line2 hover:text-accent"
+            className="group -mx-[22px] flex items-center justify-center gap-2 border-t border-line px-[22px] py-[26px] text-[0.9375rem] font-medium text-muted transition-colors hover:bg-accent/[0.04] hover:text-accent"
             onClick={() => setShowAll((v) => !v)}
             aria-expanded={showAll}
           >
-            {showAll ? (
-              <>
-                접기 <span className="transition group-hover:text-accent">↑</span>
-              </>
-            ) : (
-              <>
-                더보기 <span className="text-accent">(+{hiddenCount})</span> ↓
-              </>
-            )}
+            <span>{showAll ? '프로젝트 접기' : '그 외 프로젝트 더보기'}</span>
+            <svg
+              viewBox="0 0 16 16"
+              fill="none"
+              aria-hidden="true"
+              className={`h-[18px] w-[18px] transition-transform duration-200 ${showAll ? 'rotate-180' : ''}`}
+            >
+              <path
+                d="M4 6l4 4 4-4"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
           </button>
-        </div>
-      )}
+        )}
+
+        {showAll && rest.map((p) => <ProjectCard key={p.slug} p={p} />)}
+      </div>
     </section>
   );
 }
