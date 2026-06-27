@@ -48,7 +48,7 @@ export default function ProjectToc({ sections }: { sections: TocSection[] }) {
               <a
                 href={`#${s.id}`}
                 onClick={(e) => handleClick(e, s.id)}
-                className={`-ml-px block border-l-2 py-1 pl-3 text-[0.8125rem] leading-[1.5] transition ${
+                className={`-ml-px block border-l-2 py-1 pl-3 text-[0.78125rem] uppercase leading-[1.5] tracking-[.06em] transition ${
                   active === s.id
                     ? 'border-accent font-medium text-accent'
                     : 'border-transparent text-muted hover:text-ink'
@@ -69,7 +69,7 @@ export default function ProjectToc({ sections }: { sections: TocSection[] }) {
               <a
                 href={`#${s.id}`}
                 onClick={(e) => handleClick(e, s.id)}
-                className={`block whitespace-nowrap rounded-[5px] px-3 py-1.5 text-[0.78125rem] transition ${
+                className={`block whitespace-nowrap rounded-[5px] px-3 py-1.5 text-[0.75rem] uppercase tracking-[.06em] transition ${
                   active === s.id
                     ? 'border border-line bg-panel font-medium text-accent'
                     : 'border border-transparent text-muted hover:text-ink'

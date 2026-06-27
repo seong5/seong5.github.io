@@ -36,8 +36,11 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
   const next = projects[(index + 1) % projects.length];
 
   const tocSections: TocSection[] = [
-    { id: 'overview', label: '개요' },
+    { id: 'overview', label: 'Overview' },
     { id: 'what-i-did', label: 'What I did' },
+    ...(project.metrics && project.metrics.length > 0
+      ? [{ id: 'key-results', label: 'Key results' }]
+      : []),
     ...(project.troubleshooting && project.troubleshooting.length > 0
       ? [{ id: 'troubleshooting', label: 'Troubleshooting' }]
       : []),
@@ -196,7 +199,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
         </section>
 
         {project.metrics && project.metrics.length > 0 && (
-          <section className="border-t border-line py-12">
+          <section id="key-results" className="scroll-mt-[112px] border-t border-line py-12 toc:scroll-mt-[80px]">
             <h2 className="mb-[26px] flex items-baseline gap-[14px] font-mono text-[0.8125rem] font-medium uppercase tracking-[.1em] text-ink">
               <span className="text-[0.75rem] text-accent">/</span> Key results
             </h2>
