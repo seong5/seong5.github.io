@@ -9,7 +9,7 @@ export default function About() {
       <SectionHead idx="01" title="About" />
       <div className="flex flex-col gap-[44px]">
         <div className="grid grid-cols-[48px_1fr] gap-7">
-          <div className="font-mono text-[0.75rem] text-accent">A1</div>
+          <div className="font-mono text-[0.75rem] text-accent">LEARN</div>
           <div>
             <h3 className="mb-3 text-[1.3125rem] font-semibold tracking-[-.01em]">
               <span className="text-accent">학습력</span>
@@ -24,12 +24,12 @@ export default function About() {
           </div>
         </div>
         <div className="grid grid-cols-[48px_1fr] gap-7">
-          <div className="font-mono text-[0.75rem] text-accent">A2</div>
+          <div className="font-mono text-[0.75rem] text-accent">BUILD</div>
           <div>
             <h3 className="mb-3 text-[1.3125rem] font-semibold tracking-[-.01em]">
               <span className="text-accent">실행력</span>
               <span className="mx-2 text-muted">—</span>
-              직접 겪은 불편을 서비스로 만듭니다
+              직접 겪은 불편을 더 나은 사용자 경험으로 개선합니다
             </h3>
             <p className="max-w-[80ch] text-[0.9375rem] font-normal leading-[1.85] text-ink2">
               떠오른 아이디어를 구상에서 멈추지 않고, 기획·설계·개발·배포까지 직접 끌고 가 하나의
@@ -39,7 +39,7 @@ export default function About() {
           </div>
         </div>
         <div className="grid grid-cols-[48px_1fr] gap-7">
-          <div className="font-mono text-[0.75rem] text-accent">A3</div>
+          <div className="font-mono text-[0.75rem] text-accent">SOLVE</div>
           <div>
             <h3 className="mb-3 text-[1.3125rem] font-semibold tracking-[-.01em]">
               <span className="text-accent">문제해결력</span>
