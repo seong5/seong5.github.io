@@ -364,6 +364,25 @@ export const projects: Project[] = [
           "추측 대신 SSH·docker ps·nginx -T로 운영 환경의 실제 라우팅 테이블을 직접 검증한 것이 원인 도달의 결정적 단계였습니다. 공개 API 네임스페이스는 서비스별로 분리하지 않으면 게이트웨이 prefix 매칭에서 다른 서비스로 조용히 폴백되는 사고가 난다는 것을 확인했습니다.",
         ],
       },
+      {
+        title: "dev 환경에서 CRO 화면만 데이터가 안 뜨는 문제 (502 → CORS)",
+        situation:
+          "재고관리 화면은 정상인데 CRO 화면만 데이터가 표시되지 않았습니다. 그런데 CRO API의 Swagger 문서에서 직접 호출하면 200으로 정상 응답했고, 증상도 Vite 프록시 경유일 때는 502, 브라우저 직접 호출로 바꾸면 CORS 에러로 바뀌어 서버 문제인지·네트워크인지·CORS인지가 뒤섞여 보였습니다.",
+        task:
+          "Swagger는 되는데 앱만 안 되는 차이를 끝까지 역추적해, 문제 레이어(네트워크 / 브라우저 보안정책 / 서버 origin 설정)를 하나씩 분리해 진짜 원인을 특정하고, dev·prod 모두 안전하게 정합화하는 것을 목표로 했습니다.",
+        action: [
+          "Vite 프록시 경유 시 CRO 요청이 전부 502였습니다. curl로 확인하니 이 dev 머신에서는 node·curl이 메인·CRO API 호스트에 곧바로 연결 거부당했고, 반대로 브라우저는 두 API 모두 도달(Swagger 200)했습니다. → 서버 다운이 아니라 node(프록시) 경로만 막힌 환경 차이로 좁혔습니다.",
+          "CRO를 Vite 프록시 대신 브라우저 직접 호출(.env.local에 CRO 베이스 URL 지정)로 전환하자 502가 CORS 에러로 바뀌었습니다. 브라우저는 CRO 서버에 실제로 도달(TCP·HTTP 정상)했고 응답에 CORS 헤더가 없어 차단된 것 → 남은 문제는 네트워크가 아니라 CORS임을 확정했습니다.",
+          "Swagger 200 ≠ CORS 정상이라는 점을 규명했습니다. Swagger는 CRO 서버가 직접 서빙하는 same-origin이라 브라우저가 CORS 검사를 건너뛴 것이고, 앱은 dev origin에서 CRO 서버로의 cross-origin이라 검사 대상이었습니다. 메인 API는 CORS 헤더를 이미 내보내 같은 앱에서 정상 동작했고, CRO만 헤더가 없어 막혔습니다.",
+          "백엔드가 CORS 설정을 추가한 뒤에도 실패가 이어지자, 프론트 담당이지만 백엔드 레포를 직접 받아 CORS 구성을 분석했습니다. WebMvcConfig의 addMapping에 등록된 허용 origin 목록에 배포 포트만 있고 dev 앱의 실제 origin(:5173)이 빠져 있는 것을 직접 찾아냈고, Access-Control-Allow-Origin은 scheme·host·port가 정확히 일치해야 하므로 이 origin 불일치가 최종 원인임을 확인했습니다.",
+        ],
+        result: [
+          "최종 원인은 CRO 서버 CORS 허용 origin에 dev origin이 누락된 것이었습니다. allowedOrigins는 부분 와일드카드를 지원하지 않고 allowCredentials(true)와 와일드카드(*)도 함께 쓸 수 없어, allowedOriginPatterns로 교체해 내부망 IP 대역은 와일드카드로, dev 포트는 고정하는 방식으로 해결했습니다.",
+          "프론트는 vite.config를 건드리지 않고 .env.local(gitignore)에서만 직접 호출로 설정해, 프록시가 정상 동작하는 다른 머신·CI의 표준 상태를 유지했습니다. prod는 게이트웨이 same-origin 라우팅이라 CORS 검사 자체가 없어, CRO 서버 origin만 명시적으로 허용해 두면 dev·prod 모두 안전합니다.",
+          "특정 도메인만 실패할 때는 서버별 CORS 설정 차이를 먼저 의심하고, same-origin 도구(Swagger)에서 되는 것은 로직이 정상이라는 증거일 뿐 CORS가 된다는 증거가 아니며, 502 ↔ CORS 에러 전환을 이용하면 네트워크 계층과 브라우저 정책 계층을 분리해 진단할 수 있다는 것을 확인했습니다.",
+          "프론트 영역에 머무르지 않고 백엔드 레포의 CORS 설정까지 직접 분석해 근본 원인을 짚어낸 것이 빠른 해결의 결정적 단계였고, 협업에서 문제를 도메인 경계에서 멈추지 않고 끝까지 추적하는 것의 효과를 확인했습니다.",
+        ],
+      },
     ],
   },
   {
