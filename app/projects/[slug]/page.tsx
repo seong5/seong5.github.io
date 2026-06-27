@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import ProjectToc, { type TocSection } from '../../components/ProjectToc';
 import { getProject, projects } from '../projects';
 
 type Params = { slug: string };
@@ -34,6 +35,17 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
   const prev = index > 0 ? projects[index - 1] : null;
   const next = projects[(index + 1) % projects.length];
 
+  const tocSections: TocSection[] = [
+    { id: 'overview', label: '개요' },
+    { id: 'what-i-did', label: 'What I did' },
+    ...(project.troubleshooting && project.troubleshooting.length > 0
+      ? [{ id: 'troubleshooting', label: 'Troubleshooting' }]
+      : []),
+    ...(project.insights && project.insights.length > 0
+      ? [{ id: 'insights', label: 'Insights' }]
+      : []),
+  ];
+
   return (
     <>
       <nav className="sticky top-0 z-10 border-b border-line bg-white/90 backdrop-blur-[8px]">
@@ -48,8 +60,10 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
         </div>
       </nav>
 
+      <ProjectToc sections={tocSections} />
+
       <div className="mx-auto max-w-[920px] px-8 max-wrap:px-[22px]">
-        <header className="pb-[50px] pt-[74px]">
+        <header id="overview" className="scroll-mt-[112px] pb-[50px] pt-[74px] toc:scroll-mt-[80px]">
           <div className="mb-[22px] flex flex-wrap items-center justify-between gap-[10px] text-[0.78125rem] text-muted">
             <div className="flex flex-wrap gap-[10px]">
               <span>{project.org}</span>
@@ -162,7 +176,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
           </div>
         )}
 
-        <section className="border-t border-line py-12">
+        <section id="what-i-did" className="scroll-mt-[112px] border-t border-line py-12 toc:scroll-mt-[80px]">
           <h2 className="mb-[26px] flex items-baseline gap-[14px] font-mono text-[0.8125rem] font-medium uppercase tracking-[.1em] text-ink">
             <span className="text-[0.75rem] text-accent">/</span> What I did
           </h2>
@@ -202,7 +216,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
         )}
 
         {project.troubleshooting && project.troubleshooting.length > 0 && (
-          <section className="border-t border-line py-12">
+          <section id="troubleshooting" className="scroll-mt-[112px] border-t border-line py-12 toc:scroll-mt-[80px]">
             <h2 className="mb-[26px] flex items-baseline gap-[14px] font-mono text-[0.8125rem] font-medium uppercase tracking-[.1em] text-ink">
               <span className="text-[0.75rem] text-accent">/</span> Troubleshooting
             </h2>
@@ -303,7 +317,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
         )}
 
         {project.insights && project.insights.length > 0 && (
-          <section className="border-t border-line py-12">
+          <section id="insights" className="scroll-mt-[112px] border-t border-line py-12 toc:scroll-mt-[80px]">
             <h2 className="mb-[26px] flex items-baseline gap-[14px] font-mono text-[0.8125rem] font-medium uppercase tracking-[.1em] text-ink">
               <span className="text-[0.75rem] text-accent">/</span> Insights
             </h2>

@@ -18,6 +18,8 @@
   /* 커스텀 breakpoint → nav: / max-nav: , wrap: / max-wrap: 변형 생성 */
   --breakpoint-nav: 880px;
   --breakpoint-wrap: 760px;
+  /* 우측 세로 목차 노출 기준 (본문 920 + 양옆 여백 확보) → toc: / max-toc: */
+  --breakpoint-toc: 1340px;
 
   /* pulse 링 애니메이션 → animate-pulsering */
   --animate-pulsering: pulsering 2.4s infinite;
