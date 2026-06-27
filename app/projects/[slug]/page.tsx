@@ -217,9 +217,9 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                       {t.title}
                     </h3>
                   </div>
-                  <div className="flex flex-col gap-6 p-6 max-wrap:p-5">
+                  <div className="flex flex-col gap-6 bg-panel p-6 max-wrap:p-5">
                     <div className="grid grid-cols-[64px_1fr] gap-x-4 gap-y-1 max-wrap:grid-cols-1 max-wrap:gap-y-1.5">
-                      <span className="font-mono text-[0.75rem] uppercase tracking-[.08em] text-muted">
+                      <span className="font-mono text-[0.75rem] font-medium uppercase tracking-[.08em] text-ink">
                         Problem
                       </span>
                       <p className="text-[0.90625rem] font-normal leading-[1.7] text-ink2">
@@ -227,7 +227,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                       </p>
                     </div>
                     <div className="grid grid-cols-[64px_1fr] gap-x-4 gap-y-1 max-wrap:grid-cols-1 max-wrap:gap-y-1.5">
-                      <span className="font-mono text-[0.75rem] uppercase tracking-[.08em] text-muted">
+                      <span className="font-mono text-[0.75rem] font-medium uppercase tracking-[.08em] text-ink">
                         Goal
                       </span>
                       <p className="text-[0.90625rem] font-normal leading-[1.7] text-ink2">{t.task}</p>
@@ -244,7 +244,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                       />
                     )}
                     <div className="grid grid-cols-[64px_1fr] gap-x-4 gap-y-2 max-wrap:grid-cols-1">
-                      <span className="font-mono text-[0.75rem] uppercase tracking-[.08em] text-muted">
+                      <span className="font-mono text-[0.75rem] font-medium uppercase tracking-[.08em] text-ink">
                         Action
                       </span>
                       <ul className="flex flex-col gap-[10px]">
@@ -269,8 +269,8 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                         unoptimized={t.actionImage.src.endsWith('.svg')}
                       />
                     )}
-                    <div className="grid grid-cols-[64px_1fr] gap-x-4 gap-y-2 max-wrap:grid-cols-1">
-                      <span className="font-mono text-[0.75rem] uppercase tracking-[.08em] text-accent">
+                    <div className="grid grid-cols-[64px_1fr] gap-x-4 gap-y-2 rounded-[8px] border-l-2 border-accent bg-accent/5 p-4 max-wrap:grid-cols-1">
+                      <span className="font-mono text-[0.75rem] font-medium uppercase tracking-[.08em] text-accent">
                         Result
                       </span>
                       <ul className="flex flex-col gap-[10px]">
