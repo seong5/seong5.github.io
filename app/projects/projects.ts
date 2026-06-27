@@ -93,9 +93,9 @@ export const projects: Project[] = [
     org: "개인 프로젝트",
     period: "2026.04 — current",
     active: true,
-    role: "1인 개발 · Full-cycle",
+    role: "기획 · UI/UX · 개발",
     type: "Desktop / Side Project",
-    scale: "오픈소스 배포",
+    scale: "1인 개발",
     summary:
       "Claude Code 토큰 사용량을 추적·관리하는 macOS 메뉴바 위젯 앱. rate limit 방지를 위해 기획부터 배포까지 1인 개발로 진행하고 GitHub에 오픈소스로 공개.",
     detail:
@@ -216,9 +216,9 @@ export const projects: Project[] = [
     title: "UMUST R&D ERP — 재고·CRO 통합 관리",
     org: "UMUST R&D · 사업부 IT팀 · 프론트엔드 인턴",
     period: "2026.04.28 — 2026.06.30",
-    role: "Frontend Intern",
+    role: "Frontend",
     type: "사내 ERP",
-    scale: "2인 개발 · 풀사이클",
+    scale: "3인 개발 (FE 1 · BE 1 · 인프라 1)",
     summary:
       "재고·자원관리에 더해 CRO(임상시험 수탁) 절차 추적까지 통합한 사내 ERP. ERD 설계부터 FE 구현·배포까지 풀사이클로 진행.",
     detail:
@@ -740,7 +740,7 @@ export const projects: Project[] = [
     active: true,
     role: "Frontend · Full-cycle",
     type: "Side Project",
-    scale: "실사용자 20명",
+    scale: "1인 개발",
     summary:
       "SUB-FC의 경기 일정·결과·선수단 정보를 확인하는 팀 매니지먼트 서비스. 기획부터 배포까지 End-to-End로 진행하며 실사용자 피드백을 반영해 고도화 중.",
     detail:
@@ -776,6 +776,7 @@ export const projects: Project[] = [
     thumbnail: "sub-fc.jpg",
     image: "/projects/sub-fc.png",
     imageFit: "contain",
+    metrics: [{ value: "20명", label: "실사용자 확보" }],
     insights: [
       {
         title: "서버 컴포넌트 전환을 통한 LCP 및 초기 로딩 개선",
@@ -900,7 +901,7 @@ export const projects: Project[] = [
     period: "2025.07.09 — 2025.08.05 (1m)",
     role: "Frontend",
     type: "Team Project",
-    scale: "1개월 협업",
+    scale: "5인 개발",
     summary:
       "사용자가 공급자·수요자로 동시에 활동하는 지도·예약 기반 양방향 액티비티 마켓플레이스. 지도 연동과 상태 관리·캐싱 최적화를 담당.",
     detail:
@@ -990,7 +991,7 @@ export const projects: Project[] = [
     period: "2025.06.05 — 2025.06.24 (3w)",
     role: "Frontend",
     type: "Team Project",
-    scale: "3주 협업",
+    scale: "4인 개발",
     summary:
       "다양한 와인을 검색·필터링하고 직접 리뷰를 등록·확인하는 리뷰 기반 플랫폼. AWS 인프라 구축과 라이브러리 없는 UI 구현, 다중 필터링 로직을 담당.",
     detail:

@@ -109,13 +109,13 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
             </div>
             <div className="bg-panel px-[18px] py-4">
               <div className="mb-[6px] font-mono text-[0.75rem] tracking-[.08em] text-muted">
-                SCALE
+                TEAM
               </div>
               <div className="text-[0.84375rem] font-medium">{project.scale}</div>
             </div>
             <div className="bg-panel px-[18px] py-4">
               <div className="mb-[6px] font-mono text-[0.75rem] tracking-[.08em] text-muted">
-                TYPE
+                CATEGORY
               </div>
               <div className="text-[0.84375rem] font-medium">{project.type}</div>
             </div>
