@@ -278,17 +278,41 @@ export default function ResumePage() {
           <div className="pt-[2px] flex flex-col gap-[5px] font-mono text-[0.71875rem]">
             {(
               [
-                ['PHONE', '010-4784-3867'],
-                ['EMAIL', 'greenbi0852@gmail.com'],
-                ['GITHUB', 'github.com/seong5'],
-                ['BIRTH', '1995.05.02 (31)', true],
+                { label: 'PHONE', value: '010-4784-3867', href: 'tel:+821047843867' },
+                {
+                  label: 'EMAIL',
+                  value: 'greenbi0852@gmail.com',
+                  href: 'mailto:greenbi0852@gmail.com',
+                },
+                {
+                  label: 'GITHUB',
+                  value: 'github.com/seong5',
+                  href: 'https://github.com/seong5',
+                  external: true,
+                },
+                { label: 'BIRTH', value: '1995.05.02 (31)', muted: true },
               ] as const
-            ).map(([label, value, muted]) => (
-              <div key={label} className="grid grid-cols-[56px_1fr] gap-x-3 text-right">
-                <span className="text-left uppercase tracking-[.04em] text-muted">{label}</span>
-                <span className={muted ? 'text-muted' : 'text-ink2'}>{value}</span>
-              </div>
-            ))}
+            ).map(({ label, value, ...rest }) => {
+              const href = 'href' in rest ? rest.href : undefined;
+              const external = 'external' in rest ? rest.external : false;
+              const muted = 'muted' in rest ? rest.muted : false;
+              return (
+                <div key={label} className="grid grid-cols-[56px_1fr] gap-x-3 text-right">
+                  <span className="text-left uppercase tracking-[.04em] text-muted">{label}</span>
+                  {href ? (
+                    <a
+                      href={href}
+                      className="text-ink2 underline-offset-2 transition hover:text-accent hover:underline"
+                      {...(external ? { target: '_blank', rel: 'noreferrer' } : {})}
+                    >
+                      {value}
+                    </a>
+                  ) : (
+                    <span className={muted ? 'text-muted' : 'text-ink2'}>{value}</span>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </header>
 
