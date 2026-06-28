@@ -10,7 +10,7 @@ const INITIAL_COUNT = 3;
 function ProjectCard({ p }: { p: Project }) {
   return (
     <Link
-      className="group relative block -mx-[22px] rounded-lg border-t border-line px-[22px] py-[34px] transition-all duration-[180ms] first:border-t-0 first:pt-0 hover:proj-hover"
+      className="group relative block -mx-[22px] rounded-lg border-t border-line px-[22px] py-[34px] transition-all duration-[180ms] first:border-t-0 first:pt-[8px] hover:proj-hover"
       href={`/projects/${p.slug}`}
     >
       <div className="mb-3 flex flex-wrap gap-[14px] text-[0.78125rem] text-muted [&_span]:whitespace-nowrap">
