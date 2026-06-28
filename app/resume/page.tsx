@@ -15,21 +15,16 @@ const PORTFOLIO_PROJECTS_URL = 'https://seong5.github.io/#projects';
 
 /* ── 데이터 (시안 2 PDF 정본) ─────────────────────────────── */
 
-const ABOUT = [
+const STRENGTHS = [
   {
-    no: 'A1',
-    title: '새로운 시도로 문제를 해결합니다',
-    body: '생소한 로직과 기술 스택을 도입할 때도 두려움보다 호기심과 흥미로 빠르게 수용하며, 비즈니스 가치에 따라 우선순위를 정해 업무를 완수합니다.',
+    tag: '주도성',
+    title: '맡은 범위를 스스로 넓혀 문제를 해결합니다',
+    body: '프론트 담당이지만 배포 장애 해결을 위해 백엔드 레포를 직접 받아 CORS·라우팅 설정을 분석·수정하는 등, 경계에 머무르지 않고 끝까지 파고듭니다.',
   },
   {
-    no: 'A2',
-    title: '사용자 피드백을 기술적 가치로 전환합니다',
-    body: '실사용자 20명 규모의 서비스를 기획부터 배포까지 직접 진행하며, 주기적으로 수집한 피드백을 실제 기능으로 구현해 서비스 완성도를 높입니다.',
-  },
-  {
-    no: 'A3',
+    tag: '책임감',
     title: '목표를 끝까지 완수해 성과로 증명합니다',
-    body: '하프 마라톤 완주, 워킹홀리데이, 학위 등 장기 목표를 달성해온 근성이 복잡한 난제를 끝까지 해결하는 인내심과 책임감으로 이어집니다.',
+    body: '하프 마라톤·워킹홀리데이·학위 등 장기 목표를 달성해온 근성을, 복잡한 난제도 임시방편 없이 근본까지 해결하는 인내심과 책임감으로 이어갑니다.',
   },
 ];
 
@@ -317,21 +312,22 @@ export default function ResumePage() {
         </header>
 
         <div className="mt-[26px]">
-          <SectionTitle no="01" en="About" ko="핵심역량" />
+          <SectionTitle no="01" en="Strengths" ko="핵심역량" />
           <p className="mb-[18px] text-[0.875rem] font-normal leading-[1.7] text-ink2">
-            사용자 경험 개선의 우선순위를 읽어내고, 끊임없는 도전으로 서비스의 성장을 증명하는
-            프론트엔드 개발자입니다.
+            탄탄한 기술력뿐만 아니라 협업 시의 소통능력과 책임감 같은 소프트 스킬의 조화가 좋은
+            서비스를 만든다고 믿습니다. <br /> 맡은 범위에 한계를 두지 않고 시작한 일을 끝까지
+            책임지며 팀과 함께 성과를 만들며 성장하는 것을 지향합니다.
           </p>
           <div className="flex flex-col gap-[15px]">
-            {ABOUT.map((a) => (
-              <div key={a.no} className="avoid-break grid grid-cols-[40px_1fr] gap-x-4">
-                <div className="font-mono text-[0.75rem] text-accent">{a.no}</div>
+            {STRENGTHS.map((s) => (
+              <div key={s.tag} className="avoid-break grid grid-cols-[56px_1fr] gap-x-4">
+                <div className="font-mono text-[0.75rem] text-accent">{s.tag}</div>
                 <div>
                   <h3 className="text-[0.96875rem] font-semibold tracking-[-.01em] text-ink">
-                    {a.title}
+                    {s.title}
                   </h3>
                   <p className="mt-[5px] text-[0.8125rem] font-normal leading-[1.6] text-ink2">
-                    {a.body}
+                    {s.body}
                   </p>
                 </div>
               </div>
