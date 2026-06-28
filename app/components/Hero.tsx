@@ -7,11 +7,11 @@ export default function Hero() {
         </span>
         <span>사용자 경험을 기술로 풀어내는 프론트엔드 개발자</span>
       </div>
-      <h2 className="max-w-[22ch] text-[clamp(1.875rem,4vw,3rem)] font-semibold leading-[1.22] tracking-[-.02em] break-keep">
-        마주한 문제를 파고들어,
+      <h2 className="max-w-[26ch] text-[clamp(1.875rem,4vw,3rem)] font-semibold leading-[1.22] tracking-[-.02em] break-keep">
+        빠르게 배우고 적응하며 끝까지 파고들어,
         <br />
         <span className="whitespace-nowrap">
-          확실한 <em className="not-italic text-accent">성과</em>로 전환합니다.
+          문제를 확실한 <em className="not-italic text-accent">성과</em>로 만듭니다.
         </span>
       </h2>
       <p className="mt-7 text-[1rem] font-normal leading-[1.85] text-ink2">
