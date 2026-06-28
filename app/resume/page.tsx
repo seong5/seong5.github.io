@@ -78,8 +78,8 @@ const PROJECTS = projects.map((p) => ({
   stack: p.stack,
 }));
 
-const PROJECTS_PAGE_1 = PROJECTS.slice(0, 4);
-const PROJECTS_PAGE_2 = PROJECTS.slice(4);
+const PROJECTS_PAGE_1 = PROJECTS.slice(0, 3);
+const PROJECTS_PAGE_2 = PROJECTS.slice(3);
 
 const CAREER = [
   {
@@ -130,7 +130,7 @@ const EDUCATION = [
   {
     period: '전문학사 · 졸업예정',
     title: '학점은행제 — 영어영문학 전공',
-    desc: '',
+    desc: '학위 취득 이후 방송통신대학교 컴퓨터과학과 편입학 계획 중.',
   },
 ];
 
@@ -406,16 +406,6 @@ export default function ResumePage() {
               </div>
             ))}
           </div>
-        </div>
-
-        <div className="mt-[40px] avoid-break text-right">
-          <p className="text-[0.84375rem] font-normal text-ink2">
-            위 기재 사항은 사실과 다름이 없음을 확인합니다.
-          </p>
-          <p className="mt-[14px] font-mono text-[0.8125rem] text-muted">2026. 06. 26.</p>
-          <p className="mt-[6px] text-[1rem] font-semibold text-ink">
-            신성오 <span className="font-mono text-[0.75rem] font-normal text-muted">(印)</span>
-          </p>
         </div>
 
         <PageFooter n={4} />
