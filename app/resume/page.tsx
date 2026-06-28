@@ -250,7 +250,7 @@ export default function ResumePage() {
       </div>
 
       {/* ───────── PAGE 1 ───────── */}
-      <section className="resume-page flex w-[210mm] min-h-[297mm] flex-col bg-panel px-[17mm] py-[15mm]">
+      <section className="resume-page flex w-[210mm] h-[297mm] overflow-hidden flex-col bg-panel px-[17mm] py-[15mm]">
         <header className="flex items-start justify-between border-b-2 border-ink pb-[18px]">
           <div className="flex items-start gap-[18px]">
             <div className="relative h-[40mm] w-[30mm] shrink-0 overflow-hidden rounded-[3px] border border-line2 bg-bg">
@@ -366,7 +366,7 @@ export default function ResumePage() {
       </section>
 
       {/* ───────── PAGE 2 ───────── */}
-      <section className="resume-page flex w-[210mm] min-h-[297mm] flex-col bg-panel px-[17mm] py-[15mm]">
+      <section className="resume-page flex w-[210mm] h-[297mm] overflow-hidden flex-col bg-panel px-[17mm] py-[15mm]">
         <SectionTitle
           no="03"
           en="Projects"
@@ -390,7 +390,7 @@ export default function ResumePage() {
       </section>
 
       {/* ───────── PAGE 3 ───────── */}
-      <section className="resume-page flex w-[210mm] min-h-[297mm] flex-col bg-panel px-[17mm] py-[15mm]">
+      <section className="resume-page flex w-[210mm] h-[297mm] overflow-hidden flex-col bg-panel px-[17mm] py-[15mm]">
         <div className="flex flex-col gap-[22px]">
           {PROJECTS_PAGE_2.map((p) => (
             <Entry key={p.slug} {...p} />
@@ -400,7 +400,7 @@ export default function ResumePage() {
       </section>
 
       {/* ───────── PAGE 4 ───────── */}
-      <section className="resume-page flex w-[210mm] min-h-[297mm] flex-col bg-panel px-[17mm] py-[15mm]">
+      <section className="resume-page flex w-[210mm] h-[297mm] overflow-hidden flex-col bg-panel px-[17mm] py-[15mm]">
         <div>
           <SectionTitle no="04" en="Experience" ko="경험" />
           <div className="flex flex-col gap-[18px]">
