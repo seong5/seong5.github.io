@@ -77,7 +77,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                 {project.links.map((link) => (
                   <a
                     key={link.href}
-                    className="whitespace-nowrap rounded-[5px] border border-line bg-panel px-3 py-1.5 text-[0.75rem] text-ink transition hover:border-line2 hover:text-accent"
+                    className="whitespace-nowrap rounded-badge border border-line bg-panel px-3 py-1.5 text-[0.75rem] text-ink transition hover:border-line2 hover:text-accent"
                     href={link.href}
                     target="_blank"
                     rel="noreferrer"
@@ -388,7 +388,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
           <div className="flex flex-wrap gap-2">
             {project.stack.map((s) => (
               <span
-                className="rounded-[5px] border border-line bg-panel px-3 py-1.5 font-mono text-[0.75rem] text-ink"
+                className="rounded-badge border border-line bg-panel px-3 py-1.5 font-mono text-[0.75rem] text-ink"
                 key={s}
               >
                 {s}

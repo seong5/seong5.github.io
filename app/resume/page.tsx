@@ -208,7 +208,7 @@ function Entry({
             {stack.map((item) => (
               <span
                 key={item}
-                className="rounded-[4px] border border-line bg-bg px-[8px] py-[2px] text-[0.6875rem] text-ink"
+                className="rounded-badge border border-line bg-bg px-[8px] py-[2px] text-[0.6875rem] text-ink"
               >
                 {item}
               </span>
@@ -327,7 +327,7 @@ export default function ResumePage() {
                   {s.items.map((i) => (
                     <span
                       key={i}
-                      className="rounded-[4px] border border-line bg-bg px-[9px] py-[3px] text-[0.75rem] text-ink"
+                      className="rounded-badge border border-line bg-bg px-[9px] py-[3px] text-[0.75rem] text-ink"
                     >
                       {i}
                     </span>

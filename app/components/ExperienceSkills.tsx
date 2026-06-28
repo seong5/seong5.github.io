@@ -80,16 +80,16 @@ export default function ExperienceSkills() {
                 Core
               </div>
               <div className="flex flex-wrap gap-[7px]">
-                <span className="rounded-[4px] border border-line bg-panel px-[11px] py-[5px] text-[0.8125rem] text-ink">
+                <span className="rounded-badge border border-line bg-panel px-[11px] py-[5px] text-[0.8125rem] text-ink">
                   JavaScript (ES6+)
                 </span>
-                <span className="rounded-[4px] border border-line bg-panel px-[11px] py-[5px] text-[0.8125rem] text-ink">
+                <span className="rounded-badge border border-line bg-panel px-[11px] py-[5px] text-[0.8125rem] text-ink">
                   TypeScript
                 </span>
-                <span className="rounded-[4px] border border-line bg-panel px-[11px] py-[5px] text-[0.8125rem] text-ink">
+                <span className="rounded-badge border border-line bg-panel px-[11px] py-[5px] text-[0.8125rem] text-ink">
                   React
                 </span>
-                <span className="rounded-[4px] border border-line bg-panel px-[11px] py-[5px] text-[0.8125rem] text-ink">
+                <span className="rounded-badge border border-line bg-panel px-[11px] py-[5px] text-[0.8125rem] text-ink">
                   Next.js (App Router)
                 </span>
               </div>
@@ -99,13 +99,13 @@ export default function ExperienceSkills() {
                 State
               </div>
               <div className="flex flex-wrap gap-[7px]">
-                <span className="rounded-[4px] border border-line bg-panel px-[11px] py-[5px] text-[0.8125rem] text-ink">
+                <span className="rounded-badge border border-line bg-panel px-[11px] py-[5px] text-[0.8125rem] text-ink">
                   Zustand
                 </span>
-                <span className="rounded-[4px] border border-line bg-panel px-[11px] py-[5px] text-[0.8125rem] text-ink">
+                <span className="rounded-badge border border-line bg-panel px-[11px] py-[5px] text-[0.8125rem] text-ink">
                   Tanstack Query
                 </span>
-                <span className="rounded-[4px] border border-line bg-panel px-[11px] py-[5px] text-[0.8125rem] text-ink">
+                <span className="rounded-badge border border-line bg-panel px-[11px] py-[5px] text-[0.8125rem] text-ink">
                   React Hook Form
                 </span>
               </div>
@@ -115,10 +115,10 @@ export default function ExperienceSkills() {
                 Styling
               </div>
               <div className="flex flex-wrap gap-[7px]">
-                <span className="rounded-[4px] border border-line bg-panel px-[11px] py-[5px] text-[0.8125rem] text-ink">
+                <span className="rounded-badge border border-line bg-panel px-[11px] py-[5px] text-[0.8125rem] text-ink">
                   Tailwind CSS
                 </span>
-                <span className="rounded-[4px] border border-line bg-panel px-[11px] py-[5px] text-[0.8125rem] text-ink">
+                <span className="rounded-badge border border-line bg-panel px-[11px] py-[5px] text-[0.8125rem] text-ink">
                   Styled-components
                 </span>
               </div>
@@ -128,19 +128,19 @@ export default function ExperienceSkills() {
                 Quality / Test
               </div>
               <div className="flex flex-wrap gap-[7px]">
-                <span className="rounded-[4px] border border-line bg-panel px-[11px] py-[5px] text-[0.8125rem] text-ink">
+                <span className="rounded-badge border border-line bg-panel px-[11px] py-[5px] text-[0.8125rem] text-ink">
                   Zod
                 </span>
-                <span className="rounded-[4px] border border-line bg-panel px-[11px] py-[5px] text-[0.8125rem] text-ink">
+                <span className="rounded-badge border border-line bg-panel px-[11px] py-[5px] text-[0.8125rem] text-ink">
                   Jest
                 </span>
-                <span className="rounded-[4px] border border-line bg-panel px-[11px] py-[5px] text-[0.8125rem] text-ink">
+                <span className="rounded-badge border border-line bg-panel px-[11px] py-[5px] text-[0.8125rem] text-ink">
                   ESLint
                 </span>
-                <span className="rounded-[4px] border border-line bg-panel px-[11px] py-[5px] text-[0.8125rem] text-ink">
+                <span className="rounded-badge border border-line bg-panel px-[11px] py-[5px] text-[0.8125rem] text-ink">
                   Prettier
                 </span>
-                <span className="rounded-[4px] border border-line bg-panel px-[11px] py-[5px] text-[0.8125rem] text-ink">
+                <span className="rounded-badge border border-line bg-panel px-[11px] py-[5px] text-[0.8125rem] text-ink">
                   Storybook
                 </span>
               </div>
@@ -150,16 +150,16 @@ export default function ExperienceSkills() {
                 Deploy / Infra
               </div>
               <div className="flex flex-wrap gap-[7px]">
-                <span className="rounded-[4px] border border-line bg-panel px-[11px] py-[5px] text-[0.8125rem] text-ink">
+                <span className="rounded-badge border border-line bg-panel px-[11px] py-[5px] text-[0.8125rem] text-ink">
                   Vercel
                 </span>
-                <span className="rounded-[4px] border border-line bg-panel px-[11px] py-[5px] text-[0.8125rem] text-ink">
+                <span className="rounded-badge border border-line bg-panel px-[11px] py-[5px] text-[0.8125rem] text-ink">
                   GitHub Actions
                 </span>
-                <span className="rounded-[4px] border border-line bg-panel px-[11px] py-[5px] text-[0.8125rem] text-ink">
+                <span className="rounded-badge border border-line bg-panel px-[11px] py-[5px] text-[0.8125rem] text-ink">
                   AWS
                 </span>
-                <span className="rounded-[4px] border border-line bg-panel px-[11px] py-[5px] text-[0.8125rem] text-ink">
+                <span className="rounded-badge border border-line bg-panel px-[11px] py-[5px] text-[0.8125rem] text-ink">
                   Supabase
                 </span>
               </div>

@@ -11,6 +11,9 @@
   --color-line2: #d6d3d1;
   --color-accent: #4338ca;
 
+  /* 배지/태그/칩 공통 radius → rounded-badge */
+  --radius-badge: 8px;
+
   /* fonts (next/font 변수 연결) → font-sans / font-mono */
   --font-sans: var(--font-pretendard), "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   --font-mono: var(--font-ibm-mono), "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;

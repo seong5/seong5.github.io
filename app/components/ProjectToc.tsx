@@ -69,7 +69,7 @@ export default function ProjectToc({ sections }: { sections: TocSection[] }) {
               <a
                 href={`#${s.id}`}
                 onClick={(e) => handleClick(e, s.id)}
-                className={`block whitespace-nowrap rounded-[5px] px-3 py-1.5 text-[0.75rem] uppercase tracking-[.06em] transition ${
+                className={`block whitespace-nowrap rounded-badge px-3 py-1.5 text-[0.75rem] uppercase tracking-[.06em] transition ${
                   active === s.id
                     ? 'border border-line bg-panel font-medium text-accent'
                     : 'border border-transparent text-muted hover:text-ink'
