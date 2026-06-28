@@ -120,6 +120,21 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
               <div className="text-[0.84375rem] font-medium">{project.type}</div>
             </div>
           </div>
+          <div className="mt-[18px]">
+            <div className="mb-[10px] font-mono text-[0.75rem] tracking-[.08em] text-muted">
+              STACK
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {project.stack.map((s) => (
+                <span
+                  className="rounded-badge border border-line bg-panel px-3 py-1.5 font-mono text-[0.75rem] text-ink"
+                  key={s}
+                >
+                  {s}
+                </span>
+              ))}
+            </div>
+          </div>
         </header>
 
         {project.gallery ? (
@@ -380,22 +395,6 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
             </div>
           </section>
         )}
-
-        <section className="border-t border-line py-12">
-          <h2 className="mb-[26px] flex items-baseline gap-[14px] font-mono text-[0.8125rem] font-medium uppercase tracking-[.1em] text-ink">
-            <span className="text-[0.75rem] text-accent">/</span> Stack
-          </h2>
-          <div className="flex flex-wrap gap-2">
-            {project.stack.map((s) => (
-              <span
-                className="rounded-badge border border-line bg-panel px-3 py-1.5 font-mono text-[0.75rem] text-ink"
-                key={s}
-              >
-                {s}
-              </span>
-            ))}
-          </div>
-        </section>
 
         <div className="flex items-center justify-between border-t border-line pb-20 pt-10">
           {prev ? (
