@@ -286,15 +286,37 @@ export default function ResumePage() {
                   external: true,
                 },
                 { label: 'BIRTH', value: '1995.05.02 (31)', muted: true },
+                {
+                  label: 'PORTFOLIO',
+                  value: 'seong5.github.io',
+                  href: 'https://seong5.github.io',
+                  external: true,
+                  highlight: true,
+                },
               ] as const
             ).map(({ label, value, ...rest }) => {
               const href = 'href' in rest ? rest.href : undefined;
               const external = 'external' in rest ? rest.external : false;
               const muted = 'muted' in rest ? rest.muted : false;
+              const highlight = 'highlight' in rest ? rest.highlight : false;
               return (
-                <div key={label} className="grid grid-cols-[56px_1fr] gap-x-3 text-right">
+                <div
+                  key={label}
+                  className={`grid grid-cols-[72px_1fr] items-center gap-x-3 text-right${
+                    highlight ? ' mt-[5px]' : ''
+                  }`}
+                >
                   <span className="text-left uppercase tracking-[.04em] text-muted">{label}</span>
-                  {href ? (
+                  {highlight && href ? (
+                    <a
+                      href={href}
+                      className="inline-flex items-center justify-end gap-1.5 rounded-badge border border-accent/25 bg-accent/[0.07] px-[9px] py-[3px] font-medium text-accent transition hover:bg-accent/10"
+                      {...(external ? { target: '_blank', rel: 'noreferrer' } : {})}
+                    >
+                      {value}
+                      <span aria-hidden>→</span>
+                    </a>
+                  ) : href ? (
                     <a
                       href={href}
                       className="text-ink2 underline-offset-2 transition hover:text-accent hover:underline"
