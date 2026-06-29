@@ -138,35 +138,53 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
         </header>
 
         {project.gallery ? (
-          <div className="mb-2 mt-[14px] flex flex-col gap-[14px]">
-            <div className="grid grid-cols-2 gap-[14px] max-wrap:grid-cols-1">
-              {project.gallery.slice(0, 2).map((g, i) => (
+          project.galleryCols === 3 ? (
+            <div className="mb-2 mt-[14px] grid grid-cols-3 gap-[14px] max-wrap:grid-cols-1">
+              {project.gallery.map((g, i) => (
                 <div className="flex justify-center" key={g.src}>
                   <Image
                     src={g.src}
                     alt={`${project.title} 스크린샷 ${i + 1}`}
                     width={g.w}
                     height={g.h}
-                    sizes="(max-width: 920px) 50vw, 460px"
+                    sizes="(max-width: 920px) 100vw, 300px"
                     className="h-auto max-h-[440px] w-auto max-w-full"
-                    priority
+                    priority={i < 3}
                   />
                 </div>
               ))}
             </div>
-            {project.gallery.slice(2).map((g, i) => (
-              <div className="flex justify-center" key={g.src}>
-                <Image
-                  src={g.src}
-                  alt={`${project.title} 스크린샷 ${i + 3}`}
-                  width={g.w}
-                  height={g.h}
-                  sizes="(max-width: 920px) 100vw, 920px"
-                  className="h-auto w-auto max-w-full"
-                />
+          ) : (
+            <div className="mb-2 mt-[14px] flex flex-col gap-[14px]">
+              <div className="grid grid-cols-2 gap-[14px] max-wrap:grid-cols-1">
+                {project.gallery.slice(0, 2).map((g, i) => (
+                  <div className="flex justify-center" key={g.src}>
+                    <Image
+                      src={g.src}
+                      alt={`${project.title} 스크린샷 ${i + 1}`}
+                      width={g.w}
+                      height={g.h}
+                      sizes="(max-width: 920px) 50vw, 460px"
+                      className="h-auto max-h-[440px] w-auto max-w-full"
+                      priority
+                    />
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
+              {project.gallery.slice(2).map((g, i) => (
+                <div className="flex justify-center" key={g.src}>
+                  <Image
+                    src={g.src}
+                    alt={`${project.title} 스크린샷 ${i + 3}`}
+                    width={g.w}
+                    height={g.h}
+                    sizes="(max-width: 920px) 100vw, 920px"
+                    className="h-auto w-auto max-w-full"
+                  />
+                </div>
+              ))}
+            </div>
+          )
         ) : (
           <div className="mb-2 mt-[14px]">
             {project.image ? (

@@ -78,6 +78,8 @@ export type Project = {
   imageNoBorder?: boolean;
   /** 상세 페이지 갤러리(여러 장). 있으면 단일 hero 대신 갤러리 섹션을 렌더 */
   gallery?: { src: string; w: number; h: number }[];
+  /** 갤러리를 한 줄에 같은 높이로 N열 배치. 미지정 시 기본(2열 + 나머지 전체폭) */
+  galleryCols?: 2 | 3;
   /** 정량 지표 — 있으면 "Key results" 섹션(카드 그리드) 렌더 */
   metrics?: Metric[];
   /** 인사이트 — 있으면 "Insights" 섹션 렌더 */
@@ -791,11 +793,25 @@ export const projects: Project[] = [
       "ESLint",
       "Prettier",
     ],
-    links: [{ label: "GitHub", href: "https://github.com/seong5/SUB_FC" }],
+    links: [
+      { label: "GitHub", href: "https://github.com/seong5/SUB_FC" },
+      { label: "Deploy", href: "https://sub-fc-21fv.vercel.app/" },
+    ],
     thumbnail: "sub-fc.jpg",
     image: "/projects/sub-fc.png",
     imageFit: "contain",
-    metrics: [{ value: "20명", label: "실사용자 확보" }],
+    gallery: [
+      { src: "/projects/sub-fc-3.png", w: 826, h: 1202 },
+      { src: "/projects/sub-fc-1.png", w: 832, h: 1224 },
+      { src: "/projects/sub-fc-2.png", w: 842, h: 1226 },
+    ],
+    galleryCols: 3,
+    metrics: [
+      { value: "71→99", label: "서버 컴포넌트로 성능 개선" },
+      { value: "20명", label: "실사용자 확보" },
+      { value: "Zod·Jest", label: "런타임 검증·TDD 도입" },
+      { value: "Broadcast", label: "실시간 알림 정확도 개선" },
+    ],
     insights: [
       {
         title: "서버 컴포넌트 전환을 통한 LCP 및 초기 로딩 개선",
