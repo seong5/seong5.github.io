@@ -29,7 +29,7 @@ function ProjectCard({ p }: { p: Project }) {
       <div className="mt-[18px] flex flex-wrap gap-[7px]">
         {p.stack.slice(0, 6).map((s) => (
           <span
-            className="rounded-badge border border-line px-[9px] py-1 font-mono text-[0.75rem] text-muted"
+            className="rounded-badge border border-line bg-panel px-[9px] py-1 font-mono text-[0.75rem] text-muted"
             key={s}
           >
             {s}
