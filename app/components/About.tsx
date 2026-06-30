@@ -28,21 +28,26 @@ export default function About() {
       id="about"
     >
       <SectionHead idx="01" title="About" />
-      {/* member-benefit-card — 검정 블록 3-up, 페이지 중반의 흑백 대비 모먼트 */}
-      <div className="grid grid-cols-3 gap-4 max-nav:grid-cols-1">
+      {/* 카드 없는 에디토리얼 행 — 좌측 라벨 / 우측 제목·본문, hairline 구분 */}
+      <div className="flex flex-col">
         {ABOUT.map((a) => (
-          <div key={a.tag} className="flex flex-col bg-ink p-8 text-on-primary max-nav:p-7">
-            <span className="text-[0.75rem] font-medium uppercase tracking-[0.1em] text-stone">
+          <div
+            key={a.tag}
+            className="grid grid-cols-[120px_1fr] gap-x-6 border-t border-hairline py-8 first:border-t-0 first:pt-0 max-nav:grid-cols-1 max-nav:gap-y-3"
+          >
+            <div className="pt-1 text-[0.75rem] font-medium uppercase tracking-[0.1em] text-mute">
               {a.tag}
-            </span>
-            <h3 className="mt-5 text-[1.3125rem] font-medium leading-[1.3] tracking-[-0.01em] break-keep">
-              {a.kw}
-              <span className="text-stone"> — </span>
-              {a.title}
-            </h3>
-            <p className="mt-4 text-[0.9375rem] font-normal leading-[1.85] text-stone break-keep">
-              {a.body}
-            </p>
+            </div>
+            <div>
+              <h3 className="text-[1.3125rem] font-medium leading-[1.3] tracking-[-0.01em] text-ink break-keep">
+                {a.kw}
+                <span className="text-mute"> — </span>
+                {a.title}
+              </h3>
+              <p className="mt-3 max-w-[68ch] text-[1rem] font-normal leading-[1.8] text-charcoal break-keep">
+                {a.body}
+              </p>
+            </div>
           </div>
         ))}
       </div>
