@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { IBM_Plex_Mono } from "next/font/google";
+import { Inter, Bebas_Neue } from "next/font/google";
 import "./globals.css";
 
 const pretendard = localFont({
@@ -10,10 +10,18 @@ const pretendard = localFont({
   weight: "100 900",
 });
 
-const ibmPlexMono = IBM_Plex_Mono({
-  weight: ["400", "500", "600"],
+// UI/본문 라틴 글리프 — 한글은 Pretendard로 폴백 (globals.css의 --font-sans 체인)
+const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-ibm-mono",
+  variable: "--font-inter",
+  display: "swap",
+});
+
+// 디스플레이 티어 — 영문 대문자 96px 캠페인 로크업 (Futura ND 대체)
+const bebasNeue = Bebas_Neue({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-bebas",
   display: "swap",
 });
 
@@ -31,7 +39,7 @@ export default function RootLayout({
   return (
     <html lang="ko" data-scroll-behavior="smooth">
       <body
-        className={`${pretendard.variable} ${pretendard.className} ${ibmPlexMono.variable} antialiased`}
+        className={`${pretendard.variable} ${inter.variable} ${bebasNeue.variable} antialiased`}
       >
         {children}
       </body>

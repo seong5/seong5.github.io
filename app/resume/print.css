@@ -8,12 +8,12 @@
 /* 화면(스크린)에서의 PDF 미리보기 셸 */
 @media screen {
   .resume-shell {
-    background: #d6d3d1;
+    background: #cacacb;
     padding: 88px 16px 56px;
   }
   .resume-page {
     margin: 0 auto 28px;
-    box-shadow: 0 10px 34px rgba(28, 25, 23, 0.18);
+    box-shadow: 0 10px 34px rgba(17, 17, 17, 0.16);
   }
   .resume-page:last-child {
     margin-bottom: 0;
@@ -45,7 +45,7 @@
   .avoid-break {
     break-inside: avoid;
   }
-  /* accent 컬러·배경이 인쇄에서 날아가지 않도록 */
+  /* 컬러·배경이 인쇄에서 날아가지 않도록 */
   * {
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;

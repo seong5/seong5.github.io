@@ -143,13 +143,13 @@ function SectionTitle({
   action?: ReactNode;
 }) {
   return (
-    <div className="mb-[18px] flex items-end justify-between gap-3 border-b border-line pb-[10px]">
+    <div className="mb-[18px] flex items-end justify-between gap-3 border-b border-hairline pb-[10px]">
       <div className="flex min-w-0 items-baseline gap-3">
-        <span className="font-mono text-[0.875rem] text-accent">{no}</span>
-        <h2 className="font-mono text-[0.875rem] font-medium uppercase tracking-[.14em] text-ink">
+        <span className="text-[0.875rem] text-ink">{no}</span>
+        <h2 className="text-[0.875rem] font-medium uppercase tracking-[.14em] text-ink">
           {en}
         </h2>
-        <span className="text-[0.8125rem] text-muted">{ko}</span>
+        <span className="text-[0.8125rem] text-mute">{ko}</span>
       </div>
       {action}
     </div>
@@ -176,38 +176,31 @@ function Entry({
   return (
     <div className="avoid-break grid grid-cols-[112px_1fr] gap-x-5">
       <div>
-        <div className="whitespace-nowrap font-mono text-[0.71875rem] leading-[1.5] text-accent">
+        <div className="whitespace-nowrap text-[0.71875rem] leading-[1.5] text-ink">
           {period}
         </div>
-        {tag ? <div className="mt-1 font-mono text-[0.6875rem] text-muted">{tag}</div> : null}
+        {tag ? <div className="mt-1 text-[0.6875rem] text-mute">{tag}</div> : null}
       </div>
       <div>
         <h3 className="text-[0.96875rem] font-semibold tracking-[-.01em] text-ink">{title}</h3>
-        {org ? <div className="mt-[3px] font-mono text-[0.71875rem] text-muted">{org}</div> : null}
-        <p className="mt-[7px] text-[0.8125rem] font-normal leading-[1.6] text-ink2">{desc}</p>
+        {org ? <div className="mt-[3px] text-[0.71875rem] text-mute">{org}</div> : null}
+        <p className="mt-[7px] text-[0.8125rem] font-normal leading-[1.6] text-charcoal">{desc}</p>
         {points.length > 0 ? (
           <ul className="mt-2 flex flex-col gap-[3px]">
             {points.map((p) => (
               <li
                 key={p}
-                className="grid grid-cols-[10px_1fr] gap-x-2 text-[0.8125rem] font-normal leading-[1.55] text-ink2"
+                className="grid grid-cols-[10px_1fr] gap-x-2 text-[0.8125rem] font-normal leading-[1.55] text-charcoal"
               >
-                <span className="text-muted">•</span>
+                <span className="text-mute">•</span>
                 <span>{p}</span>
               </li>
             ))}
           </ul>
         ) : null}
         {stack && stack.length > 0 ? (
-          <div className="mt-[9px] flex flex-wrap gap-[5px]">
-            {stack.map((item) => (
-              <span
-                key={item}
-                className="rounded-badge border border-line bg-bg px-[8px] py-[2px] text-[0.6875rem] text-ink"
-              >
-                {item}
-              </span>
-            ))}
+          <div className="mt-[7px] text-[0.6875rem] leading-[1.5] text-mute">
+            {stack.join(' · ')}
           </div>
         ) : null}
       </div>
@@ -218,7 +211,7 @@ function Entry({
 function PageFooter({ n }: { n: number }) {
   return (
     <div className="mt-auto shrink-0 pt-[22px]">
-      <div className="flex justify-end border-t border-line pt-[10px] font-mono text-[0.6875rem] text-muted">
+      <div className="flex justify-end border-t border-hairline pt-[10px] text-[0.6875rem] text-mute">
         <span>
           PAGE <span className="text-ink">{n}</span> / {TOTAL_PAGES}
         </span>
@@ -233,22 +226,22 @@ export default function ResumePage() {
   return (
     <div className="resume-shell min-h-screen">
       {/* 상단 컨트롤 바 (인쇄 시 숨김) */}
-      <div className="no-print fixed inset-x-0 top-0 z-10 flex items-center justify-between border-b border-line bg-[rgba(250,250,249,0.92)] px-5 py-3 backdrop-blur-[8px]">
+      <div className="no-print fixed inset-x-0 top-0 z-10 flex items-center justify-between border-b border-hairline bg-[rgba(255,255,255,0.92)] px-5 py-3 backdrop-blur-[8px]">
         <Link
           href="/"
-          className="font-mono text-[0.78125rem] text-muted transition-colors hover:text-ink"
+          className="text-[0.78125rem] text-mute transition-colors hover:text-ink"
         >
           ← 포트폴리오
         </Link>
-        <div className="font-mono text-[0.75rem] text-muted">입사지원서</div>
+        <div className="text-[0.75rem] text-mute">입사지원서</div>
         <PrintButton />
       </div>
 
       {/* ───────── PAGE 1 ───────── */}
-      <section className="resume-page flex w-[210mm] h-[297mm] overflow-hidden flex-col bg-panel px-[17mm] py-[15mm]">
+      <section className="resume-page flex w-[210mm] h-[297mm] overflow-hidden flex-col bg-canvas px-[17mm] py-[15mm]">
         <header className="flex items-start justify-between border-b-2 border-ink pb-[18px]">
           <div className="flex items-start gap-[18px]">
-            <div className="relative h-[40mm] w-[30mm] shrink-0 overflow-hidden rounded-[3px] border border-line2 bg-bg">
+            <div className="relative h-[40mm] w-[30mm] shrink-0 overflow-hidden rounded-[3px] border border-hairline bg-canvas">
               <Image
                 src="/profile.png"
                 alt="신성오 증명사진"
@@ -259,18 +252,18 @@ export default function ResumePage() {
               />
             </div>
             <div>
-              <div className="font-mono text-[0.6875rem] tracking-[.1em] text-muted">
+              <div className="text-[0.6875rem] tracking-[.1em] text-mute">
                 입사지원서
               </div>
               <h1 className="mt-[10px] text-[1.75rem] font-semibold leading-[1.15] tracking-[-.01em]">
-                신성오 <span className="text-[1.25rem] font-normal text-muted">Shin Seong-oh</span>
+                신성오 <span className="text-[1.25rem] font-normal text-mute">Shin Seong-oh</span>
               </h1>
-              <div className="mt-[6px] font-mono text-[0.78125rem] tracking-[.04em] text-accent">
+              <div className="mt-[6px] text-[0.78125rem] tracking-[.04em] text-ink">
                 FRONTEND DEVELOPER
               </div>
             </div>
           </div>
-          <div className="pt-[2px] flex flex-col gap-[5px] font-mono text-[0.71875rem]">
+          <div className="pt-[2px] flex flex-col gap-[5px] text-[0.71875rem]">
             {(
               [
                 { label: 'PHONE', value: '010-4784-3867', href: 'tel:+821047843867' },
@@ -306,11 +299,11 @@ export default function ResumePage() {
                     highlight ? ' mt-[5px]' : ''
                   }`}
                 >
-                  <span className="text-left uppercase tracking-[.04em] text-muted">{label}</span>
+                  <span className="text-left uppercase tracking-[.04em] text-mute">{label}</span>
                   {highlight && href ? (
                     <a
                       href={href}
-                      className="inline-flex items-center justify-end gap-1.5 rounded-badge border border-accent/25 bg-accent/[0.07] px-[9px] py-[3px] font-medium text-accent transition hover:bg-accent/10"
+                      className="inline-flex items-center justify-end gap-1.5 rounded-full border border-ink/25 bg-ink/[0.07] px-[9px] py-[3px] font-medium text-ink transition hover:bg-ink/10"
                       {...(external ? { target: '_blank', rel: 'noreferrer' } : {})}
                     >
                       {value}
@@ -319,13 +312,13 @@ export default function ResumePage() {
                   ) : href ? (
                     <a
                       href={href}
-                      className="text-ink2 underline-offset-2 transition hover:text-accent hover:underline"
+                      className="text-charcoal underline-offset-2 transition hover:text-ink hover:underline"
                       {...(external ? { target: '_blank', rel: 'noreferrer' } : {})}
                     >
                       {value}
                     </a>
                   ) : (
-                    <span className={muted ? 'text-muted' : 'text-ink2'}>{value}</span>
+                    <span className={muted ? 'text-mute' : 'text-charcoal'}>{value}</span>
                   )}
                 </div>
               );
@@ -335,7 +328,7 @@ export default function ResumePage() {
 
         <div className="mt-[26px]">
           <SectionTitle no="01" en="Strengths" ko="핵심역량" />
-          <p className="mb-[18px] text-[0.875rem] font-normal leading-[1.7] text-ink2">
+          <p className="mb-[18px] text-[0.875rem] font-normal leading-[1.7] text-charcoal">
             탄탄한 기술력뿐만 아니라 협업 시의 소통능력과 책임감 같은 소프트 스킬의 조화가 좋은
             서비스를 만든다고 믿습니다. <br /> 맡은 범위에 한계를 두지 않고 시작한 일을 끝까지
             책임지며 팀과 함께 성과를 만들며 성장하는 것을 지향합니다.
@@ -343,12 +336,12 @@ export default function ResumePage() {
           <div className="flex flex-col gap-[15px]">
             {STRENGTHS.map((s) => (
               <div key={s.tag} className="avoid-break grid grid-cols-[56px_1fr] gap-x-4">
-                <div className="font-mono text-[0.75rem] text-accent">{s.tag}</div>
+                <div className="text-[0.75rem] text-ink">{s.tag}</div>
                 <div>
                   <h3 className="text-[0.96875rem] font-semibold tracking-[-.01em] text-ink">
                     {s.title}
                   </h3>
-                  <p className="mt-[5px] text-[0.8125rem] font-normal leading-[1.6] text-ink2">
+                  <p className="mt-[5px] text-[0.8125rem] font-normal leading-[1.6] text-charcoal">
                     {s.body}
                   </p>
                 </div>
@@ -362,14 +355,14 @@ export default function ResumePage() {
           <div className="grid grid-cols-2 gap-x-10 gap-y-[14px]">
             {SKILLS.map((s) => (
               <div key={s.label} className="grid grid-cols-[88px_1fr] items-start gap-x-3">
-                <div className="pt-[3px] font-mono text-[0.6875rem] uppercase tracking-[.06em] text-muted">
+                <div className="pt-[3px] text-[0.6875rem] uppercase tracking-[.06em] text-mute">
                   {s.label}
                 </div>
                 <div className="flex flex-wrap gap-[6px]">
                   {s.items.map((i) => (
                     <span
                       key={i}
-                      className="rounded-badge border border-line bg-bg px-[9px] py-[3px] text-[0.75rem] text-ink"
+                      className="rounded-full border border-hairline bg-canvas px-[9px] py-[3px] text-[0.75rem] text-ink"
                     >
                       {i}
                     </span>
@@ -384,7 +377,7 @@ export default function ResumePage() {
       </section>
 
       {/* ───────── PAGE 2 ───────── */}
-      <section className="resume-page flex w-[210mm] h-[297mm] overflow-hidden flex-col bg-panel px-[17mm] py-[15mm]">
+      <section className="resume-page flex w-[210mm] h-[297mm] overflow-hidden flex-col bg-canvas px-[17mm] py-[15mm]">
         <SectionTitle
           no="03"
           en="Projects"
@@ -392,10 +385,10 @@ export default function ResumePage() {
           action={
             <Link
               href={PORTFOLIO_PROJECTS_URL}
-              className="portfolio-link inline-flex shrink-0 items-center gap-2 rounded-[5px] border border-accent/15 bg-accent/5 px-4 py-2 font-mono text-[0.75rem] text-ink2"
+              className="portfolio-link inline-flex shrink-0 items-center gap-2 rounded-[5px] border border-ink/15 bg-ink/5 px-4 py-2 text-[0.75rem] text-charcoal"
             >
               포트폴리오에서 자세히 보기
-              <span className="text-accent">→</span>
+              <span className="text-ink">→</span>
             </Link>
           }
         />
@@ -408,7 +401,7 @@ export default function ResumePage() {
       </section>
 
       {/* ───────── PAGE 3 ───────── */}
-      <section className="resume-page flex w-[210mm] h-[297mm] overflow-hidden flex-col bg-panel px-[17mm] py-[15mm]">
+      <section className="resume-page flex w-[210mm] h-[297mm] overflow-hidden flex-col bg-canvas px-[17mm] py-[15mm]">
         <div className="flex flex-col gap-[22px]">
           {PROJECTS_PAGE_2.map((p) => (
             <Entry key={p.slug} {...p} />
@@ -418,7 +411,7 @@ export default function ResumePage() {
       </section>
 
       {/* ───────── PAGE 4 ───────── */}
-      <section className="resume-page flex w-[210mm] h-[297mm] overflow-hidden flex-col bg-panel px-[17mm] py-[15mm]">
+      <section className="resume-page flex w-[210mm] h-[297mm] overflow-hidden flex-col bg-canvas px-[17mm] py-[15mm]">
         <div>
           <SectionTitle no="04" en="Experience" ko="경험" />
           <div className="flex flex-col gap-[18px]">
@@ -434,13 +427,13 @@ export default function ResumePage() {
             {EDUCATION.map((e) => (
               <div
                 key={e.title}
-                className="avoid-break grid grid-cols-[150px_1fr] items-baseline gap-x-5 border-t border-line py-[11px] first:border-t-0"
+                className="avoid-break grid grid-cols-[150px_1fr] items-baseline gap-x-5 border-t border-hairline py-[11px] first:border-t-0"
               >
-                <div className="font-mono text-[0.71875rem] text-accent">{e.period}</div>
+                <div className="text-[0.71875rem] text-ink">{e.period}</div>
                 <div>
                   <span className="text-[0.875rem] font-semibold text-ink">{e.title}</span>
                   {e.desc ? (
-                    <p className="mt-[3px] text-[0.8125rem] font-normal leading-[1.55] text-ink2">
+                    <p className="mt-[3px] text-[0.8125rem] font-normal leading-[1.55] text-charcoal">
                       {e.desc}
                     </p>
                   ) : null}

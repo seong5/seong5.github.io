@@ -1,42 +1,52 @@
 @import "tailwindcss";
 
 @theme {
-  /* colors → bg-bg, text-ink, border-line, text-accent … */
-  --color-bg: #fafaf9;
-  --color-panel: #ffffff;
-  --color-ink: #1c1917;
-  --color-ink2: #3d3834;
-  --color-muted: #57534e;
-  --color-line: #e7e5e4;
-  --color-line2: #d6d3d1;
-  --color-accent: #4338ca;
+  /* ──────────────────────────────────────────────────────────
+     Nike 디자인 시스템 토큰 (Phase 0)
+     순흑/백 + 단일 그레이. 액센트는 sale/success/info(semantic)만.
+     ────────────────────────────────────────────────────────── */
 
-  /* 배지/태그/칩 공통 radius → rounded-badge */
-  --radius-badge: 8px;
+  /* Brand & surface → bg-ink, bg-canvas, bg-cloud … */
+  --color-ink: #111111; /* 브랜드 블랙 — CTA, 헤드라인, 본문 */
+  --color-canvas: #ffffff; /* 페이지 배경 */
+  --color-cloud: #f5f5f5; /* soft-cloud — 제품 사진 스테이지, secondary pill */
+  --color-on-primary: #ffffff; /* ink 위 반전 텍스트 */
 
-  /* fonts (next/font 변수 연결) → font-sans / font-mono */
-  --font-sans: var(--font-pretendard), "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-  --font-mono: var(--font-ibm-mono), "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  /* Text scale (light surface) */
+  --color-charcoal: #39393b; /* ink보다 약간 가벼운 본문 */
+  --color-ash: #4b4b4d;
+  --color-mute: #707072; /* 서브타이틀, 메타, 푸터 링크 */
+  --color-stone: #9e9ea0; /* dark surface 위 보조 텍스트 */
+
+  /* Hairline (유일한 구분선·"섀도") */
+  --color-hairline: #cacacb; /* 1px 디바이더 */
+  --color-hairline-soft: #e5e5e5; /* sticky bar inset 라인 */
+
+  /* Semantic (retail chrome에서 유일하게 허용되는 컬러) */
+  --color-sale: #d30005;
+  --color-sale-deep: #780700;
+  --color-success: #007d48;
+  --color-success-bright: #1eaa52;
+  --color-info: #1151ff;
+  --color-info-deep: #0034e3;
+
+  /* ── Radius — pill geometry (none/sm/md/lg/full) ── */
+  --radius-sm: 18px; /* 아바타/아이콘 컨테이너 */
+  --radius-md: 24px; /* search pill, filter input */
+  --radius-lg: 30px; /* 모든 CTA pill */
+
+  /* ── Fonts ──
+     디스플레이 티어(영문 대문자)는 Bebas Neue,
+     UI/본문은 Inter(라틴) → Pretendard(한글) 폴백 체인. */
+  --font-display: var(--font-bebas), "Bebas Neue", "Anton", Impact, sans-serif;
+  --font-sans: var(--font-inter), var(--font-pretendard), "Pretendard",
+    -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
 
   /* 커스텀 breakpoint → nav: / max-nav: , wrap: / max-wrap: 변형 생성 */
   --breakpoint-nav: 880px;
   --breakpoint-wrap: 760px;
-  /* 우측 세로 목차 노출 기준 (본문 920 + 양옆 여백 확보) → toc: / max-toc: */
+  /* 우측 세로 목차 노출 기준 → toc: / max-toc: */
   --breakpoint-toc: 1340px;
-
-  /* pulse 링 애니메이션 → animate-pulsering */
-  --animate-pulsering: pulsering 2.4s infinite;
-  @keyframes pulsering {
-    0% {
-      box-shadow: 0 0 0 0 rgba(67, 56, 202, 0.45);
-    }
-    70% {
-      box-shadow: 0 0 0 8px rgba(67, 56, 202, 0);
-    }
-    100% {
-      box-shadow: 0 0 0 0 rgba(67, 56, 202, 0);
-    }
-  }
 }
 
 @layer base {
@@ -44,25 +54,12 @@
     scroll-behavior: smooth;
   }
   body {
-    @apply bg-bg text-ink font-sans antialiased font-normal leading-[1.6];
+    @apply bg-canvas text-ink font-sans antialiased font-normal leading-[1.6];
   }
 }
 
-/* 인라인으로 길어지는 특수 효과만 유틸로 분리 */
+/* ── 특수 효과 유틸 (Phase 4에서 product-card/PDP 재작성 시 정리 예정) ── */
 @utility ph-frame {
-  /* 이미지 placeholder 사선 해치 배경 */
-  background:
-    repeating-linear-gradient(
-      135deg,
-      transparent,
-      transparent 7px,
-      rgba(28, 25, 23, 0.035) 7px,
-      rgba(28, 25, 23, 0.035) 8px
-    ),
-    var(--color-panel);
-}
-
-@utility proj-hover {
-  /* 프로젝트 카드 hover 그라디언트 (hover: 와 조합) */
-  background: linear-gradient(90deg, rgba(67, 56, 202, 0.05), transparent 70%);
+  /* 제품 placeholder — Nike는 solid soft-cloud 스테이지에 사진을 올린다 */
+  background: var(--color-cloud);
 }

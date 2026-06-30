@@ -51,15 +51,17 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
 
   return (
     <>
-      <nav className="sticky top-0 z-10 border-b border-line bg-white/90 backdrop-blur-[8px]">
-        <div className="mx-auto flex h-[62px] max-w-[920px] items-center justify-between px-8 max-wrap:px-[22px]">
+      <nav className="sticky top-0 z-10 bg-canvas shadow-[inset_0_-1px_0_var(--color-hairline-soft)]">
+        <div className="mx-auto flex h-14 max-w-[920px] items-center justify-between px-8 max-wrap:px-[22px]">
           <Link
-            className="flex items-center gap-2 text-[0.78125rem] text-muted transition hover:text-accent"
+            className="flex items-center gap-2 text-[0.875rem] font-medium text-mute transition-colors hover:text-ink"
             href="/#projects"
           >
-            <span className="font-mono">←</span> <span>메인으로 돌아가기</span>
+            <span aria-hidden>←</span> <span>메인으로 돌아가기</span>
           </Link>
-          <span className="font-mono text-[0.75rem] text-muted">PROJECT / {order}</span>
+          <span className="text-[0.75rem] font-medium tracking-[0.04em] text-mute">
+            PROJECT / {order}
+          </span>
         </div>
       </nav>
 
@@ -67,17 +69,17 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
 
       <div className="mx-auto max-w-[920px] px-8 max-wrap:px-[22px]">
         <header id="overview" className="scroll-mt-[112px] pb-[50px] pt-[74px] toc:scroll-mt-[80px]">
-          <div className="mb-[22px] flex flex-wrap items-center justify-between gap-[10px] text-[0.78125rem] text-muted">
+          <div className="mb-[22px] flex flex-wrap items-center justify-between gap-[10px] text-[0.78125rem] text-mute">
             <div className="flex flex-wrap gap-[10px]">
               <span>{project.org}</span>
-              <span className="font-mono">{project.period}</span>
+              <span>{project.period}</span>
             </div>
             {project.links.length > 0 && (
               <div className="flex shrink-0 gap-2">
                 {project.links.map((link) => (
                   <a
                     key={link.href}
-                    className="whitespace-nowrap rounded-badge border border-line bg-panel px-3 py-1.5 text-[0.75rem] text-ink transition hover:border-line2 hover:text-accent"
+                    className="whitespace-nowrap rounded-full border border-hairline bg-canvas px-3 py-1.5 text-[0.75rem] text-ink transition hover:border-hairline hover:text-ink"
                     href={link.href}
                     target="_blank"
                     rel="noreferrer"
@@ -91,43 +93,43 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
           <h1 className="text-[clamp(1.75rem,4.4vw,2.625rem)] font-semibold leading-[1.2] tracking-[-.02em]">
             {project.title}
           </h1>
-          <p className="mt-[18px] text-[1rem] font-normal leading-[1.8] text-ink2 break-keep">
+          <p className="mt-[18px] text-[1rem] font-normal leading-[1.8] text-charcoal break-keep">
             {project.detail ?? project.summary}
           </p>
-          <div className="mt-[34px] grid grid-cols-4 gap-px overflow-hidden rounded-lg border border-line bg-line max-wrap:grid-cols-2">
-            <div className="bg-panel px-[18px] py-4">
-              <div className="mb-[6px] font-mono text-[0.75rem] tracking-[.08em] text-muted">
+          <div className="mt-[34px] grid grid-cols-4 gap-px overflow-hidden rounded-none border border-hairline bg-hairline max-wrap:grid-cols-2">
+            <div className="bg-canvas px-[18px] py-4">
+              <div className="mb-[6px] text-[0.75rem] tracking-[.08em] text-mute">
                 ROLE
               </div>
               <div className="text-[0.84375rem] font-medium">{project.role}</div>
             </div>
-            <div className="bg-panel px-[18px] py-4">
-              <div className="mb-[6px] font-mono text-[0.75rem] tracking-[.08em] text-muted">
+            <div className="bg-canvas px-[18px] py-4">
+              <div className="mb-[6px] text-[0.75rem] tracking-[.08em] text-mute">
                 PERIOD
               </div>
               <div className="text-[0.84375rem] font-medium">{project.period}</div>
             </div>
-            <div className="bg-panel px-[18px] py-4">
-              <div className="mb-[6px] font-mono text-[0.75rem] tracking-[.08em] text-muted">
+            <div className="bg-canvas px-[18px] py-4">
+              <div className="mb-[6px] text-[0.75rem] tracking-[.08em] text-mute">
                 TEAM
               </div>
               <div className="text-[0.84375rem] font-medium">{project.scale}</div>
             </div>
-            <div className="bg-panel px-[18px] py-4">
-              <div className="mb-[6px] font-mono text-[0.75rem] tracking-[.08em] text-muted">
+            <div className="bg-canvas px-[18px] py-4">
+              <div className="mb-[6px] text-[0.75rem] tracking-[.08em] text-mute">
                 CATEGORY
               </div>
               <div className="text-[0.84375rem] font-medium">{project.type}</div>
             </div>
           </div>
           <div className="mt-[18px]">
-            <div className="mb-[10px] font-mono text-[0.75rem] tracking-[.08em] text-muted">
+            <div className="mb-[10px] text-[0.75rem] tracking-[.08em] text-mute">
               STACK
             </div>
             <div className="flex flex-wrap gap-2">
               {project.stack.map((s) => (
                 <span
-                  className="rounded-badge border border-line bg-panel px-3 py-1.5 font-mono text-[0.75rem] text-ink"
+                  className="rounded-full border border-hairline bg-canvas px-3 py-1.5 text-[0.75rem] text-ink"
                   key={s}
                 >
                   {s}
@@ -189,9 +191,9 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
           <div className="mb-2 mt-[14px]">
             {project.image ? (
               <div
-                className={`relative aspect-[16/8] w-full overflow-hidden rounded-[10px] ${
-                  project.imageNoBorder ? '' : 'border border-line2'
-                } ${project.imageFit === 'contain' ? 'bg-panel' : ''}`}
+                className={`relative aspect-[16/8] w-full overflow-hidden rounded-none bg-cloud ${
+                  project.imageNoBorder ? '' : 'border border-hairline'
+                }`}
               >
                 <Image
                   src={project.image}
@@ -203,8 +205,8 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                 />
               </div>
             ) : (
-              <div className="ph-frame flex aspect-[16/8] w-full items-end rounded-[10px] border border-line2 p-4">
-                <span className="font-mono text-[0.75rem] leading-[1.4] text-muted">
+              <div className="ph-frame flex aspect-[16/8] w-full items-end rounded-none border border-hairline p-4">
+                <span className="text-[0.75rem] leading-[1.4] text-mute">
                   [img] {project.thumbnail}
                 </span>
               </div>
@@ -212,37 +214,37 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
           </div>
         )}
 
-        <section id="what-i-did" className="scroll-mt-[112px] border-t border-line py-12 toc:scroll-mt-[80px]">
-          <h2 className="mb-[26px] flex items-baseline gap-[14px] font-mono text-[0.8125rem] font-medium uppercase tracking-[.1em] text-ink">
-            <span className="text-[0.75rem] text-accent">/</span> What I did
+        <section id="what-i-did" className="scroll-mt-[112px] border-t border-hairline py-12 toc:scroll-mt-[80px]">
+          <h2 className="mb-7 border-b border-hairline pb-3 text-[1.5rem] font-medium uppercase tracking-[-0.01em] text-ink">
+            What I did
           </h2>
           <div className="flex flex-col">
             {project.highlights.map((h, i) => (
               <div
-                className="grid grid-cols-[auto_1fr] gap-4 border-t border-line py-[15px] first:border-t-0"
+                className="grid grid-cols-[auto_1fr] gap-4 border-t border-hairline py-[15px] first:border-t-0"
                 key={i}
               >
-                <span className="mt-0.5 font-mono text-[0.8125rem] text-accent">
+                <span className="mt-0.5 text-[0.8125rem] text-ink">
                   {String(i + 1).padStart(2, '0')}
                 </span>
-                <p className="text-[0.9375rem] font-normal leading-[1.7] text-ink2">{h}</p>
+                <p className="text-[0.9375rem] font-normal leading-[1.7] text-charcoal">{h}</p>
               </div>
             ))}
           </div>
         </section>
 
         {project.metrics && project.metrics.length > 0 && (
-          <section id="key-results" className="scroll-mt-[112px] border-t border-line py-12 toc:scroll-mt-[80px]">
-            <h2 className="mb-[26px] flex items-baseline gap-[14px] font-mono text-[0.8125rem] font-medium uppercase tracking-[.1em] text-ink">
-              <span className="text-[0.75rem] text-accent">/</span> Key results
+          <section id="key-results" className="scroll-mt-[112px] border-t border-hairline py-12 toc:scroll-mt-[80px]">
+            <h2 className="mb-7 border-b border-hairline pb-3 text-[1.5rem] font-medium uppercase tracking-[-0.01em] text-ink">
+              Key results
             </h2>
-            <div className="grid grid-cols-4 gap-px overflow-hidden rounded-lg border border-line bg-line max-wrap:grid-cols-2">
+            <div className="grid grid-cols-4 gap-px overflow-hidden rounded-none border border-hairline bg-hairline max-wrap:grid-cols-2">
               {project.metrics.map((m, i) => (
-                <div className="bg-panel px-[18px] py-5" key={i}>
-                  <div className="font-mono text-[clamp(1.375rem,3vw,1.75rem)] font-semibold leading-none tracking-[-.02em] text-accent">
+                <div className="bg-canvas px-[18px] py-5" key={i}>
+                  <div className="text-[clamp(1.375rem,3vw,1.75rem)] font-semibold leading-none tracking-[-.02em] text-ink">
                     {m.value}
                   </div>
-                  <div className="mt-[10px] text-[0.78125rem] font-normal leading-[1.5] text-muted">
+                  <div className="mt-[10px] text-[0.78125rem] font-normal leading-[1.5] text-mute">
                     {m.label}
                   </div>
                 </div>
@@ -252,35 +254,35 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
         )}
 
         {project.troubleshooting && project.troubleshooting.length > 0 && (
-          <section id="troubleshooting" className="scroll-mt-[112px] border-t border-line py-12 toc:scroll-mt-[80px]">
-            <h2 className="mb-[26px] flex items-baseline gap-[14px] font-mono text-[0.8125rem] font-medium uppercase tracking-[.1em] text-ink">
-              <span className="text-[0.75rem] text-accent">/</span> Troubleshooting
+          <section id="troubleshooting" className="scroll-mt-[112px] border-t border-hairline py-12 toc:scroll-mt-[80px]">
+            <h2 className="mb-7 border-b border-hairline pb-3 text-[1.5rem] font-medium uppercase tracking-[-0.01em] text-ink">
+              Troubleshooting
             </h2>
             <div className="flex flex-col gap-[18px]">
               {project.troubleshooting.map((t, i) => (
-                <div className="overflow-hidden rounded-[10px] border border-line" key={i}>
-                  <div className="flex items-baseline gap-[14px] border-b border-line bg-panel px-6 py-[18px] max-wrap:px-5">
-                    <span className="font-mono text-[0.8125rem] text-accent">
+                <div className="overflow-hidden rounded-none border border-hairline" key={i}>
+                  <div className="flex items-baseline gap-[14px] border-b border-hairline bg-canvas px-6 py-[18px] max-wrap:px-5">
+                    <span className="text-[0.8125rem] text-ink">
                       {String(i + 1).padStart(2, '0')}
                     </span>
                     <h3 className="text-[0.96875rem] font-semibold leading-[1.5] tracking-[-.01em] text-ink">
                       {t.title}
                     </h3>
                   </div>
-                  <div className="flex flex-col gap-6 bg-panel p-6 max-wrap:p-5">
+                  <div className="flex flex-col gap-6 bg-canvas p-6 max-wrap:p-5">
                     <div className="grid grid-cols-[64px_1fr] gap-x-4 gap-y-1 max-wrap:grid-cols-1 max-wrap:gap-y-1.5">
-                      <span className="font-mono text-[0.75rem] font-medium uppercase tracking-[.08em] text-ink">
+                      <span className="text-[0.75rem] font-medium uppercase tracking-[.08em] text-ink">
                         Problem
                       </span>
-                      <p className="text-[0.90625rem] font-normal leading-[1.7] text-ink2">
+                      <p className="text-[0.90625rem] font-normal leading-[1.7] text-charcoal">
                         {t.situation}
                       </p>
                     </div>
                     <div className="grid grid-cols-[64px_1fr] gap-x-4 gap-y-1 max-wrap:grid-cols-1 max-wrap:gap-y-1.5">
-                      <span className="font-mono text-[0.75rem] font-medium uppercase tracking-[.08em] text-ink">
+                      <span className="text-[0.75rem] font-medium uppercase tracking-[.08em] text-ink">
                         Goal
                       </span>
-                      <p className="text-[0.90625rem] font-normal leading-[1.7] text-ink2">{t.task}</p>
+                      <p className="text-[0.90625rem] font-normal leading-[1.7] text-charcoal">{t.task}</p>
                     </div>
                     {t.taskImage && (
                       <Image
@@ -289,18 +291,18 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                         width={t.taskImage.w}
                         height={t.taskImage.h}
                         sizes="(max-width: 920px) 100vw, 860px"
-                        className="h-auto w-full rounded-[8px] border border-line bg-panel"
+                        className="h-auto w-full rounded-none border border-hairline bg-canvas"
                         unoptimized={t.taskImage.src.endsWith('.svg')}
                       />
                     )}
                     <div className="grid grid-cols-[64px_1fr] gap-x-4 gap-y-2 max-wrap:grid-cols-1">
-                      <span className="font-mono text-[0.75rem] font-medium uppercase tracking-[.08em] text-ink">
+                      <span className="text-[0.75rem] font-medium uppercase tracking-[.08em] text-ink">
                         Action
                       </span>
                       <ul className="flex flex-col gap-[10px]">
                         {t.action.map((a, j) => (
                           <li
-                            className="relative pl-[18px] text-[0.90625rem] font-normal leading-[1.7] text-ink2 before:absolute before:left-0 before:top-[11px] before:h-[5px] before:w-[5px] before:rounded-full before:bg-line2"
+                            className="relative pl-[18px] text-[0.90625rem] font-normal leading-[1.7] text-charcoal before:absolute before:left-0 before:top-[11px] before:h-[5px] before:w-[5px] before:rounded-full before:bg-hairline"
                             key={j}
                           >
                             {a}
@@ -315,18 +317,18 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                         width={t.actionImage.w}
                         height={t.actionImage.h}
                         sizes="(max-width: 920px) 100vw, 860px"
-                        className="h-auto w-full rounded-[8px] border border-line bg-panel"
+                        className="h-auto w-full rounded-none border border-hairline bg-canvas"
                         unoptimized={t.actionImage.src.endsWith('.svg')}
                       />
                     )}
-                    <div className="grid grid-cols-[64px_1fr] gap-x-4 gap-y-2 rounded-[8px] border-l-2 border-accent bg-accent/5 p-4 max-wrap:grid-cols-1">
-                      <span className="font-mono text-[0.75rem] font-medium uppercase tracking-[.08em] text-accent">
+                    <div className="grid grid-cols-[64px_1fr] gap-x-4 gap-y-2 rounded-none border-l-2 border-ink bg-cloud p-4 max-wrap:grid-cols-1">
+                      <span className="text-[0.75rem] font-medium uppercase tracking-[.08em] text-ink">
                         Result
                       </span>
                       <ul className="flex flex-col gap-[10px]">
                         {t.result.map((r, j) => (
                           <li
-                            className="relative pl-[18px] text-[0.90625rem] font-normal leading-[1.7] text-ink2 before:absolute before:left-0 before:top-[10px] before:h-[6px] before:w-[6px] before:rounded-full before:bg-accent"
+                            className="relative pl-[18px] text-[0.90625rem] font-normal leading-[1.7] text-charcoal before:absolute before:left-0 before:top-[10px] before:h-[6px] before:w-[6px] before:rounded-full before:bg-ink"
                             key={j}
                           >
                             {r}
@@ -341,7 +343,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                         width={t.image.w}
                         height={t.image.h}
                         sizes="(max-width: 920px) 100vw, 860px"
-                        className="mt-1 h-auto w-full rounded-[8px] border border-line"
+                        className="mt-1 h-auto w-full rounded-none border border-hairline"
                         unoptimized={t.image.src.endsWith('.svg')}
                       />
                     )}
@@ -353,9 +355,9 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
         )}
 
         {project.insights && project.insights.length > 0 && (
-          <section id="insights" className="scroll-mt-[112px] border-t border-line py-12 toc:scroll-mt-[80px]">
-            <h2 className="mb-[26px] flex items-baseline gap-[14px] font-mono text-[0.8125rem] font-medium uppercase tracking-[.1em] text-ink">
-              <span className="text-[0.75rem] text-accent">/</span> Insights
+          <section id="insights" className="scroll-mt-[112px] border-t border-hairline py-12 toc:scroll-mt-[80px]">
+            <h2 className="mb-7 border-b border-hairline pb-3 text-[1.5rem] font-medium uppercase tracking-[-0.01em] text-ink">
+              Insights
             </h2>
             <div className="flex flex-col gap-9">
               {project.insights.map((ins, i) => (
@@ -364,18 +366,18 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                     {ins.title}
                   </h3>
                   {ins.intro && (
-                    <p className="mt-[14px] text-[0.9375rem] font-normal leading-[1.8] text-ink2">
+                    <p className="mt-[14px] text-[0.9375rem] font-normal leading-[1.8] text-charcoal">
                       {ins.intro}
                     </p>
                   )}
                   <div className="mt-[22px] flex flex-col gap-[14px]">
                     {ins.steps.map((s, j) => (
                       <div
-                        className="rounded-[10px] border border-line bg-panel p-6 max-wrap:p-5"
+                        className="rounded-none border border-hairline bg-canvas p-6 max-wrap:p-5"
                         key={j}
                       >
                         <div className="flex items-baseline gap-[14px]">
-                          <span className="font-mono text-[0.8125rem] text-accent">
+                          <span className="text-[0.8125rem] text-ink">
                             {String(j + 1).padStart(2, '0')}
                           </span>
                           <h4 className="text-[0.90625rem] font-semibold leading-[1.5] text-ink">
@@ -385,7 +387,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                         <ul className="mt-3 flex flex-col gap-[10px] pl-[30px]">
                           {s.points.map((p, k) => (
                             <li
-                              className="relative pl-[18px] text-[0.90625rem] font-normal leading-[1.7] text-ink2 before:absolute before:left-0 before:top-[11px] before:h-[5px] before:w-[5px] before:rounded-full before:bg-line2"
+                              className="relative pl-[18px] text-[0.90625rem] font-normal leading-[1.7] text-charcoal before:absolute before:left-0 before:top-[11px] before:h-[5px] before:w-[5px] before:rounded-full before:bg-hairline"
                               key={k}
                             >
                               {p}
@@ -414,29 +416,29 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
           </section>
         )}
 
-        <div className="flex items-center justify-between border-t border-line pb-20 pt-10">
+        <div className="flex items-center justify-between border-t border-hairline pb-20 pt-10">
           {prev ? (
             <Link
-              className="text-[0.8125rem] text-ink transition hover:text-accent"
+              className="text-[0.8125rem] text-ink transition hover:text-ink"
               href={`/projects/${prev.slug}`}
             >
               Previous project
               <br />
               <span className="font-semibold text-ink">
-                <span className="font-mono">←</span> {prev.title.split(' — ')[0]}
+                <span>←</span> {prev.title.split(' — ')[0]}
               </span>
             </Link>
           ) : (
             <span />
           )}
           <Link
-            className="text-right text-[0.8125rem] text-ink transition hover:text-accent"
+            className="text-right text-[0.8125rem] text-ink transition hover:text-ink"
             href={`/projects/${next.slug}`}
           >
             Next project
             <br />
             <span className="font-semibold text-ink">
-              {next.title.split(' — ')[0]} <span className="font-mono">→</span>
+              {next.title.split(' — ')[0]} <span>→</span>
             </span>
           </Link>
         </div>
