@@ -70,7 +70,7 @@ export default function SiteNav() {
           <div className="text-[0.75rem] font-medium tracking-[0.08em] text-mute">
             PORTFOLIO 2026
           </div>
-          <Link href="/" className="mt-7 block">
+          <div className="mt-7">
             <div className="text-[1.25rem] font-medium leading-[1.15] tracking-[-0.01em] text-ink">
               SHIN
               <br />
@@ -79,7 +79,7 @@ export default function SiteNav() {
             <div className="mt-1.5 text-[0.78125rem] font-medium tracking-[0.02em] text-mute">
               FRONTEND DEVELOPER
             </div>
-          </Link>
+          </div>
 
           {/* 세로 nav — active = 좌측 2px ink 바 */}
           <nav className="mt-10 flex flex-col gap-0.5">
