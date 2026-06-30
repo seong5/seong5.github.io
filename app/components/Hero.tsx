@@ -21,23 +21,6 @@ export default function Hero() {
         피드백과 문제 지점을 파고들어 눈에 보이는 성과로 전환하여, 사용할수록 더욱 나아지는 서비스는
         만드는데 집중합니다.
       </p>
-      <div className="mt-10 flex flex-wrap gap-[10px]">
-        <span className="rounded-badge border border-line bg-panel px-3 py-1.5 font-mono text-[0.78125rem] text-ink2">
-          React · Next.js
-        </span>
-        <span className="rounded-badge border border-line bg-panel px-3 py-1.5 font-mono text-[0.78125rem] text-ink2">
-          TypeScript
-        </span>
-        <span className="rounded-badge border border-line bg-panel px-3 py-1.5 font-mono text-[0.78125rem] text-ink2">
-          Tailwind CSS
-        </span>
-        <span className="rounded-badge border border-line bg-panel px-3 py-1.5 font-mono text-[0.78125rem] text-ink2">
-          Zustand · Tanstack Query
-        </span>
-        <span className="rounded-badge border border-line bg-panel px-3 py-1.5 font-mono text-[0.78125rem] text-ink2">
-          Zod · Jest
-        </span>
-      </div>
     </header>
   );
 }
