@@ -8,6 +8,12 @@ import SectionHead from './SectionHead';
 const INITIAL_COUNT = 3;
 
 function ProjectCard({ p }: { p: Project }) {
+  const shown = p.stack.slice(0, 6);
+  // GitHub Actions는 stack 뒤쪽에 있어도 카드에 항상 노출
+  if (p.stack.includes('GitHub Actions') && !shown.includes('GitHub Actions')) {
+    shown.push('GitHub Actions');
+  }
+
   return (
     <Link
       className="group relative block -mx-[22px] rounded-lg border-t border-line px-[22px] py-[34px] transition-all duration-[180ms] first:border-t-0 first:pt-[8px] hover:proj-hover"
@@ -27,7 +33,7 @@ function ProjectCard({ p }: { p: Project }) {
         {p.summary}
       </p>
       <div className="mt-[18px] flex flex-wrap gap-[7px]">
-        {p.stack.slice(0, 6).map((s) => (
+        {shown.map((s) => (
           <span
             className="rounded-badge border border-line bg-panel px-[9px] py-1 font-mono text-[0.75rem] text-muted"
             key={s}
