@@ -185,7 +185,10 @@ export const projects: Project[] = [
         action: [
           "1차로 세션 첫 사용 시점부터 5시간 윈도우 총사용량을 계산하는 방식(5시간마다 리셋되는 점에 착안)으로 전환했으나, 이 값도 실제 /usage·Claude 앱·웹과 일치하지 않았습니다.",
           "'Claude Code 로그인 OAuth 토큰을 재사용하면 과금 없이 실제 사용량을 조회할 수 있지 않을까'라는 가설을 세우고 구글링·CLI 탐색으로 검증했습니다.",
-          "그 결과 토큰 저장 우선순위를 3단계로 파악했습니다 — ① 환경변수(ANTHROPIC_OAUTH_ACCESS_TOKEN)·.env, ② ~/.claude/.credentials.json의 claudeAiOauth.accessToken, ③ macOS Keychain(security find-generic-password).",
+          "그 결과 토큰 저장 우선순위를 다음 순서로 파악했습니다.",
+          "\t환경변수(ANTHROPIC_OAUTH_ACCESS_TOKEN)·.env",
+          "\t~/.claude/.credentials.json의 claudeAiOauth.accessToken",
+          "\tmacOS Keychain(security find-generic-password)",
           "이 순서로 확보한 토큰으로 실제 사용량 엔드포인트를 호출해 위젯 데이터를 가져오도록 구현했습니다.",
         ],
         result: [

@@ -300,14 +300,21 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                         Action
                       </span>
                       <ul className="flex flex-col gap-[10px]">
-                        {t.action.map((a, j) => (
-                          <li
-                            className="relative pl-[18px] text-[0.90625rem] font-normal leading-[1.7] text-charcoal before:absolute before:left-0 before:top-[11px] before:h-[5px] before:w-[5px] before:rounded-full before:bg-hairline"
-                            key={j}
-                          >
-                            {a}
-                          </li>
-                        ))}
+                        {t.action.map((a, j) => {
+                          const isSub = a.startsWith('\t');
+                          return (
+                            <li
+                              className={
+                                isSub
+                                  ? 'relative ml-[18px] pl-[18px] text-[0.90625rem] font-normal leading-[1.7] text-charcoal before:absolute before:left-0 before:top-[10px] before:h-[5px] before:w-[5px] before:rounded-full before:border before:border-mute'
+                                  : 'relative pl-[18px] text-[0.90625rem] font-normal leading-[1.7] text-charcoal before:absolute before:left-0 before:top-[11px] before:h-[5px] before:w-[5px] before:rounded-full before:bg-hairline'
+                              }
+                              key={j}
+                            >
+                              {isSub ? a.slice(1) : a}
+                            </li>
+                          );
+                        })}
                       </ul>
                     </div>
                     {t.actionImage && (
