@@ -113,7 +113,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
               <div className="mb-[6px] text-[0.75rem] tracking-[.08em] text-mute">
                 TEAM
               </div>
-              <div className="text-[0.84375rem] font-medium">{project.scale}</div>
+              <div className="whitespace-nowrap text-[0.84375rem] font-medium">{project.scale}</div>
             </div>
             <div className="bg-canvas px-[18px] py-4">
               <div className="mb-[6px] text-[0.75rem] tracking-[.08em] text-mute">
@@ -262,10 +262,10 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
               {project.troubleshooting.map((t, i) => (
                 <div className="overflow-hidden rounded-none border border-hairline" key={i}>
                   <div className="flex items-baseline gap-[14px] border-b border-hairline bg-canvas px-6 py-[18px] max-wrap:px-5">
-                    <span className="text-[0.8125rem] text-ink">
+                    <span className="text-[1rem] font-semibold text-ink">
                       {String(i + 1).padStart(2, '0')}
                     </span>
-                    <h3 className="text-[0.96875rem] font-semibold leading-[1.5] tracking-[-.01em] text-ink">
+                    <h3 className="text-[1.1875rem] font-semibold leading-[1.4] tracking-[-.01em] text-ink">
                       {t.title}
                     </h3>
                   </div>
