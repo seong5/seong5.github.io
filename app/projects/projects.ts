@@ -195,7 +195,7 @@ export const projects: Project[] = [
           "호출당 과금 없이, 이미 발급된 로그인 토큰을 재사용해 실제 사용량을 조회하게 되었습니다.",
           "위젯 값이 /usage·Claude 앱·웹과 일치해 신뢰할 수 있는 수치를 상주 표시합니다.",
         ],
-        image: { src: "/projects/claude-log-token-priority.png", w: 1470, h: 1330 },
+        image: { src: "/projects/claude-log-token-priority.png", w: 1436, h: 1310 },
       },
       {
         title: "단일 동작에서 발생하는 사용량 조회 오류 메시지 해결",
