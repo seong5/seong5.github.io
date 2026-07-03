@@ -54,7 +54,7 @@ function toResumeTag(p: Project): string | undefined {
     if (v === '1m') return p.org.includes('코드잇') ? '1개월 · 코드잇' : '1개월';
     if (v === '3w') return '3주 · 코드잇';
   }
-  if (p.active && p.org.includes('개인')) return '개인 · Active';
+  if (p.active && p.org.includes('개인')) return '개인 · Current';
   if (p.slug === 'deckly') return '1개월 · 인턴';
   if (p.slug === 'umust-erp' || p.slug === 'dobong-admin') return '인턴';
   if (p.scale === '1개월 협업') return '1개월 · 코드잇';
