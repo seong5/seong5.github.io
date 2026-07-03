@@ -62,7 +62,7 @@ export default function ProjectToc({ sections }: { sections: TocSection[] }) {
       </nav>
 
       {/* 좁은 화면: 상단 바 아래 sticky 가로 탭 목차 */}
-      <nav className="sticky top-[62px] z-[8] border-b border-hairline bg-white/90 backdrop-blur-[8px] toc:hidden">
+      <nav className="sticky top-[62px] z-[8] border-b border-hairline bg-canvas/90 backdrop-blur-[8px] toc:hidden">
         <ul className="mx-auto flex max-w-[920px] gap-1.5 overflow-x-auto px-8 py-2.5 max-wrap:px-[22px] [&::-webkit-scrollbar]:hidden">
           {sections.map((s) => (
             <li key={s.id}>

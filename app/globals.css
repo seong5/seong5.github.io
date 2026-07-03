@@ -2,25 +2,29 @@
 
 @theme {
   /* ──────────────────────────────────────────────────────────
-     Nike 디자인 시스템 토큰 (Phase 0)
-     순흑/백 + 단일 그레이. 액센트는 sale/success/info(semantic)만.
+     Warm Editorial 디자인 시스템 토큰
+     Beige(#F5EFE0) 배경 + Dark Gray(#1A1A1A) 전경. 회색은 새 색을
+     더하지 않고 잉크를 베이지 위에 합성한 웜 그레이로 파생. 대비 AA 이상.
+     액센트는 sale/success/info(semantic)만.
      ────────────────────────────────────────────────────────── */
 
   /* Brand & surface → bg-ink, bg-canvas, bg-cloud … */
-  --color-ink: #111111; /* 브랜드 블랙 — CTA, 헤드라인, 본문 */
-  --color-canvas: #ffffff; /* 페이지 배경 */
-  --color-cloud: #f5f5f5; /* soft-cloud — 제품 사진 스테이지, secondary pill */
-  --color-on-primary: #ffffff; /* ink 위 반전 텍스트 */
+  --color-ink: #1a1a1a; /* Dark Gray — CTA, 헤드라인, 본문, 다크 서피스 배경 */
+  --color-canvas: #f5efe0; /* Beige — 페이지 배경 */
+  --color-cloud: #ebe3d2; /* 배경보다 한 단계 진한 베이지 — 카드 스테이지·secondary pill */
+  --color-surface: #ebe3d2; /* recessed 콘텐츠 카드 면 (Troubleshooting·Insights 컨테이너) */
+  --color-surface-deep: #e2d9c4; /* 카드 위 강조 블록 (Result 등) */
+  --color-on-primary: #f5efe0; /* ink(다크) 위 반전 텍스트 = 베이지 */
 
-  /* Text scale (light surface) */
-  --color-charcoal: #39393b; /* ink보다 약간 가벼운 본문 */
-  --color-ash: #4b4b4d;
-  --color-mute: #707072; /* 서브타이틀, 메타, 푸터 링크 */
-  --color-stone: #9e9ea0; /* dark surface 위 보조 텍스트 */
+  /* Text scale (light surface) — 잉크를 베이지 위 합성한 웜 그레이 */
+  --color-charcoal: #343432; /* 잉크 88% — 약간 가벼운 본문 */
+  --color-ash: #575651; /* 잉크 72% */
+  --color-mute: #6d6b65; /* 잉크 62% — 서브타이틀·메타·링크 (베이지 위 4.6:1) */
+  --color-stone: #99968d; /* 잉크 42% — 보조·다크 서피스 위 텍스트 */
 
-  /* Hairline (유일한 구분선·"섀도") */
-  --color-hairline: #cacacb; /* 1px 디바이더 */
-  --color-hairline-soft: #e5e5e5; /* sticky bar inset 라인 */
+  /* Hairline (유일한 구분선·"섀도") — 웜 톤 */
+  --color-hairline: #d2cdc0; /* 잉크 16% — 1px 디바이더 */
+  --color-hairline-soft: #e1dcce; /* 잉크 9% — sticky bar inset 라인 */
 
   /* Semantic (retail chrome에서 유일하게 허용되는 컬러) */
   --color-sale: #d30005;
@@ -31,6 +35,7 @@
   --color-info-deep: #0034e3;
 
   /* ── Radius — pill geometry (none/sm/md/lg/full) ── */
+  --radius-card: 10px; /* 콘텐츠 카드·프레임 미세 라운드 (직각 시그니처는 유지) */
   --radius-sm: 18px; /* 아바타/아이콘 컨테이너 */
   --radius-md: 24px; /* search pill, filter input */
   --radius-lg: 30px; /* 모든 CTA pill */
