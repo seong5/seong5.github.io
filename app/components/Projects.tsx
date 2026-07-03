@@ -16,7 +16,7 @@ function cardImage(p: Project): string | undefined {
   return p.image ?? p.gallery?.[0]?.src;
 }
 
-function ProjectCard({ p }: { p: Project }) {
+function ProjectCard({ p, featured = false }: { p: Project; featured?: boolean }) {
   const img = cardImage(p);
   const stack = p.stack.slice(0, 4);
   const org = p.org.split(' · ')[0];
@@ -49,23 +49,27 @@ function ProjectCard({ p }: { p: Project }) {
         </div>
         <h3 className="text-[1.0625rem] font-medium leading-[1.35] tracking-[-0.01em] text-ink">
           {p.title}
-          <span className="ml-1.5 inline-block text-mute transition-transform duration-200 group-hover:translate-x-1 group-hover:text-ink">
-            →
-          </span>
+          {!featured && (
+            <span className="ml-1.5 inline-block text-mute transition-transform duration-200 group-hover:translate-x-1 group-hover:text-ink">
+              →
+            </span>
+          )}
         </h3>
         <p className="line-clamp-2 text-[0.875rem] leading-[1.6] text-mute break-keep">
           {p.summary}
         </p>
-        <div className="mt-1 flex flex-wrap gap-1.5">
-          {stack.map((s) => (
-            <span
-              key={s}
-              className="rounded-full border border-hairline px-2.5 py-0.5 text-[0.6875rem] font-medium text-mute"
-            >
-              {s}
-            </span>
-          ))}
-        </div>
+        {!featured && (
+          <div className="mt-1 flex flex-wrap gap-1.5">
+            {stack.map((s) => (
+              <span
+                key={s}
+                className="rounded-full border border-hairline px-2.5 py-0.5 text-[0.6875rem] font-medium text-mute"
+              >
+                {s}
+              </span>
+            ))}
+          </div>
+        )}
       </div>
     </Link>
   );
@@ -86,7 +90,7 @@ export default function Projects() {
       {/* 상단: 대표 3개 */}
       <div className={GRID_CLS}>
         {initial.map((p) => (
-          <ProjectCard key={p.slug} p={p} />
+          <ProjectCard key={p.slug} p={p} featured />
         ))}
       </div>
 
