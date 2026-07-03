@@ -70,7 +70,7 @@ const PROJECTS = projects.map((p) => ({
   org: p.org,
   desc: p.summary,
   points: p.resumeBullets ?? p.highlights.slice(0, 3),
-  stack: p.stack,
+  stack: p.resumeStack ?? p.stack,
 }));
 
 const PROJECTS_PAGE_1 = PROJECTS.slice(0, 3);
@@ -82,32 +82,43 @@ const CAREER = [
     tag: '3개월',
     title: 'UMUST R&D',
     org: '프론트엔드 인턴 · 사업부 IT팀',
-    desc: '도봉라이프 어드민 서비스 구축을 담당하고, 사내 ERP·CRO 서비스의 프론트엔드 구축과 통합까지 진행.',
-    points: [],
+    points: [
+      '사업부 IT팀 소속으로 사내 서비스 프론트엔드 전반 담당',
+      '기획·디자인 협업부터 배포까지 풀사이클로 참여',
+      '초기 2개월 계약 후 연장되어 총 3개월 근무',
+    ],
   },
   {
     period: '2025.12 — 2026.01',
     tag: '1개월',
     title: '똑똑한개발자',
     org: '프론트엔드 인턴 · TF팀',
-    desc: 'Deckly(AI 사업제안서 자동화 SaaS) 개발 참여. 응답 데이터·네트워크 요청 최적화, Admin 사용자 트래킹 구현.',
-    points: [],
+    points: [
+      'TF팀에 프론트엔드로 투입되어 신규 SaaS 제품 기능 개발 기여',
+      '단기 온보딩 후 실제 배포 기능을 담당',
+    ],
   },
   {
     period: '2023.01 — 2025.01',
     tag: '2년',
     title: 'JFounders',
     org: 'F&B 사업부 · 지점장',
-    desc: '프랜차이즈 카페·자사 샐러드 매장 운영 총괄. 인사·재정·마케팅·발주 관리, 근거리 직접 배달로 월 매출 최대 17% 증가, 상황별 매뉴얼 제작으로 운영 자동화.',
-    points: [],
+    points: [
+      '프랜차이즈 카페·자사 샐러드 매장 운영 총괄',
+      '인사·재정·마케팅·발주 관리',
+      '근거리 직접 배달로 월 매출 최대 17% 증가',
+      '상황별 매뉴얼 제작으로 운영 자동화',
+    ],
   },
   {
     period: '2018.11 — 2019.06',
     tag: '7개월',
     title: '호주 워킹홀리데이',
     org: 'Sydney, AU',
-    desc: '시드니 체류 중 다양한 환경에서 근무하며 외국어 소통 능력과 여러 국가의 문화를 경험. 장기 목표를 계획하고 달성.',
-    points: [],
+    points: [
+      '다양한 환경에서 근무하며 외국어 소통 능력·다국적 문화 경험',
+      '장기 목표를 계획하고 달성',
+    ],
   },
 ];
 
@@ -146,9 +157,7 @@ function SectionTitle({
     <div className="mb-[18px] flex items-end justify-between gap-3 border-b border-hairline pb-[10px]">
       <div className="flex min-w-0 items-baseline gap-3">
         <span className="text-[0.875rem] text-ink">{no}</span>
-        <h2 className="text-[0.875rem] font-medium uppercase tracking-[.14em] text-ink">
-          {en}
-        </h2>
+        <h2 className="text-[0.875rem] font-medium uppercase tracking-[.14em] text-ink">{en}</h2>
         <span className="text-[0.8125rem] text-mute">{ko}</span>
       </div>
       {action}
@@ -169,22 +178,22 @@ function Entry({
   tag?: string;
   title: string;
   org?: string;
-  desc: string;
+  desc?: string;
   points?: string[];
   stack?: string[];
 }) {
   return (
     <div className="avoid-break grid grid-cols-[112px_1fr] gap-x-5">
       <div>
-        <div className="whitespace-nowrap text-[0.71875rem] leading-[1.5] text-ink">
-          {period}
-        </div>
+        <div className="whitespace-nowrap text-[0.71875rem] leading-[1.5] text-ink">{period}</div>
         {tag ? <div className="mt-1 text-[0.6875rem] text-mute">{tag}</div> : null}
       </div>
       <div>
         <h3 className="text-[0.96875rem] font-semibold tracking-[-.01em] text-ink">{title}</h3>
         {org ? <div className="mt-[3px] text-[0.71875rem] text-mute">{org}</div> : null}
-        <p className="mt-[7px] text-[0.8125rem] font-normal leading-[1.6] text-charcoal">{desc}</p>
+        {desc ? (
+          <p className="mt-[7px] text-[0.8125rem] font-normal leading-[1.6] text-charcoal">{desc}</p>
+        ) : null}
         {points.length > 0 ? (
           <ul className="mt-2 flex flex-col gap-[3px]">
             {points.map((p) => (
@@ -224,13 +233,10 @@ function PageFooter({ n }: { n: number }) {
 
 export default function ResumePage() {
   return (
-    <div className="resume-shell min-h-screen">
+    <div className="resume-shell min-h-screen bg-white">
       {/* 상단 컨트롤 바 (인쇄 시 숨김) */}
-      <div className="no-print fixed inset-x-0 top-0 z-10 flex items-center justify-between border-b border-hairline bg-[rgba(255,255,255,0.92)] px-5 py-3 backdrop-blur-[8px]">
-        <Link
-          href="/"
-          className="text-[0.78125rem] text-mute transition-colors hover:text-ink"
-        >
+      <div className="no-print fixed inset-x-0 top-0 z-10 flex items-center justify-between border-b border-hairline bg-white/92 px-5 py-3 backdrop-blur-[8px]">
+        <Link href="/" className="text-[0.78125rem] text-mute transition-colors hover:text-ink">
           ← 포트폴리오
         </Link>
         <div className="text-[0.75rem] text-mute">입사지원서</div>
@@ -238,10 +244,10 @@ export default function ResumePage() {
       </div>
 
       {/* ───────── PAGE 1 ───────── */}
-      <section className="resume-page flex w-[210mm] h-[297mm] overflow-hidden flex-col bg-canvas px-[17mm] py-[15mm]">
+      <section className="resume-page flex w-[210mm] h-[297mm] overflow-hidden flex-col bg-white px-[17mm] py-[15mm]">
         <header className="flex items-start justify-between border-b-2 border-ink pb-[18px]">
           <div className="flex items-start gap-[18px]">
-            <div className="relative h-[40mm] w-[30mm] shrink-0 overflow-hidden rounded-[3px] border border-hairline bg-canvas">
+            <div className="relative h-[40mm] w-[30mm] shrink-0 overflow-hidden rounded-[3px] border border-hairline bg-white">
               <Image
                 src="/profile.png"
                 alt="신성오 증명사진"
@@ -252,9 +258,7 @@ export default function ResumePage() {
               />
             </div>
             <div>
-              <div className="text-[0.6875rem] tracking-[.1em] text-mute">
-                입사지원서
-              </div>
+              <div className="text-[0.6875rem] tracking-[.1em] text-mute">입사지원서</div>
               <h1 className="mt-[10px] text-[1.75rem] font-semibold leading-[1.15] tracking-[-.01em]">
                 신성오 <span className="text-[1.25rem] font-normal text-mute">Shin Seong-oh</span>
               </h1>
@@ -362,7 +366,7 @@ export default function ResumePage() {
                   {s.items.map((i) => (
                     <span
                       key={i}
-                      className="rounded-full border border-hairline bg-canvas px-[9px] py-[3px] text-[0.75rem] text-ink"
+                      className="rounded-full border border-hairline bg-white px-[9px] py-[3px] text-[0.75rem] text-ink"
                     >
                       {i}
                     </span>
@@ -377,7 +381,7 @@ export default function ResumePage() {
       </section>
 
       {/* ───────── PAGE 2 ───────── */}
-      <section className="resume-page flex w-[210mm] h-[297mm] overflow-hidden flex-col bg-canvas px-[17mm] py-[15mm]">
+      <section className="resume-page flex w-[210mm] h-[297mm] overflow-hidden flex-col bg-white px-[17mm] py-[15mm]">
         <SectionTitle
           no="03"
           en="Projects"
@@ -401,7 +405,7 @@ export default function ResumePage() {
       </section>
 
       {/* ───────── PAGE 3 ───────── */}
-      <section className="resume-page flex w-[210mm] h-[297mm] overflow-hidden flex-col bg-canvas px-[17mm] py-[15mm]">
+      <section className="resume-page flex w-[210mm] h-[297mm] overflow-hidden flex-col bg-white px-[17mm] py-[15mm]">
         <div className="flex flex-col gap-[22px]">
           {PROJECTS_PAGE_2.map((p) => (
             <Entry key={p.slug} {...p} />
@@ -411,7 +415,7 @@ export default function ResumePage() {
       </section>
 
       {/* ───────── PAGE 4 ───────── */}
-      <section className="resume-page flex w-[210mm] h-[297mm] overflow-hidden flex-col bg-canvas px-[17mm] py-[15mm]">
+      <section className="resume-page flex w-[210mm] h-[297mm] overflow-hidden flex-col bg-white px-[17mm] py-[15mm]">
         <div>
           <SectionTitle no="04" en="Experience" ko="경험" />
           <div className="flex flex-col gap-[18px]">
