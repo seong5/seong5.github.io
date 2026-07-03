@@ -151,7 +151,8 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                     height={g.h}
                     sizes="(max-width: 920px) 100vw, 300px"
                     className="h-auto max-h-[440px] w-auto max-w-full"
-                    priority={i < 3}
+                    loading={i < 3 ? 'eager' : 'lazy'}
+                    fetchPriority={i === 0 ? 'high' : undefined}
                   />
                 </div>
               ))}
@@ -168,7 +169,8 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                       height={g.h}
                       sizes="(max-width: 920px) 50vw, 460px"
                       className="h-auto max-h-[440px] w-auto max-w-full"
-                      priority
+                      loading="eager"
+                      fetchPriority={i === 0 ? 'high' : undefined}
                     />
                   </div>
                 ))}
@@ -201,7 +203,8 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                   fill
                   sizes="(max-width: 920px) 100vw, 920px"
                   className={project.imageFit === 'contain' ? 'object-contain' : 'object-cover'}
-                  priority
+                  loading="eager"
+                  fetchPriority="high"
                 />
               </div>
             ) : (
