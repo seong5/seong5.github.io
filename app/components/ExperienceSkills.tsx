@@ -2,14 +2,14 @@ import SectionHead from './SectionHead';
 
 const EXPERIENCE = [
   {
-    period: '2026.03 — 현재',
+    period: '2026.03 — 2026.06',
     tag: '3개월',
     org: 'UMUST R&D',
     role: '프론트엔드 인턴 · 사업부 IT팀',
     points: [
       '도봉라이프 어드민 서비스 구축 담당',
       '사내 ERP·CRO 서비스 프론트엔드 구축·통합 진행',
-      '초기 2개월 이후 연장되어 현재까지 근무 중',
+      '초기 2개월 이후 연장되어 총 3개월 근무',
     ],
   },
   {
