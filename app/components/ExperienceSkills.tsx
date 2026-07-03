@@ -41,10 +41,11 @@ const EXPERIENCE = [
 ];
 
 const SKILLS = [
-  { label: 'Core', items: ['JavaScript (ES6+)', 'TypeScript', 'React', 'Next.js (App Router)'] },
+  { label: 'Framework', items: ['React', 'Next.js (App Router)'] },
+  { label: 'Language', items: ['JavaScript (ES6+)', 'TypeScript'] },
   { label: 'State', items: ['Zustand', 'Tanstack Query', 'React Hook Form'] },
   { label: 'Styling', items: ['Tailwind CSS', 'Styled-components'] },
-  { label: 'Quality / Test', items: ['Zod', 'Jest', 'ESLint', 'Prettier', 'Storybook'] },
+  { label: 'Quality / Test', items: ['Zod', 'Jest', 'Playwright', 'Storybook'] },
   { label: 'Deploy / Infra', items: ['Vercel', 'GitHub Actions', 'AWS', 'Supabase'] },
 ];
 
