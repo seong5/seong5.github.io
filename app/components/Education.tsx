@@ -1,17 +1,24 @@
 import SectionHead from './SectionHead';
 
-const EDUCATION = [
+const EDUCATION: {
+  period: string;
+  status: string;
+  name: string;
+  desc: string;
+  items?: string[];
+}[] = [
   {
     period: '2025.02 — 2025.08',
     status: '수료',
     name: '코드잇 스프린트',
-    desc: '프론트엔드 엔지니어 15기 (협업 프로젝트 중심 실무형 교육)',
+    desc: '프론트엔드 엔지니어 15기',
   },
   {
     period: '2025.08 — 현재',
     status: '수강',
     name: '인프런',
-    desc: 'Docker / React Native / Java · Spring (백엔드 확장 학습)',
+    desc: '필요한 지식에 대한 확장',
+    items: ['Docker', 'React Native', 'Java · Spring'],
   },
   {
     period: '졸업예정',
@@ -40,6 +47,18 @@ export default function Education() {
             </div>
             <div className="text-[0.90625rem] font-normal leading-[1.6] text-charcoal break-keep">
               <b className="font-medium text-ink">{e.name}</b> — {e.desc}
+              {e.items && (
+                <ul className="mt-2 flex flex-col gap-1">
+                  {e.items.map((it) => (
+                    <li
+                      key={it}
+                      className="relative pl-[16px] before:absolute before:left-0 before:top-[10px] before:h-[4px] before:w-[4px] before:rounded-full before:bg-mute"
+                    >
+                      {it}
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
           </div>
         ))}
