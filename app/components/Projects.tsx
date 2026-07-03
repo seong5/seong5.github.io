@@ -23,7 +23,7 @@ function ProjectCard({ p, featured = false }: { p: Project; featured?: boolean }
 
   return (
     <Link href={`/projects/${p.slug}`} className="group flex flex-col">
-      <div className="relative aspect-[4/3] w-full overflow-hidden bg-cloud">
+      <div className="relative aspect-[4/3] w-full overflow-hidden rounded-card bg-cloud">
         {img ? (
           <Image
             src={img}
@@ -63,7 +63,7 @@ function ProjectCard({ p, featured = false }: { p: Project; featured?: boolean }
             {stack.map((s) => (
               <span
                 key={s}
-                className="rounded-full border border-hairline px-2.5 py-0.5 text-[0.6875rem] font-medium text-mute"
+                className="rounded-full border border-hairline bg-cloud px-2.5 py-0.5 text-[0.6875rem] font-medium text-mute"
               >
                 {s}
               </span>
