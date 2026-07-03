@@ -71,13 +71,8 @@ export default function SiteNav() {
             PORTFOLIO 2026
           </div>
           <div className="mt-7">
-            <div className="text-[1.25rem] font-medium leading-[1.15] tracking-[-0.01em] text-ink">
-              SHIN
-              <br />
-              SEONG-OH
-            </div>
-            <div className="mt-1.5 text-[0.78125rem] font-medium tracking-[0.02em] text-mute">
-              FRONTEND DEVELOPER
+            <div className="whitespace-nowrap text-[1.25rem] font-medium leading-[1.15] tracking-[-0.01em] text-ink">
+              SHIN SEONG-OH
             </div>
           </div>
 
