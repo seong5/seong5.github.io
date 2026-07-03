@@ -8,7 +8,7 @@ const EXPERIENCE = [
     role: '프론트엔드 인턴 · 사업부 IT팀',
     points: [
       '도봉라이프 어드민 서비스 구축 담당',
-      '사내 ERP·CRO 서비스 프론트엔드 구축·통합 진행',
+      '사내 ERP·CRO 프론트엔드 구축·통합 진행',
       '초기 2개월 이후 연장되어 총 3개월 근무',
     ],
   },
@@ -17,7 +17,7 @@ const EXPERIENCE = [
     tag: '1개월',
     org: '똑똑한개발자',
     role: '프론트엔드 인턴 · TF팀',
-    points: ['Deckly(AI 사업제안서 자동화 SaaS) 개발 참여', 'Admin 사용자 트래킹 구현'],
+    points: ['Deckly(AI 사업제안서 자동화 SaaS) 개발', 'Admin 사용자 트래킹 구현'],
   },
   {
     period: '2023.01 — 2025.01',
@@ -36,7 +36,7 @@ const EXPERIENCE = [
     tag: '7개월',
     org: '호주 워킹홀리데이',
     role: 'Sydney, AU',
-    points: ['다양한 환경에서 근무하며 외국어 소통 능력·다국적 문화 경험'],
+    points: ['다양한 환경에서 근무하며 외국어 소통 능력', '어학원 생활을 통한 다국적 문화 경험'],
   },
 ];
 
@@ -63,7 +63,7 @@ export default function ExperienceSkills() {
             {EXPERIENCE.map((e) => (
               <div
                 key={e.org}
-                className="grid grid-cols-[140px_1fr] gap-x-6 border-t border-hairline py-6 first:border-t-0 max-nav:grid-cols-1 max-nav:gap-y-2"
+                className="grid grid-cols-[140px_1fr] gap-x-6 border-t border-hairline py-6 first:border-t-0 first:pt-0 max-nav:grid-cols-1 max-nav:gap-y-2"
               >
                 <div>
                   <div className="text-[0.8125rem] font-medium text-ink">{e.period}</div>
