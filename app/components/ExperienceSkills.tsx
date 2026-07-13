@@ -66,11 +66,11 @@ export default function ExperienceSkills() {
                 className="grid grid-cols-[140px_1fr] gap-x-6 border-t border-hairline py-6 first:border-t-0 first:pt-0 max-nav:grid-cols-1 max-nav:gap-y-2"
               >
                 <div>
-                  <div className="text-[0.8125rem] font-medium text-ink">{e.period}</div>
+                  <div className="text-[0.8125rem] font-medium tabular-nums text-paper">{e.period}</div>
                   <div className="mt-0.5 text-[0.75rem] font-medium text-mute">{e.tag}</div>
                 </div>
                 <div>
-                  <h4 className="text-[1rem] font-medium tracking-[-0.01em] text-ink">{e.org}</h4>
+                  <h4 className="text-[1rem] font-medium tracking-[-0.01em] text-paper">{e.org}</h4>
                   <div className="mt-0.5 text-[0.8125rem] font-medium text-mute">{e.role}</div>
                   <ul className="mt-2.5 flex flex-col gap-1.5">
                     {e.points.map((p) => (
@@ -101,7 +101,7 @@ export default function ExperienceSkills() {
                   {g.items.map((i) => (
                     <span
                       key={i}
-                      className="rounded-full border border-hairline bg-cloud px-3.5 py-1.5 text-[0.8125rem] font-medium text-ink"
+                      className="rounded-full border border-hairline bg-cloud px-3.5 py-1.5 text-[0.8125rem] font-medium text-paper"
                     >
                       {i}
                     </span>

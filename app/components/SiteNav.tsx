@@ -67,7 +67,7 @@ export default function SiteNav() {
       {/* ── 데스크톱: 좌측 고정 사이드바 ── */}
       <aside className="sticky top-0 flex h-screen flex-col justify-between border-r border-hairline bg-canvas px-7 py-9 max-nav:hidden">
         <div>
-          <div className="text-[0.75rem] font-medium tracking-[0.08em] text-mute">
+          <div className="text-[0.75rem] font-medium tracking-[0.08em] text-ink-mute">
             PORTFOLIO 2026
           </div>
           <div className="mt-7">
@@ -85,13 +85,13 @@ export default function SiteNav() {
                 onClick={(e) => handleNavClick(e, n.id)}
                 className={`group flex items-center gap-3 border-l-2 py-2 pl-3 text-[0.9375rem] font-medium transition-colors ${
                   active === n.id
-                    ? 'border-ink text-ink'
-                    : 'border-transparent text-mute hover:text-ink'
+                    ? 'border-accent text-accent'
+                    : 'border-transparent text-ink-mute hover:text-accent'
                 }`}
               >
                 <span
                   className={`text-[0.75rem] tabular-nums ${
-                    active === n.id ? 'text-ink' : 'text-stone group-hover:text-ink'
+                    active === n.id ? 'text-accent' : 'text-ink-stone group-hover:text-accent'
                   }`}
                 >
                   {String(i + 1).padStart(2, '0')}
@@ -103,16 +103,16 @@ export default function SiteNav() {
         </div>
 
         {/* 하단: 연락처 */}
-        <div className="flex flex-col gap-0.5 text-[0.75rem] leading-[1.7] text-mute">
+        <div className="flex flex-col gap-0.5 text-[0.75rem] leading-[1.7] text-ink-mute">
           <span>Seoul, KR</span>
-          <a href="mailto:greenbi0852@gmail.com" className="transition-colors hover:text-ink">
+          <a href="mailto:greenbi0852@gmail.com" className="transition-colors hover:text-accent">
             greenbi0852@gmail.com
           </a>
           <a
             href="https://github.com/seong5"
             target="_blank"
             rel="noreferrer"
-            className="transition-colors hover:text-ink"
+            className="transition-colors hover:text-accent"
           >
             github.com/seong5
           </a>
@@ -160,13 +160,13 @@ export default function SiteNav() {
                 href={`#${n.id}`}
                 onClick={(e) => handleNavClick(e, n.id)}
                 className={`block py-3 text-[1rem] font-medium ${
-                  active === n.id ? 'text-ink' : 'text-mute'
+                  active === n.id ? 'text-accent' : 'text-ink-mute'
                 }`}
               >
                 {n.label}
               </a>
             ))}
-            <div className="mt-2 flex flex-col gap-0.5 border-t border-hairline-soft py-4 text-[0.75rem] leading-[1.7] text-mute">
+            <div className="mt-2 flex flex-col gap-0.5 border-t border-hairline-soft py-4 text-[0.75rem] leading-[1.7] text-ink-mute">
               <span>Seoul, KR</span>
               <a href="mailto:greenbi0852@gmail.com">greenbi0852@gmail.com</a>
               <a href="https://github.com/seong5" target="_blank" rel="noreferrer">

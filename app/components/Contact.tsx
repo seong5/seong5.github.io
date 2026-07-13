@@ -23,7 +23,7 @@ export default function Contact() {
           <a
             key={label}
             href={href}
-            className="flex items-center justify-start gap-3 py-3 text-[0.875rem] text-ink transition-colors hover:text-mute"
+            className="flex items-center justify-start gap-3 py-3 text-[0.875rem] text-paper transition-colors hover:text-mute"
             {...(external ? { target: '_blank', rel: 'noreferrer' } : {})}
           >
             <span>

@@ -41,12 +41,12 @@ export default function Education() {
             key={e.name}
             className="grid grid-cols-[130px_92px_1fr] items-baseline gap-5 border-t border-hairline py-5 first:border-t-0 max-nav:grid-cols-1 max-nav:gap-[3px] max-nav:py-[18px]"
           >
-            <div className="text-[0.8125rem] font-medium text-mute">{e.period}</div>
-            <div className="text-[0.8125rem] font-medium text-ink max-nav:order-first">
+            <div className="text-[0.8125rem] font-medium tabular-nums text-mute">{e.period}</div>
+            <div className="text-[0.8125rem] font-medium text-paper max-nav:order-first">
               {e.status}
             </div>
             <div className="text-[0.90625rem] font-normal leading-[1.6] text-charcoal break-keep">
-              <b className="font-medium text-ink">{e.name}</b> — {e.desc}
+              <b className="font-medium text-paper">{e.name}</b> — {e.desc}
               {e.items && (
                 <ul className="mt-2 flex flex-col gap-1">
                   {e.items.map((it) => (

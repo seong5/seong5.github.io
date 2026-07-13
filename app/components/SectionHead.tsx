@@ -14,7 +14,7 @@ export default function SectionHead({
   return (
     <div className="mb-10 flex items-end justify-between gap-4 border-b border-hairline pb-4 max-nav:mb-8">
       <div className="flex items-baseline gap-3">
-        <span className="text-[0.75rem] font-medium tracking-[0.04em] text-mute">{idx}</span>
+        <span className="text-[0.75rem] font-medium tabular-nums tracking-[0.04em] text-ink-mute">{idx}</span>
         <h2 className="text-[2rem] font-medium uppercase leading-none tracking-[-0.01em] text-ink">
           {title}
         </h2>

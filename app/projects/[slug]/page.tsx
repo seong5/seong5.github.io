@@ -50,7 +50,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
       <nav className="sticky top-0 z-10 bg-canvas shadow-[inset_0_-1px_0_var(--color-hairline-soft)]">
         <div className="relative mx-auto flex h-14 max-w-[920px] items-center justify-between px-8 max-wrap:px-[22px]">
           <Link
-            className="flex items-center gap-2 text-[0.875rem] font-medium text-mute transition-colors hover:text-ink"
+            className="flex items-center gap-2 text-[0.875rem] font-medium text-ink-mute transition-colors hover:text-accent"
             href="/#projects"
           >
             <span aria-hidden>←</span> <span>메인으로 돌아가기</span>
@@ -58,7 +58,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
           <span className="pointer-events-none absolute left-1/2 max-w-[44%] -translate-x-1/2 truncate text-[0.8125rem] font-medium text-ink max-wrap:hidden">
             {project.title.split(' — ')[0]}
           </span>
-          <span className="text-[0.75rem] font-medium tracking-[0.04em] text-mute">
+          <span className="text-[0.75rem] font-medium tabular-nums tracking-[0.04em] text-ink-mute">
             PROJECT / {order}
           </span>
         </div>
@@ -81,7 +81,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                 {project.links.map((link) => (
                   <a
                     key={link.href}
-                    className="whitespace-nowrap rounded-full border border-hairline bg-canvas px-3 py-1.5 text-[0.75rem] text-ink transition hover:border-ink hover:bg-cloud"
+                    className="whitespace-nowrap rounded-full border border-hairline bg-canvas px-3 py-1.5 text-[0.75rem] text-paper transition hover:border-accent hover:bg-accent-soft"
                     href={link.href}
                     target="_blank"
                     rel="noreferrer"
@@ -92,7 +92,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
               </div>
             )}
           </div>
-          <h1 className="text-[clamp(1.75rem,4.4vw,2.625rem)] font-semibold leading-[1.2] tracking-[-.02em]">
+          <h1 className="text-[clamp(1.75rem,4.4vw,2.625rem)] font-medium leading-[1.2] tracking-[-0.01em]">
             {project.title}
           </h1>
           <p className="mt-[18px] text-[1rem] font-normal leading-[1.8] text-charcoal break-keep">
@@ -121,7 +121,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
             <div className="flex flex-wrap gap-2">
               {project.stack.map((s) => (
                 <span
-                  className="rounded-full border border-hairline bg-cloud px-3 py-1.5 text-[0.75rem] text-ink"
+                  className="rounded-full border border-hairline bg-cloud px-3 py-1.5 text-[0.75rem] text-paper"
                   key={s}
                 >
                   {s}
@@ -222,7 +222,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                 className="grid grid-cols-[auto_1fr] gap-4 border-t border-hairline py-[15px] first:border-t-0"
                 key={i}
               >
-                <span className="mt-0.5 text-[0.8125rem] text-ink">
+                <span className="mt-0.5 text-[0.8125rem] tabular-nums text-paper">
                   {String(i + 1).padStart(2, '0')}
                 </span>
                 <p className="text-[0.9375rem] font-normal leading-[1.7] text-charcoal">{h}</p>
@@ -242,7 +242,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
             <div className="grid gap-px overflow-hidden rounded-card border border-hairline bg-hairline [grid-template-columns:repeat(auto-fit,minmax(140px,1fr))]">
               {project.metrics.map((m, i) => (
                 <div className="bg-cloud px-[18px] py-5" key={i}>
-                  <div className="text-[clamp(1.375rem,3vw,1.75rem)] font-semibold leading-none tracking-[-.02em] text-ink">
+                  <div className="text-[clamp(1.375rem,3vw,1.75rem)] font-semibold leading-none tracking-[-.02em] text-paper">
                     {m.value}
                   </div>
                   <div className="mt-[10px] text-[0.78125rem] font-normal leading-[1.5] text-mute">
@@ -266,16 +266,16 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
               {project.troubleshooting.map((t, i) => (
                 <div className="overflow-hidden rounded-card border border-hairline" key={i}>
                   <div className="flex items-baseline gap-[14px] border-b border-hairline bg-surface px-6 py-[18px] max-wrap:px-5">
-                    <span className="text-[1rem] font-semibold text-ink">
+                    <span className="text-[0.8125rem] font-medium tabular-nums text-paper">
                       {String(i + 1).padStart(2, '0')}
                     </span>
-                    <h3 className="text-[1.1875rem] font-semibold leading-[1.4] tracking-[-.01em] text-ink">
+                    <h3 className="text-[1.1875rem] font-medium leading-[1.4] tracking-[-.01em] text-paper">
                       {t.title}
                     </h3>
                   </div>
                   <div className="flex flex-col gap-6 bg-surface p-6 max-wrap:p-5">
                     <div className="grid grid-cols-[64px_1fr] gap-x-4 gap-y-1 max-wrap:grid-cols-1 max-wrap:gap-y-1.5">
-                      <span className="text-[0.75rem] font-medium uppercase tracking-[.08em] text-ink">
+                      <span className="text-[0.75rem] font-medium uppercase tracking-[.08em] text-paper">
                         Problem
                       </span>
                       <p className="text-[0.90625rem] font-normal leading-[1.7] text-charcoal">
@@ -283,7 +283,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                       </p>
                     </div>
                     <div className="grid grid-cols-[64px_1fr] gap-x-4 gap-y-1 max-wrap:grid-cols-1 max-wrap:gap-y-1.5">
-                      <span className="text-[0.75rem] font-medium uppercase tracking-[.08em] text-ink">
+                      <span className="text-[0.75rem] font-medium uppercase tracking-[.08em] text-paper">
                         Goal
                       </span>
                       <p className="text-[0.90625rem] font-normal leading-[1.7] text-charcoal">
@@ -302,7 +302,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                       />
                     )}
                     <div className="grid grid-cols-[64px_1fr] gap-x-4 gap-y-2 max-wrap:grid-cols-1">
-                      <span className="text-[0.75rem] font-medium uppercase tracking-[.08em] text-ink">
+                      <span className="text-[0.75rem] font-medium uppercase tracking-[.08em] text-paper">
                         Action
                       </span>
                       <ul className="flex flex-col gap-[10px]">
@@ -334,8 +334,8 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                         unoptimized={t.actionImage.src.endsWith('.svg')}
                       />
                     )}
-                    <div className="grid grid-cols-[64px_1fr] gap-x-4 gap-y-2 rounded-card border-l-2 border-ink bg-surface-deep p-4 max-wrap:grid-cols-1">
-                      <span className="text-[0.75rem] font-medium uppercase tracking-[.08em] text-ink">
+                    <div className="grid grid-cols-[64px_1fr] gap-x-4 gap-y-2 rounded-card border-l-2 border-accent bg-surface-deep p-4 max-wrap:grid-cols-1">
+                      <span className="text-[0.75rem] font-medium uppercase tracking-[.08em] text-paper">
                         Result
                       </span>
                       <ul className="flex flex-col gap-[10px]">
@@ -378,7 +378,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
             <div className="flex flex-col gap-9">
               {project.insights.map((ins, i) => (
                 <div key={i}>
-                  <h3 className="text-[1rem] font-semibold leading-[1.5] tracking-[-.01em] text-ink">
+                  <h3 className="text-[1rem] font-medium leading-[1.5] tracking-[-.01em] text-paper">
                     {ins.title}
                   </h3>
                   {ins.intro && (
@@ -393,10 +393,10 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                         key={j}
                       >
                         <div className="flex items-baseline gap-[14px]">
-                          <span className="text-[0.8125rem] text-ink">
+                          <span className="text-[0.8125rem] tabular-nums text-paper">
                             {String(j + 1).padStart(2, '0')}
                           </span>
-                          <h4 className="text-[0.90625rem] font-semibold leading-[1.5] text-ink">
+                          <h4 className="text-[0.90625rem] font-medium leading-[1.5] text-paper">
                             {s.title}
                           </h4>
                         </div>
@@ -435,12 +435,12 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
         <div className="flex items-center justify-between border-t border-hairline pb-20 pt-10">
           {prev ? (
             <Link
-              className="group text-[0.8125rem] text-mute transition-colors hover:text-ink"
+              className="group text-[0.8125rem] text-mute transition-colors hover:text-accent"
               href={`/projects/${prev.slug}`}
             >
               Previous project
               <br />
-              <span className="font-semibold text-ink">
+              <span className="font-semibold text-paper">
                 <span className="inline-block transition-transform group-hover:-translate-x-1">
                   ←
                 </span>{' '}
@@ -451,12 +451,12 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
             <span />
           )}
           <Link
-            className="group text-right text-[0.8125rem] text-mute transition-colors hover:text-ink"
+            className="group text-right text-[0.8125rem] text-mute transition-colors hover:text-accent"
             href={`/projects/${next.slug}`}
           >
             Next project
             <br />
-            <span className="font-semibold text-ink">
+            <span className="font-semibold text-paper">
               {next.title.split(' — ')[0]}{' '}
               <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
             </span>

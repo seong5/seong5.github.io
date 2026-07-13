@@ -12,8 +12,8 @@ const BASE =
 
 /* button-primary / -secondary / -outline-on-image */
 const VARIANTS: Record<ButtonVariant, string> = {
-  // bg-ink · 흰 텍스트 — 시스템의 유일한 primary CTA
-  primary: 'h-12 px-8 text-[1rem] bg-ink text-on-primary',
+  // bg-accent · 흰 텍스트 — 시스템의 유일한 primary CTA
+  primary: 'h-12 px-8 text-[1rem] bg-accent text-on-accent',
   // bg-cloud · 잉크 텍스트 — primary가 이미 있을 때의 저강도 대안
   secondary: 'h-12 px-8 text-[1rem] bg-cloud text-ink',
   // 흰 pill — 풀블리드 사진 위 "shop this image" CTA
@@ -81,8 +81,8 @@ export function FilterChip({
       aria-pressed={active}
       className={`inline-flex h-10 items-center rounded-full px-4 text-[1rem] font-medium leading-[1.5] transition-colors ${
         active
-          ? 'bg-ink text-on-primary'
-          : 'border border-hairline bg-canvas text-ink hover:border-ink'
+          ? 'bg-accent text-on-accent'
+          : 'border border-hairline bg-canvas text-ink hover:border-accent'
       } ${className}`.trim()}
       {...rest}
     >

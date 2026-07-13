@@ -47,10 +47,10 @@ function ProjectCard({ p, featured = false }: { p: Project; featured?: boolean }
           <span aria-hidden>·</span>
           <span>{p.period}</span>
         </div>
-        <h3 className="text-[1.0625rem] font-medium leading-[1.35] tracking-[-0.01em] text-ink">
+        <h3 className="text-[1.0625rem] font-medium leading-[1.35] tracking-[-0.01em] text-paper">
           {p.title}
           {!featured && (
-            <span className="ml-1.5 inline-block text-mute transition-transform duration-200 group-hover:translate-x-1 group-hover:text-ink">
+            <span className="ml-1.5 inline-block text-mute transition-transform duration-200 group-hover:translate-x-1 group-hover:text-accent">
               →
             </span>
           )}
@@ -102,7 +102,7 @@ export default function Projects() {
             onClick={() => setShowAll((v) => !v)}
             aria-expanded={showAll}
             aria-controls="projects-rest"
-            className="group mt-12 flex w-full items-center gap-4 text-[0.875rem] font-medium text-mute transition-colors group-hover:text-ink max-wrap:mt-10"
+            className="group mt-12 flex w-full items-center gap-4 text-[0.875rem] font-medium text-mute transition-colors group-hover:text-accent max-wrap:mt-10"
           >
             <span className="h-px flex-1 bg-hairline" aria-hidden />
             <span className="flex shrink-0 cursor-pointer items-center gap-2">

@@ -2,29 +2,46 @@
 
 @theme {
   /* ──────────────────────────────────────────────────────────
-     Warm Editorial 디자인 시스템 토큰
-     Beige(#F5EFE0) 배경 + Dark Gray(#1A1A1A) 전경. 회색은 새 색을
-     더하지 않고 잉크를 베이지 위에 합성한 웜 그레이로 파생. 대비 AA 이상.
-     액센트는 sale/success/info(semantic)만.
+     Mint Dark 디자인 시스템 토큰
+     Graphite(#25272C) 다크 배경 위에 두 계열의 밝은 텍스트를 쓴다:
+     제목·네비게이션 크롬·액센트(CTA·active·hover)는 Sky Mint(#B8F7E4),
+     본문·리스트 등 나머지 콘텐츠 텍스트는 Paper(화이트 계열, #F2F6F4).
+     회색 스케일은 새 색을 더하지 않고 각 베이스를 캔버스 위에 합성해서
+     파생 — 대비 AA 이상. resume(app/resume/**)은 .resume-shell 스코프에서
+     예전 Warm Editorial 값으로 복원되어 이 팔레트의 영향을 받지 않는다.
      ────────────────────────────────────────────────────────── */
 
   /* Brand & surface → bg-ink, bg-canvas, bg-cloud … */
-  --color-ink: #1a1a1a; /* Dark Gray — CTA, 헤드라인, 본문, 다크 서피스 배경 */
-  --color-canvas: #f5efe0; /* Beige — 페이지 배경 */
-  --color-cloud: #ebe3d2; /* 배경보다 한 단계 진한 베이지 — 카드 스테이지·secondary pill */
-  --color-surface: #ebe3d2; /* recessed 콘텐츠 카드 면 (Troubleshooting·Insights 컨테이너) */
-  --color-surface-deep: #e2d9c4; /* 카드 위 강조 블록 (Result 등) */
-  --color-on-primary: #f5efe0; /* ink(다크) 위 반전 텍스트 = 베이지 */
+  --color-ink: #b8f7e4; /* Sky Mint — 제목·네비 크롬·CTA */
+  --color-canvas: #25272c; /* Graphite — 페이지 배경(다크) */
+  --color-cloud: #2e3337; /* 배경보다 한 단계 밝은 그래파이트 — 카드 스테이지·secondary pill */
+  --color-surface: #2e3337; /* recessed 콘텐츠 카드 면 (Troubleshooting·Insights 컨테이너) */
+  --color-surface-deep: #353e40; /* 카드 위 강조 블록 (Result 등) */
+  --color-on-primary: #25272c; /* ink(밝은 민트) 위 반전 텍스트 = 캔버스 */
 
-  /* Text scale (light surface) — 잉크를 베이지 위 합성한 웜 그레이 */
-  --color-charcoal: #343432; /* 잉크 88% — 약간 가벼운 본문 */
-  --color-ash: #575651; /* 잉크 72% */
-  --color-mute: #6d6b65; /* 잉크 62% — 서브타이틀·메타·링크 (베이지 위 4.6:1) */
-  --color-stone: #99968d; /* 잉크 42% — 보조·다크 서피스 위 텍스트 */
+  /* Paper — 본문 콘텐츠 텍스트 베이스(흰색 계열), 제목/네비의 ink와 구분 */
+  --color-paper: #f2f6f4; /* 프로젝트 카드·리스트·라벨 등 콘텐츠 텍스트 */
 
-  /* Hairline (유일한 구분선·"섀도") — 웜 톤 */
-  --color-hairline: #d2cdc0; /* 잉크 16% — 1px 디바이더 */
-  --color-hairline-soft: #e1dcce; /* 잉크 9% — sticky bar inset 라인 */
+  /* Text scale (dark surface) — paper를 그래파이트 위 합성한 중립 그레이(본문용) */
+  --color-charcoal: #d9dddc; /* paper 88% — 약간 가벼운 본문 */
+  --color-ash: #b9bcbc; /* paper 72% */
+  --color-mute: #a4a7a8; /* paper 62% — 서브타이틀·메타·링크 */
+  --color-stone: #7b7e80; /* paper 42% — 보조 텍스트 */
+
+  /* Ink-mute/-stone — 네비 크롬 전용 저강도(SiteNav·ProjectToc·SectionHead idx·
+     프로젝트 상세 상단 sticky nav). 위 mute/stone이 paper 베이스로 바뀌면서
+     민트를 유지해야 하는 자리를 위해 예전 민트 파생값을 이름 바꿔 보존 */
+  --color-ink-mute: #80a89e; /* 민트 62% on graphite */
+  --color-ink-stone: #637e79; /* 민트 42% on graphite */
+
+  /* Hairline (유일한 구분선·"섀도") — 중립 톤 */
+  --color-hairline: #3d4849; /* 잉크 16% — 1px 디바이더 */
+  --color-hairline-soft: #323a3d; /* 잉크 9% — sticky bar inset 라인 */
+
+  /* Accent — Sky Mint (개발자 포트폴리오 액센트, ink와 동일 값으로 텍스트+CTA 겸임) */
+  --color-accent: #b8f7e4; /* Sky Mint — CTA·active state·hover 인터랙티브 액센트 */
+  --color-accent-soft: #3f4c4d; /* Sky Mint를 캔버스 위 18% — 액센트 hover/active "glow" 배경 */
+  --color-on-accent: #25272c; /* 밝은 accent 배경 위 어두운 텍스트 */
 
   /* Semantic (retail chrome에서 유일하게 허용되는 컬러) */
   --color-sale: #d30005;
@@ -61,6 +78,16 @@
   body {
     @apply bg-canvas text-ink font-sans antialiased font-normal leading-[1.6];
   }
+}
+
+/* resume 전용: 사이트 베이스 팔레트가 몇 번을 바뀌어도(Cool Indigo → Mint Dark 등)
+   Warm Editorial 값으로 항상 복원 */
+.resume-shell {
+  --color-ink: #1a1a1a;
+  --color-charcoal: #343432;
+  --color-mute: #6d6b65;
+  --color-hairline: #d2cdc0;
+  --color-on-primary: #f5efe0;
 }
 
 /* ── 특수 효과 유틸 (Phase 4에서 product-card/PDP 재작성 시 정리 예정) ── */

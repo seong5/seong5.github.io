@@ -39,7 +39,7 @@ export default function ProjectToc({ sections }: { sections: TocSection[] }) {
     <>
       {/* 넓은 화면: 본문 우측 여백에 고정된 세로 목차 */}
       <nav className="fixed left-[calc(50%+460px+40px)] top-[120px] z-[8] hidden w-[150px] toc:block">
-        <div className="mb-3 text-[0.6875rem] uppercase tracking-[.12em] text-mute">
+        <div className="mb-3 text-[0.6875rem] uppercase tracking-[.12em] text-ink-mute">
           On this page
         </div>
         <ul className="flex flex-col border-l border-hairline">
@@ -50,8 +50,8 @@ export default function ProjectToc({ sections }: { sections: TocSection[] }) {
                 onClick={(e) => handleClick(e, s.id)}
                 className={`-ml-px block border-l-2 py-1 pl-3 text-[0.78125rem] uppercase leading-[1.5] tracking-[.06em] transition ${
                   active === s.id
-                    ? 'border-ink font-medium text-ink'
-                    : 'border-transparent text-mute hover:text-ink'
+                    ? 'border-accent font-medium text-accent'
+                    : 'border-transparent text-ink-mute hover:text-accent'
                 }`}
               >
                 {s.label}
@@ -71,8 +71,8 @@ export default function ProjectToc({ sections }: { sections: TocSection[] }) {
                 onClick={(e) => handleClick(e, s.id)}
                 className={`block whitespace-nowrap rounded-full px-3 py-1.5 text-[0.75rem] uppercase tracking-[.06em] transition ${
                   active === s.id
-                    ? 'border border-hairline bg-canvas font-medium text-ink'
-                    : 'border border-transparent text-mute hover:text-ink'
+                    ? 'border border-hairline bg-accent-soft font-medium text-accent'
+                    : 'border border-transparent text-ink-mute hover:text-accent'
                 }`}
               >
                 {s.label}

@@ -39,7 +39,7 @@ export default function About() {
               {a.tag}
             </div>
             <div>
-              <h3 className="text-[1.3125rem] font-medium leading-[1.3] tracking-[-0.01em] text-ink break-keep">
+              <h3 className="text-[1.3125rem] font-medium leading-[1.3] tracking-[-0.01em] text-paper break-keep">
                 {a.kw}
                 <span className="text-mute"> — </span>
                 {a.title}
