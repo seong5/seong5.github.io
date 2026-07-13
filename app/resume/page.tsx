@@ -131,12 +131,12 @@ const EDUCATION = [
   {
     period: '2025.08 — 현재',
     title: '인프런 — Docker · React Native · Java/Spring',
-    desc: '개발환경 일관성(Docker), 앱 개발(React Native), 백엔드 확장(Java·Spring) 목적으로 수강 중.',
+    desc: '개발환경 일관성(Docker), 앱 개발(React Native), 백엔드 확장(Java·Spring) 목적으로 수강.',
   },
   {
     period: '전문학사 · 졸업예정',
     title: '학점은행제 — 영어영문학 전공',
-    desc: '학위 취득 이후 방송통신대학교 컴퓨터과학과 편입학 계획 중.',
+    desc: '현재 학위수여 신청 기간이 아니므로 대기 중.',
   },
 ];
 
