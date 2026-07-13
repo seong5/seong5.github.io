@@ -33,7 +33,7 @@ const SKILLS = [
   { label: 'LANGUAGE', items: ['JavaScript (ES6+)', 'TypeScript'] },
   { label: 'STYLING', items: ['Tailwind CSS', 'Styled-components'] },
   { label: 'STATE', items: ['Zustand', 'Tanstack Query'] },
-  { label: 'TEST', items: ['Zod', 'Jest', 'Playwright'] },
+  { label: 'QUALITY / TEST', items: ['Zod', 'Jest', 'Playwright'] },
   { label: 'DEPLOY', items: ['Vercel', 'GitHub Actions', 'AWS', 'Supabase'] },
 ];
 
@@ -192,14 +192,16 @@ function Entry({
         <h3 className="text-[0.96875rem] font-semibold tracking-[-.01em] text-ink">{title}</h3>
         {org ? <div className="mt-[3px] text-[0.71875rem] text-mute">{org}</div> : null}
         {desc ? (
-          <p className="mt-[7px] text-[0.8125rem] font-normal leading-[1.6] text-charcoal">{desc}</p>
+          <p className="mt-[7px] text-[0.8125rem] font-normal leading-[1.6] text-charcoal">
+            {desc}
+          </p>
         ) : null}
         {points.length > 0 ? (
           <ul className="mt-2 flex flex-col gap-[3px]">
             {points.map((p) => (
               <li
                 key={p}
-                className="grid grid-cols-[10px_1fr] gap-x-2 text-[0.8125rem] font-normal leading-[1.55] text-charcoal"
+                className="grid grid-cols-[10px_1fr] gap-x-2 text-[0.8125rem] font-normal leading-[1.5] text-charcoal"
               >
                 <span className="text-mute">•</span>
                 <span>{p}</span>
@@ -259,7 +261,7 @@ export default function ResumePage() {
             </div>
             <div>
               <div className="text-[0.6875rem] tracking-[.1em] text-mute">입사지원서</div>
-              <h1 className="mt-[10px] text-[1.75rem] font-semibold leading-[1.15] tracking-[-.01em]">
+              <h1 className="mt-[10px] text-[1.75rem] font-semibold leading-[1.15] tracking-[-.01em] text-ink">
                 신성오 <span className="text-[1.25rem] font-normal text-mute">Shin Seong-oh</span>
               </h1>
               <div className="mt-[6px] text-[0.78125rem] tracking-[.04em] text-ink">
@@ -332,7 +334,7 @@ export default function ResumePage() {
 
         <div className="mt-[26px]">
           <SectionTitle no="01" en="Strengths" ko="핵심역량" />
-          <p className="mb-[18px] text-[0.875rem] font-normal leading-[1.7] text-charcoal">
+          <p className="mb-[18px] text-[0.875rem] font-normal leading-[1.6] text-charcoal">
             탄탄한 기술력뿐만 아니라 협업 시의 소통능력과 책임감 같은 소프트 스킬의 조화가 좋은
             서비스를 만든다고 믿습니다. <br /> 맡은 범위에 한계를 두지 않고 시작한 일을 끝까지
             책임지며 팀과 함께 성과를 만들며 성장하는 것을 지향합니다.
@@ -358,8 +360,8 @@ export default function ResumePage() {
           <SectionTitle no="02" en="Skills" ko="기술 스택" />
           <div className="grid grid-cols-2 gap-x-10 gap-y-[14px]">
             {SKILLS.map((s) => (
-              <div key={s.label} className="grid grid-cols-[88px_1fr] items-start gap-x-3">
-                <div className="pt-[3px] text-[0.6875rem] uppercase tracking-[.06em] text-mute">
+              <div key={s.label} className="grid grid-cols-[auto_1fr] items-start gap-x-3">
+                <div className="pt-[3px] text-[0.6875rem] uppercase tracking-[.06em] text-mute whitespace-nowrap">
                   {s.label}
                 </div>
                 <div className="flex flex-wrap gap-[6px]">
@@ -437,7 +439,7 @@ export default function ResumePage() {
                 <div>
                   <span className="text-[0.875rem] font-semibold text-ink">{e.title}</span>
                   {e.desc ? (
-                    <p className="mt-[3px] text-[0.8125rem] font-normal leading-[1.55] text-charcoal">
+                    <p className="mt-[3px] text-[0.8125rem] font-normal leading-[1.6] text-charcoal">
                       {e.desc}
                     </p>
                   ) : null}
