@@ -313,7 +313,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                               className={
                                 isSub
                                   ? 'relative ml-[18px] pl-[18px] text-[0.90625rem] font-normal leading-[1.7] text-charcoal before:absolute before:left-0 before:top-[10px] before:h-[5px] before:w-[5px] before:rounded-full before:border before:border-mute'
-                                  : 'relative pl-[18px] text-[0.90625rem] font-normal leading-[1.7] text-charcoal before:absolute before:left-0 before:top-[11px] before:h-[5px] before:w-[5px] before:rounded-full before:bg-hairline'
+                                  : 'relative pl-[18px] text-[0.90625rem] font-normal leading-[1.7] text-charcoal before:absolute before:left-0 before:top-[11px] before:h-[5px] before:w-[5px] before:rounded-full before:bg-mute'
                               }
                               key={j}
                             >
@@ -341,7 +341,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                       <ul className="flex flex-col gap-[10px]">
                         {t.result.map((r, j) => (
                           <li
-                            className="relative pl-[18px] text-[0.90625rem] font-normal leading-[1.7] text-charcoal before:absolute before:left-0 before:top-[10px] before:h-[6px] before:w-[6px] before:rounded-full before:bg-hairline"
+                            className="relative pl-[18px] text-[0.90625rem] font-normal leading-[1.7] text-charcoal before:absolute before:left-0 before:top-[10px] before:h-[6px] before:w-[6px] before:rounded-full before:bg-mute"
                             key={j}
                           >
                             {r}
@@ -403,7 +403,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                         <ul className="mt-3 flex flex-col gap-[10px] pl-[30px]">
                           {s.points.map((p, k) => (
                             <li
-                              className="relative pl-[18px] text-[0.90625rem] font-normal leading-[1.7] text-charcoal before:absolute before:left-0 before:top-[11px] before:h-[5px] before:w-[5px] before:rounded-full before:bg-hairline"
+                              className="relative pl-[18px] text-[0.90625rem] font-normal leading-[1.7] text-charcoal before:absolute before:left-0 before:top-[11px] before:h-[5px] before:w-[5px] before:rounded-full before:bg-mute"
                               key={k}
                             >
                               {p}
