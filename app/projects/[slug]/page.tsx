@@ -38,7 +38,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
       ? [{ id: 'key-results', label: 'Key results' }]
       : []),
     ...(project.troubleshooting && project.troubleshooting.length > 0
-      ? [{ id: 'troubleshooting', label: 'Troubleshooting' }]
+      ? [{ id: 'troubleshooting', label: 'Trouble-Shooting' }]
       : []),
     ...(project.insights && project.insights.length > 0
       ? [{ id: 'insights', label: 'Insights' }]
@@ -260,7 +260,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
             className="scroll-mt-[112px] border-t border-hairline py-12 toc:scroll-mt-[80px]"
           >
             <h2 className="mb-7 border-b border-hairline pb-3 text-[1.5rem] font-medium uppercase tracking-[-0.01em] text-ink">
-              Troubleshooting
+              Trouble-Shooting
             </h2>
             <div className="flex flex-col gap-[18px]">
               {project.troubleshooting.map((t, i) => (
@@ -334,14 +334,14 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                         unoptimized={t.actionImage.src.endsWith('.svg')}
                       />
                     )}
-                    <div className="grid grid-cols-[64px_1fr] gap-x-4 gap-y-2 rounded-card border-l-2 border-accent bg-surface-deep p-4 max-wrap:grid-cols-1">
+                    <div className="grid grid-cols-[64px_1fr] gap-x-4 gap-y-2 rounded-card bg-surface-deep p-4 max-wrap:grid-cols-1">
                       <span className="text-[0.75rem] font-medium uppercase tracking-[.08em] text-paper">
                         Result
                       </span>
                       <ul className="flex flex-col gap-[10px]">
                         {t.result.map((r, j) => (
                           <li
-                            className="relative pl-[18px] text-[0.90625rem] font-normal leading-[1.7] text-charcoal before:absolute before:left-0 before:top-[10px] before:h-[6px] before:w-[6px] before:rounded-full before:bg-ink"
+                            className="relative pl-[18px] text-[0.90625rem] font-normal leading-[1.7] text-charcoal before:absolute before:left-0 before:top-[10px] before:h-[6px] before:w-[6px] before:rounded-full before:bg-hairline"
                             key={j}
                           >
                             {r}
