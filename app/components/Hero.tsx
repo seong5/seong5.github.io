@@ -1,12 +1,14 @@
+import WaveText from './WaveText';
+
 export default function Hero() {
   return (
     /* 다크 반전 인트로 — 바깥은 우측 컬럼 full-bleed 다크 배경, 안쪽은 1080px 정렬 */
     <header className="w-full bg-ink text-canvas">
       <div className="mx-auto max-w-[1080px] px-[72px] pb-[84px] pt-[64px] max-nav:px-[22px] max-nav:pb-[52px] max-nav:pt-[44px]">
         <h1 className="font-display uppercase leading-[0.9] tracking-[-0.01em] text-canvas text-[clamp(3.75rem,12vw,7.5rem)]">
-          Frontend
+          <WaveText text="Frontend" />
           <br />
-          Developer
+          <WaveText text="Developer" delayOffset={0.3} />
         </h1>
 
         <p className="mt-[34px] max-w-[36ch] text-[clamp(1.375rem,3vw,2rem)] font-medium leading-[1.25] tracking-[-0.01em] text-canvas break-keep">
