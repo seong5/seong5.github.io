@@ -1,11 +1,16 @@
 'use client';
 
 import { useEffect, useState, type MouseEvent } from 'react';
+import { motion, useReducedMotion } from 'motion/react';
 
 export type TocSection = { id: string; label: string };
 
 export default function ProjectToc({ sections }: { sections: TocSection[] }) {
   const [active, setActive] = useState(sections[0]?.id ?? '');
+  const reduceMotion = useReducedMotion();
+  const indicatorTransition = reduceMotion
+    ? { duration: 0 }
+    : { type: 'spring' as const, stiffness: 380, damping: 32 };
 
   useEffect(() => {
     const els = sections
@@ -40,7 +45,7 @@ export default function ProjectToc({ sections }: { sections: TocSection[] }) {
       {/* 넓은 화면: 본문 우측 여백에 고정된 세로 목차 */}
       <nav className="fixed left-[calc(50%+460px+40px)] top-[120px] z-[8] hidden w-[150px] toc:block">
         <div className="mb-3 text-[0.6875rem] uppercase tracking-[.12em] text-ink-mute">
-          On this page
+          Contents
         </div>
         <ul className="flex flex-col border-l border-hairline">
           {sections.map((s) => (
@@ -48,12 +53,17 @@ export default function ProjectToc({ sections }: { sections: TocSection[] }) {
               <a
                 href={`#${s.id}`}
                 onClick={(e) => handleClick(e, s.id)}
-                className={`-ml-px block border-l-2 py-1 pl-3 text-[0.78125rem] uppercase leading-[1.5] tracking-[.06em] transition ${
-                  active === s.id
-                    ? 'border-accent font-medium text-accent'
-                    : 'border-transparent text-ink-mute hover:text-accent'
+                className={`relative -ml-px block py-1 pl-[14px] text-[0.78125rem] uppercase leading-[1.5] tracking-[.06em] transition ${
+                  active === s.id ? 'font-medium text-accent' : 'text-ink-mute hover:text-accent'
                 }`}
               >
+                {active === s.id && (
+                  <motion.span
+                    layoutId="toc-desktop-indicator"
+                    className="absolute inset-y-0 left-0 w-0.5 bg-accent"
+                    transition={indicatorTransition}
+                  />
+                )}
                 {s.label}
               </a>
             </li>
@@ -69,13 +79,18 @@ export default function ProjectToc({ sections }: { sections: TocSection[] }) {
               <a
                 href={`#${s.id}`}
                 onClick={(e) => handleClick(e, s.id)}
-                className={`block whitespace-nowrap rounded-full px-3 py-1.5 text-[0.75rem] uppercase tracking-[.06em] transition ${
-                  active === s.id
-                    ? 'border border-hairline bg-accent-soft font-medium text-accent'
-                    : 'border border-transparent text-ink-mute hover:text-accent'
+                className={`relative block whitespace-nowrap rounded-full px-3 py-1.5 text-[0.75rem] uppercase tracking-[.06em] transition ${
+                  active === s.id ? 'font-medium text-accent' : 'text-ink-mute hover:text-accent'
                 }`}
               >
-                {s.label}
+                {active === s.id && (
+                  <motion.span
+                    layoutId="toc-mobile-indicator"
+                    className="absolute inset-0 rounded-full border border-hairline bg-accent-soft"
+                    transition={indicatorTransition}
+                  />
+                )}
+                <span className="relative z-10">{s.label}</span>
               </a>
             </li>
           ))}

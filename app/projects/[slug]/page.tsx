@@ -3,6 +3,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import ProjectToc, { type TocSection } from '../../components/ProjectToc';
+import { RevealGroup, RevealItem } from '../../components/Reveal';
+import ScrollProgressBar from '../../components/ScrollProgressBar';
 import { getProject, projects } from '../projects';
 
 type Params = { slug: string };
@@ -62,6 +64,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
             PROJECT / {order}
           </span>
         </div>
+        <ScrollProgressBar />
       </nav>
 
       <ProjectToc sections={tocSections} />
@@ -216,9 +219,9 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
           <h2 className="mb-7 border-b border-hairline pb-3 text-[1.5rem] font-medium uppercase tracking-[-0.01em] text-ink">
             What I did
           </h2>
-          <div className="flex flex-col">
+          <RevealGroup className="flex flex-col">
             {project.highlights.map((h, i) => (
-              <div
+              <RevealItem
                 className="grid grid-cols-[auto_1fr] gap-4 border-t border-hairline py-[15px] first:border-t-0"
                 key={i}
               >
@@ -226,9 +229,9 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                   {String(i + 1).padStart(2, '0')}
                 </span>
                 <p className="text-[0.9375rem] font-normal leading-[1.7] text-charcoal">{h}</p>
-              </div>
+              </RevealItem>
             ))}
-          </div>
+          </RevealGroup>
         </section>
 
         {project.metrics && project.metrics.length > 0 && (
@@ -239,18 +242,18 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
             <h2 className="mb-7 border-b border-hairline pb-3 text-[1.5rem] font-medium uppercase tracking-[-0.01em] text-ink">
               Key results
             </h2>
-            <div className="grid gap-px overflow-hidden rounded-card border border-hairline bg-hairline [grid-template-columns:repeat(auto-fit,minmax(140px,1fr))]">
+            <RevealGroup className="grid gap-px overflow-hidden rounded-card border border-hairline bg-hairline [grid-template-columns:repeat(auto-fit,minmax(140px,1fr))]">
               {project.metrics.map((m, i) => (
-                <div className="bg-cloud px-[18px] py-5" key={i}>
+                <RevealItem className="bg-cloud px-[18px] py-5" key={i}>
                   <div className="text-[clamp(1.375rem,3vw,1.75rem)] font-semibold leading-none tracking-[-.02em] text-paper">
                     {m.value}
                   </div>
                   <div className="mt-[10px] text-[0.78125rem] font-normal leading-[1.5] text-mute">
                     {m.label}
                   </div>
-                </div>
+                </RevealItem>
               ))}
-            </div>
+            </RevealGroup>
           </section>
         )}
 
@@ -262,9 +265,9 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
             <h2 className="mb-7 border-b border-hairline pb-3 text-[1.5rem] font-medium uppercase tracking-[-0.01em] text-ink">
               Trouble-Shooting
             </h2>
-            <div className="flex flex-col gap-[18px]">
+            <RevealGroup className="flex flex-col gap-[18px]">
               {project.troubleshooting.map((t, i) => (
-                <div className="overflow-hidden rounded-card border border-hairline" key={i}>
+                <RevealItem className="overflow-hidden rounded-card border border-hairline" key={i}>
                   <div className="flex items-baseline gap-[14px] border-b border-hairline bg-surface px-6 py-[18px] max-wrap:px-5">
                     <span className="text-[0.8125rem] font-medium tabular-nums text-paper">
                       {String(i + 1).padStart(2, '0')}
@@ -361,9 +364,9 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                       />
                     )}
                   </div>
-                </div>
+                </RevealItem>
               ))}
-            </div>
+            </RevealGroup>
           </section>
         )}
 
@@ -386,9 +389,9 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                       {ins.intro}
                     </p>
                   )}
-                  <div className="mt-[22px] flex flex-col gap-[14px]">
+                  <RevealGroup className="mt-[22px] flex flex-col gap-[14px]">
                     {ins.steps.map((s, j) => (
-                      <div
+                      <RevealItem
                         className="rounded-card border border-hairline bg-surface p-6 max-wrap:p-5"
                         key={j}
                       >
@@ -410,9 +413,9 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                             </li>
                           ))}
                         </ul>
-                      </div>
+                      </RevealItem>
                     ))}
-                  </div>
+                  </RevealGroup>
                   {ins.image && (
                     <div className="mt-[18px] flex justify-center">
                       <Image
