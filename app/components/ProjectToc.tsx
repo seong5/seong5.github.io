@@ -5,7 +5,13 @@ import { motion, useReducedMotion } from 'motion/react';
 
 export type TocSection = { id: string; label: string };
 
-export default function ProjectToc({ sections }: { sections: TocSection[] }) {
+export default function ProjectToc({
+  sections,
+  slug,
+}: {
+  sections: TocSection[];
+  slug: string;
+}) {
   const [active, setActive] = useState(sections[0]?.id ?? '');
   const reduceMotion = useReducedMotion();
   const indicatorTransition = reduceMotion
@@ -59,7 +65,7 @@ export default function ProjectToc({ sections }: { sections: TocSection[] }) {
               >
                 {active === s.id && (
                   <motion.span
-                    layoutId="toc-desktop-indicator"
+                    layoutId={`toc-desktop-indicator-${slug}`}
                     className="absolute inset-y-0 left-0 w-0.5 bg-accent"
                     transition={indicatorTransition}
                   />
@@ -85,7 +91,7 @@ export default function ProjectToc({ sections }: { sections: TocSection[] }) {
               >
                 {active === s.id && (
                   <motion.span
-                    layoutId="toc-mobile-indicator"
+                    layoutId={`toc-mobile-indicator-${slug}`}
                     className="absolute inset-0 rounded-full border border-hairline bg-accent-soft"
                     transition={indicatorTransition}
                   />

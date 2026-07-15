@@ -67,7 +67,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
         <ScrollProgressBar />
       </nav>
 
-      <ProjectToc sections={tocSections} />
+      <ProjectToc sections={tocSections} slug={project.slug} />
 
       <div className="mx-auto max-w-[920px] px-8 max-wrap:px-[22px]">
         <header
