@@ -70,8 +70,9 @@ export default function SiteNav() {
           </div>
           <div className="mt-7">
             <div className="whitespace-nowrap text-[1.25rem] font-medium leading-[1.15] tracking-[-0.01em] text-ink">
-              SHIN SEONG-OH
+              신성오
             </div>
+            <div className="text-[0.8125rem] font-medium text-ink-mute">SHIN SEONG-OH</div>
           </div>
 
           {/* 세로 nav — active = 좌측 2px ink 바 */}
