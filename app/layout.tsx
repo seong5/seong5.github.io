@@ -25,10 +25,29 @@ const bebasNeue = Bebas_Neue({
   display: "swap",
 });
 
+const title = "신성오 — Frontend Developer";
+const description =
+  "신성오 (Shin Seong-oh) — 사용자 경험 개선의 우선순위를 읽어내고, 끊임없는 도전으로 서비스의 성장을 증명하는 프론트엔드 개발자 포트폴리오.";
+
 export const metadata: Metadata = {
-  title: "신성오 — Frontend Developer",
-  description:
-    "신성오 (Shin Seong-oh) — 사용자 경험 개선의 우선순위를 읽어내고, 끊임없는 도전으로 서비스의 성장을 증명하는 프론트엔드 개발자 포트폴리오.",
+  metadataBase: new URL("https://seong5.github.io"),
+  title,
+  description,
+  openGraph: {
+    title,
+    description,
+    url: "/",
+    siteName: "신성오 포트폴리오",
+    images: [{ url: "/og-image.png", width: 1200, height: 630 }],
+    locale: "ko_KR",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+    images: ["/og-image.png"],
+  },
 };
 
 export default function RootLayout({
