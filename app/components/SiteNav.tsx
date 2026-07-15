@@ -6,9 +6,7 @@ import { useEffect, useRef, useState, type MouseEvent } from 'react';
 const NAV = [
   { id: 'about', label: 'About' },
   { id: 'projects', label: 'Projects' },
-  { id: 'experience', label: 'Experience' },
   { id: 'skills', label: 'Skills' },
-  { id: 'education', label: 'Education' },
   { id: 'contact', label: 'Contact' },
 ];
 
@@ -21,8 +19,8 @@ export default function SiteNav() {
   const lockRef = useRef(false);
   const lockTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // 스크롤스파이 — #experience/#skills가 같은 밴드를 공유하므로,
-  // 변경분만 보지 않고 NAV(=DOM 위→아래) 순서로 "가장 먼저 보이는" 섹션을 active로.
+  // 스크롤스파이 — 변경분만 보지 않고 NAV(=DOM 위→아래) 순서로
+  // "가장 먼저 보이는" 섹션을 active로.
   useEffect(() => {
     const els = NAV.map((n) => document.getElementById(n.id)).filter(
       (el): el is HTMLElement => el !== null,

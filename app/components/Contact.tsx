@@ -17,7 +17,7 @@ export default function Contact() {
       className="max-w-[1080px] px-[72px] py-[80px] max-nav:px-[22px] max-nav:py-[52px]"
       id="contact"
     >
-      <SectionHead idx="06" title="Contact" />
+      <SectionHead idx="04" title="Contact" />
       <div className="mt-2 flex flex-wrap gap-x-14 gap-y-2 max-nav:flex-col max-nav:gap-x-0">
         {LINKS.map(({ label, value, href, external }) => (
           <a
