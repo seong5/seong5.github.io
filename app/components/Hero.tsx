@@ -1,15 +1,19 @@
-import WaveText from './WaveText';
+import TypewriterText from './TypewriterText';
 
 export default function Hero() {
   return (
     /* 다크 반전 인트로 — 바깥은 우측 컬럼 full-bleed 다크 배경, 안쪽은 1080px 정렬 */
     <header className="w-full bg-ink text-canvas">
       <div className="mx-auto max-w-[1080px] px-[72px] pb-[84px] pt-[64px] max-nav:px-[22px] max-nav:pb-[52px] max-nav:pt-[44px]">
-        <h1 className="font-display uppercase leading-[0.9] tracking-[-0.01em] text-canvas text-[clamp(3.75rem,12vw,7.5rem)]">
-          <WaveText text="Frontend" />
+        <h1 className="font-display uppercase leading-[0.9] tracking-[-0.01em] text-canvas text-[clamp(2.25rem,7vw,4.75rem)]">
+          <TypewriterText text="Ready to Learn," />
           <br />
-          <WaveText text="Developer" delayOffset={0.3} />
+          <TypewriterText text="Ready to Run" startDelayMs={975} caretOnDone />
         </h1>
+
+        <p className="mt-4 text-[0.8125rem] font-medium uppercase tracking-[0.1em] text-canvas/70">
+          Frontend Developer
+        </p>
 
         <p className="mt-[34px] max-w-[36ch] text-[clamp(1.375rem,3vw,2rem)] font-medium leading-[1.25] tracking-[-0.01em] text-canvas break-keep">
           빠르게 배우고 적용하며 끝까지 파고들어
