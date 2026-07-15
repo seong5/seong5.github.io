@@ -1,3 +1,4 @@
+import { RevealGroup, RevealItem } from './Reveal';
 import SectionHead from './SectionHead';
 
 const ABOUT = [
@@ -29,13 +30,13 @@ export default function About() {
     >
       <SectionHead idx="01" title="About" />
       {/* 카드 없는 에디토리얼 행 — 좌측 라벨 / 우측 제목·본문, hairline 구분 */}
-      <div className="flex flex-col">
+      <RevealGroup className="flex flex-col">
         {ABOUT.map((a) => (
-          <div
+          <RevealItem
             key={a.tag}
             className="grid grid-cols-[120px_1fr] gap-x-6 border-t border-hairline py-8 first:border-t-0 first:pt-0 max-nav:grid-cols-1 max-nav:gap-y-3"
           >
-            <div className="pt-1 text-[0.75rem] font-medium uppercase tracking-[0.1em] text-mute">
+            <div className="pt-1 text-[0.75rem] font-medium uppercase tracking-[0.1em] text-accent">
               {a.tag}
             </div>
             <div>
@@ -48,9 +49,9 @@ export default function About() {
                 {a.body}
               </p>
             </div>
-          </div>
+          </RevealItem>
         ))}
-      </div>
+      </RevealGroup>
     </section>
   );
 }

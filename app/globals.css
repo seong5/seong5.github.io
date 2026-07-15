@@ -80,6 +80,44 @@
   }
 }
 
+/* prefers-reduced-motion: JS 훅 대신 CSS로 처리 — SSR/CSR 판단 시점 차이로 인한
+   하이드레이션 불일치를 피하기 위함 (app/components/Reveal.tsx) */
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal-item] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  [data-typewriter] {
+    animation: none !important;
+    width: calc(var(--tw-chars) * 1ch) !important;
+    border-color: transparent !important;
+  }
+}
+
+/* Hero 타이틀 타자기 효과 (app/components/TypewriterText.tsx) */
+@keyframes typewriter-reveal {
+  from {
+    width: 0;
+  }
+  to {
+    width: calc(var(--tw-chars) * 1ch);
+  }
+}
+@keyframes typewriter-caret {
+  0%,
+  100% {
+    border-color: transparent;
+  }
+  50% {
+    border-color: currentColor;
+  }
+}
+@keyframes typewriter-caret-hide {
+  to {
+    border-color: transparent;
+  }
+}
+
 /* resume 전용: 사이트 베이스 팔레트가 몇 번을 바뀌어도(Cool Indigo → Mint Dark 등)
    Warm Editorial 값으로 항상 복원 */
 .resume-shell {

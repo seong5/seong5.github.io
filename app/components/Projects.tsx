@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
 import { projects, type Project } from '../projects/projects';
+import { RevealGroup, RevealItem } from './Reveal';
 import SectionHead from './SectionHead';
 
 const INITIAL_COUNT = 3;
@@ -16,9 +17,16 @@ function cardImage(p: Project): string | undefined {
   return p.image ?? p.gallery?.[0]?.src;
 }
 
-function ProjectCard({ p, featured = false }: { p: Project; featured?: boolean }) {
+function ProjectCard({
+  p,
+  featured = false,
+  priority = false,
+}: {
+  p: Project;
+  featured?: boolean;
+  priority?: boolean;
+}) {
   const img = cardImage(p);
-  const stack = p.stack.slice(0, 4);
   const org = p.org.split(' · ')[0];
 
   return (
@@ -29,6 +37,7 @@ function ProjectCard({ p, featured = false }: { p: Project; featured?: boolean }
             src={img}
             alt={p.title}
             fill
+            priority={priority}
             sizes="(max-width: 760px) 100vw, (max-width: 880px) 50vw, 340px"
             className={`transition-transform duration-300 ease-out group-hover:scale-[1.03] ${
               p.imageFit === 'contain' ? 'object-contain p-4' : 'object-cover object-top'
@@ -58,18 +67,6 @@ function ProjectCard({ p, featured = false }: { p: Project; featured?: boolean }
         <p className="line-clamp-2 text-[0.875rem] leading-[1.6] text-mute break-keep">
           {p.summary}
         </p>
-        {!featured && (
-          <div className="mt-1 flex flex-wrap gap-1.5">
-            {stack.map((s) => (
-              <span
-                key={s}
-                className="rounded-full border border-hairline bg-cloud px-2.5 py-0.5 text-[0.6875rem] font-medium text-mute"
-              >
-                {s}
-              </span>
-            ))}
-          </div>
-        )}
       </div>
     </Link>
   );
@@ -88,11 +85,13 @@ export default function Projects() {
       <SectionHead idx="02" title="Projects" />
 
       {/* 상단: 대표 3개 */}
-      <div className={GRID_CLS}>
+      <RevealGroup className={GRID_CLS}>
         {initial.map((p) => (
-          <ProjectCard key={p.slug} p={p} featured />
+          <RevealItem key={p.slug}>
+            <ProjectCard p={p} featured priority />
+          </RevealItem>
         ))}
-      </div>
+      </RevealGroup>
 
       {rest.length > 0 && (
         <>
@@ -125,14 +124,16 @@ export default function Projects() {
             <span className="h-px flex-1 bg-hairline" aria-hidden />
           </button>
 
-          <div
+          <RevealGroup
             id="projects-rest"
             className={`${GRID_CLS} mt-12 max-wrap:mt-10 ${showAll ? '' : 'hidden'}`}
           >
             {rest.map((p) => (
-              <ProjectCard key={p.slug} p={p} />
+              <RevealItem key={p.slug}>
+                <ProjectCard p={p} />
+              </RevealItem>
             ))}
-          </div>
+          </RevealGroup>
         </>
       )}
     </section>
