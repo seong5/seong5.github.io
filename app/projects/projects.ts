@@ -137,9 +137,9 @@ export const projects: Project[] = [
     ],
     thumbnail: 'claude-log.jpg',
     gallery: [
-      { src: '/projects/claude-log-1.png', w: 920, h: 1162 },
-      { src: '/projects/claude-log-2.png', w: 926, h: 996 },
-      { src: '/projects/claude-log-3.png', w: 1324, h: 64 },
+      { src: '/projects/claude-log-1.webp', w: 920, h: 1162 },
+      { src: '/projects/claude-log-2.webp', w: 926, h: 996 },
+      { src: '/projects/claude-log-3.webp', w: 1324, h: 64 },
     ],
     metrics: [
       { value: 'v1.0.8', label: '배포 버전 · 오픈소스 공개' },
@@ -197,7 +197,7 @@ export const projects: Project[] = [
           '호출당 과금 없이 이미 발급된 로그인 토큰을 재사용해 실제 사용량을 조회하게 되었습니다.',
           '위젯 값이 /usage·Claude 앱·웹과 일치해 신뢰할 수 있는 수치를 상주 표시합니다.',
         ],
-        image: { src: '/projects/claude-log-token-priority.png', w: 1436, h: 1310 },
+        image: { src: '/projects/claude-log-token-priority.webp', w: 1436, h: 1310 },
       },
       {
         title: '단일 동작에서 발생하는 사용량 조회 오류 메시지 해결',
@@ -214,7 +214,7 @@ export const projects: Project[] = [
           '과도한 호출을 막는 가드 목적은 유지하되, StrictMode 이중 실행·자동 마운트·인터벌·포커스 복귀 같은 정상 중복 호출은 조용히 처리되게 했습니다.',
           '가드별로 다르던 실패 처리를 캐시 반환이라는 하나의 fallback 정책으로 통일해 유지보수성도 확보했습니다.',
         ],
-        image: { src: '/projects/claude-log-defense-pipeline.png', w: 2944, h: 1282 },
+        image: { src: '/projects/claude-log-defense-pipeline.webp', w: 1920, h: 836 },
       },
       {
         title: '증분 파싱(Incremental Parsing)으로 갱신 비용 일정화',
@@ -230,7 +230,7 @@ export const projects: Project[] = [
           '파일이 커져도 갱신 비용이 추가분에만 비례해 일정한 반응 속도를 유지합니다.',
           '쓰는 도중 깨진 줄을 읽는 사고를 막아 데이터 정합성을 보장합니다.',
         ],
-        image: { src: '/projects/claude-log-incremental-parsing.png', w: 2278, h: 1484 },
+        image: { src: '/projects/claude-log-incremental-parsing.webp', w: 1920, h: 1251 },
       },
     ],
   },
@@ -273,7 +273,7 @@ export const projects: Project[] = [
     resumeStack: ['React', 'TypeScript', 'Tanstack Query', 'Zod', 'MSW'],
     links: [],
     thumbnail: 'umust-erp.jpg',
-    image: '/projects/umust-erp.png',
+    image: '/projects/umust-erp.webp',
     insights: [
       {
         title: '쿼리키는 화면 상태가 아니라 서버 응답의 정체성으로 설계한다',
@@ -447,7 +447,7 @@ export const projects: Project[] = [
     resumeStack: ['Next.js', 'TypeScript', 'Tanstack Query', 'Zod', 'Recharts'],
     links: [],
     thumbnail: 'dobong-admin.jpg',
-    image: '/projects/dobong-admin.png',
+    image: '/projects/dobong-admin.webp',
     insights: [
       {
         title: 'RBAC 라우팅 가드를 미들웨어 한 곳으로 통합',
@@ -684,7 +684,7 @@ export const projects: Project[] = [
     resumeStack: ['Next.js', 'TypeScript', 'Supabase', 'Tanstack Query', 'Langchain'],
     links: [],
     thumbnail: 'deckly.jpg',
-    image: '/projects/deckly.png',
+    image: '/projects/deckly.webp',
     metrics: [
       { value: '85%', label: '제안서 목록 API 응답 크기 감축' },
       { value: '50%', label: 'Mutation 네트워크 요청 절감' },
@@ -768,7 +768,7 @@ export const projects: Project[] = [
           'API 응답 크기를 1,415KB에서 206KB로 약 85% 감소시켜 네트워크 리소스를 최적화했습니다.',
           '스켈레톤 지연·타임아웃 현상이 해소되고 목록 초기 로딩 속도가 개선됐습니다.',
         ],
-        image: { src: '/projects/deckly-payload-after.png', w: 425, h: 18 },
+        image: { src: '/projects/deckly-payload-after.webp', w: 425, h: 18 },
       },
     ],
   },
@@ -819,12 +819,12 @@ export const projects: Project[] = [
       { label: 'Deploy', href: 'https://sub-fc-21fv.vercel.app/' },
     ],
     thumbnail: 'sub-fc.jpg',
-    image: '/projects/sub-fc.png',
+    image: '/projects/sub-fc.webp',
     imageFit: 'contain',
     gallery: [
-      { src: '/projects/sub-fc-3.png', w: 826, h: 1202 },
-      { src: '/projects/sub-fc-1.png', w: 832, h: 1224 },
-      { src: '/projects/sub-fc-2.png', w: 842, h: 1226 },
+      { src: '/projects/sub-fc-3.webp', w: 826, h: 1202 },
+      { src: '/projects/sub-fc-1.webp', w: 832, h: 1224 },
+      { src: '/projects/sub-fc-2.webp', w: 842, h: 1226 },
     ],
     galleryCols: 3,
     metrics: [
@@ -858,7 +858,7 @@ export const projects: Project[] = [
             ],
           },
         ],
-        image: { src: '/projects/sub-fc-lighthouse.png', w: 822, h: 344 },
+        image: { src: '/projects/sub-fc-lighthouse.webp', w: 822, h: 344 },
       },
       {
         title: '데이터 구조와 프론트엔드 로직의 관계성',
@@ -991,7 +991,7 @@ export const projects: Project[] = [
       { label: 'Deploy', href: 'https://global-nomad-omega.vercel.app/' },
     ],
     thumbnail: 'globalnomad.jpg',
-    image: '/projects/globalnomad.png',
+    image: '/projects/globalnomad.webp',
     insights: [
       {
         title: '디바이스 대응력을 고려한 기능 단위 컴포넌트 설계',
@@ -1081,7 +1081,7 @@ export const projects: Project[] = [
       { label: 'Deploy', href: 'https://whyne-navy.vercel.app/' },
     ],
     thumbnail: 'whyne.jpg',
-    image: '/projects/whyne.png',
+    image: '/projects/whyne.webp',
     imageNoBorder: true,
     insights: [
       {
