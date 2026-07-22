@@ -136,6 +136,7 @@ export const projects: Project[] = [
       { label: 'Release', href: 'https://github.com/seong5/claude-log/releases/tag/v1.0.8' },
     ],
     thumbnail: 'claude-log.jpg',
+    image: '/projects/claude-log-1-card.webp',
     gallery: [
       { src: '/projects/claude-log-1.webp', w: 920, h: 1162 },
       { src: '/projects/claude-log-2.webp', w: 926, h: 996 },
