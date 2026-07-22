@@ -86,7 +86,11 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
 
       <ProjectToc sections={tocSections} slug={project.slug} />
 
-      <div className="mx-auto max-w-[920px] px-8 max-wrap:px-[22px]">
+      <main
+        id="main-content"
+        tabIndex={-1}
+        className="mx-auto max-w-[920px] px-8 max-wrap:px-[22px]"
+      >
         <header
           id="overview"
           className="scroll-mt-[112px] pb-[50px] pt-[74px] toc:scroll-mt-[80px]"
@@ -482,7 +486,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
             </span>
           </Link>
         </div>
-      </div>
+      </main>
     </>
   );
 }

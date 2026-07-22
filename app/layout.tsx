@@ -60,6 +60,12 @@ export default function RootLayout({
       <body
         className={`${pretendard.variable} ${inter.variable} ${bebasNeue.variable} antialiased`}
       >
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded-lg focus:bg-accent focus:px-4 focus:py-2 focus:text-[0.9375rem] focus:font-medium focus:text-on-accent"
+        >
+          본문으로 건너뛰기
+        </a>
         {children}
       </body>
     </html>

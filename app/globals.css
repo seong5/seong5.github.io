@@ -80,6 +80,12 @@
   }
 }
 
+/* 키보드 포커스만 표시 — 마우스 클릭 시엔 뜨지 않도록 :focus 대신 :focus-visible */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
 /* prefers-reduced-motion: JS 훅 대신 CSS로 처리 — SSR/CSR 판단 시점 차이로 인한
    하이드레이션 불일치를 피하기 위함 (app/components/Reveal.tsx) */
 @media (prefers-reduced-motion: reduce) {

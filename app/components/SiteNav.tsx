@@ -18,6 +18,9 @@ export default function SiteNav() {
   // 클릭 직후 스무스 스크롤 동안 scroll-spy 갱신을 멈춤(클릭 항목 유지)
   const lockRef = useRef(false);
   const lockTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // 모바일 드로어 포커스 트랩/Escape 닫기용
+  const toggleButtonRef = useRef<HTMLButtonElement>(null);
+  const drawerRef = useRef<HTMLElement>(null);
 
   // 스크롤스파이 — 변경분만 보지 않고 NAV(=DOM 위→아래) 순서로
   // "가장 먼저 보이는" 섹션을 active로.
@@ -41,6 +44,42 @@ export default function SiteNav() {
     return () => observer.disconnect();
   }, []);
 
+  // 모바일 드로어 오픈 시: 첫 포커스 가능 요소로 이동 + Tab 트랩 + Escape 닫기
+  useEffect(() => {
+    if (!open) return;
+    const drawer = drawerRef.current;
+    if (!drawer) return;
+
+    const focusables = drawer.querySelectorAll<HTMLElement>('a[href], button:not([disabled])');
+    focusables[0]?.focus();
+
+    const closeAndReturnFocus = () => {
+      setOpen(false);
+      toggleButtonRef.current?.focus();
+    };
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        closeAndReturnFocus();
+        return;
+      }
+      if (e.key !== 'Tab' || focusables.length === 0) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [open]);
+
   // nav 클릭 — 순수 앵커는 "이미 해당 해시"면 재스크롤을 안 하므로 항상 JS로 스크롤.
   // 모바일(<880px)에선 sticky 상단바(56px)만큼 오프셋 보정.
   // 스크롤 동안 observer가 active를 덮어쓰지 않도록 잠금 설정.
@@ -58,6 +97,7 @@ export default function SiteNav() {
     window.scrollTo({ top: y, behavior: 'smooth' });
     setActive(id);
     setOpen(false);
+    toggleButtonRef.current?.focus();
   };
 
   return (
@@ -125,10 +165,12 @@ export default function SiteNav() {
             SHIN SEONG-OH
           </Link>
           <button
+            ref={toggleButtonRef}
             type="button"
             onClick={() => setOpen((v) => !v)}
             aria-label="메뉴 열기"
             aria-expanded={open}
+            aria-controls="mobile-nav-drawer"
             className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-cloud text-ink"
           >
             <svg viewBox="0 0 20 20" className="h-5 w-5" fill="none" aria-hidden="true">
@@ -152,7 +194,11 @@ export default function SiteNav() {
         </div>
 
         {open ? (
-          <nav className="border-t border-hairline-soft bg-canvas px-[22px] py-2">
+          <nav
+            id="mobile-nav-drawer"
+            ref={drawerRef}
+            className="border-t border-hairline-soft bg-canvas px-[22px] py-2"
+          >
             {NAV.map((n) => (
               <a
                 key={n.id}
