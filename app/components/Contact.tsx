@@ -2,7 +2,6 @@ import SectionHead from './SectionHead';
 
 const LINKS = [
   { label: 'EMAIL', value: 'greenbi0852@gmail.com', href: 'mailto:greenbi0852@gmail.com' },
-  { label: 'PHONE', value: '010-4784-3867', href: 'tel:010-4784-3867' },
   {
     label: 'GITHUB',
     value: 'github.com/seong5',
