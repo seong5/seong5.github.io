@@ -1,17 +1,30 @@
 'use client';
 
-import { motion, type Variants } from 'motion/react';
-import type { ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 
-const container: Variants = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.12 } },
-};
+function useInView<T extends HTMLElement>(amount: number) {
+  const ref = useRef<T>(null);
+  const [inView, setInView] = useState(false);
 
-const item: Variants = {
-  hidden: { opacity: 0, y: 16 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
-};
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: amount },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [amount]);
+
+  return { ref, inView };
+}
 
 export function RevealGroup({
   children,
@@ -22,17 +35,12 @@ export function RevealGroup({
   className?: string;
   id?: string;
 }) {
+  const { ref, inView } = useInView<HTMLDivElement>(0.2);
+
   return (
-    <motion.div
-      id={id}
-      className={className}
-      variants={container}
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: true, amount: 0.2 }}
-    >
+    <div id={id} ref={ref} className={className} data-revealed={inView || undefined}>
       {children}
-    </motion.div>
+    </div>
   );
 }
 
@@ -43,9 +51,24 @@ export function RevealItem({
   children: ReactNode;
   className?: string;
 }) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    let index = 0;
+    let sibling = el.previousElementSibling;
+    while (sibling) {
+      index += 1;
+      sibling = sibling.previousElementSibling;
+    }
+    el.style.transitionDelay = `${index * 120}ms`;
+  }, []);
+
   return (
-    <motion.div data-reveal-item className={className} variants={item}>
+    <div ref={ref} data-reveal-item className={className}>
       {children}
-    </motion.div>
+    </div>
   );
 }

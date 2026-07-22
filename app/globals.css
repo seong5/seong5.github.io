@@ -139,3 +139,23 @@
   /* 제품 placeholder — Nike는 solid soft-cloud 스테이지에 사진을 올린다 */
   background: var(--color-cloud);
 }
+
+/* Reveal.tsx 스크롤 리빌 트랜지션 (motion 대신 순수 CSS + IntersectionObserver) */
+[data-reveal-item] {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.5s ease-out,
+    transform 0.5s ease-out;
+}
+[data-revealed] [data-reveal-item] {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal-item] {
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+}
