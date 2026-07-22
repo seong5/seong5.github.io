@@ -47,6 +47,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
 
   const index = projects.findIndex((p) => p.slug === project.slug);
   const order = String(index + 1).padStart(2, '0');
+  const total = String(projects.length).padStart(2, '0');
   const prev = index > 0 ? projects[index - 1] : null;
   const next = projects[(index + 1) % projects.length];
 
@@ -78,7 +79,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
             {project.title.split(' — ')[0]}
           </span>
           <span className="text-[0.75rem] font-medium tabular-nums tracking-[0.04em] text-ink-mute">
-            PROJECT / {order}
+            PROJECT {order} / {total}
           </span>
         </div>
         <ScrollProgressBar />
