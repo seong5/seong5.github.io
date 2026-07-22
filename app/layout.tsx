@@ -1,14 +1,7 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import { Inter, Bebas_Neue } from "next/font/google";
+import "pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css";
 import "./globals.css";
-
-const pretendard = localFont({
-  src: "../node_modules/pretendard/dist/web/variable/woff2/PretendardVariable.woff2",
-  variable: "--font-pretendard",
-  display: "swap",
-  weight: "100 900",
-});
 
 // UI/본문 라틴 글리프 — 한글은 Pretendard로 폴백 (globals.css의 --font-sans 체인)
 const inter = Inter({
@@ -58,7 +51,7 @@ export default function RootLayout({
   return (
     <html lang="ko" data-scroll-behavior="smooth">
       <body
-        className={`${pretendard.variable} ${inter.variable} ${bebasNeue.variable} antialiased`}
+        className={`${inter.variable} ${bebasNeue.variable} antialiased`}
       >
         <a
           href="#main-content"

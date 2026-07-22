@@ -61,7 +61,7 @@
      디스플레이 티어(영문 대문자)는 Bebas Neue,
      UI/본문은 Inter(라틴) → Pretendard(한글) 폴백 체인. */
   --font-display: var(--font-bebas), "Bebas Neue", "Anton", Impact, sans-serif;
-  --font-sans: var(--font-inter), var(--font-pretendard), "Pretendard",
+  --font-sans: var(--font-inter), "Pretendard Variable", "Pretendard",
     -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
 
   /* 커스텀 breakpoint → nav: / max-nav: , wrap: / max-wrap: 변형 생성 */
