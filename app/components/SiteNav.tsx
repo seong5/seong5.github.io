@@ -130,7 +130,7 @@ export default function SiteNav() {
               >
                 <span
                   className={`text-[0.75rem] tabular-nums ${
-                    active === n.id ? 'text-accent' : 'text-ink-stone group-hover:text-accent'
+                    active === n.id ? 'text-accent' : 'text-ink-mute group-hover:text-accent'
                   }`}
                 >
                   {String(i + 1).padStart(2, '0')}
@@ -142,16 +142,19 @@ export default function SiteNav() {
         </div>
 
         {/* 하단: 연락처 */}
-        <div className="flex flex-col gap-0.5 text-[0.75rem] leading-[1.7] text-ink-mute">
+        <div className="flex flex-col gap-1 text-[0.75rem] leading-[1.7] text-ink-mute">
           <span>Seoul, KR</span>
-          <a href="mailto:greenbi0852@gmail.com" className="transition-colors hover:text-accent">
+          <a
+            href="mailto:greenbi0852@gmail.com"
+            className="inline-block py-1.5 transition-colors hover:text-accent"
+          >
             greenbi0852@gmail.com
           </a>
           <a
             href="https://github.com/seong5"
             target="_blank"
             rel="noreferrer"
-            className="transition-colors hover:text-accent"
+            className="inline-block py-1.5 transition-colors hover:text-accent"
           >
             github.com/seong5
           </a>
@@ -211,10 +214,20 @@ export default function SiteNav() {
                 {n.label}
               </a>
             ))}
-            <div className="mt-2 flex flex-col gap-0.5 border-t border-hairline-soft py-4 text-[0.75rem] leading-[1.7] text-ink-mute">
+            <div className="mt-2 flex flex-col gap-1 border-t border-hairline-soft py-4 text-[0.75rem] leading-[1.7] text-ink-mute">
               <span>Seoul, KR</span>
-              <a href="mailto:greenbi0852@gmail.com">greenbi0852@gmail.com</a>
-              <a href="https://github.com/seong5" target="_blank" rel="noreferrer">
+              <a
+                href="mailto:greenbi0852@gmail.com"
+                className="inline-block py-1.5 transition-colors hover:text-accent"
+              >
+                greenbi0852@gmail.com
+              </a>
+              <a
+                href="https://github.com/seong5"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-block py-1.5 transition-colors hover:text-accent"
+              >
                 github.com/seong5
               </a>
             </div>
