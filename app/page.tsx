@@ -11,8 +11,8 @@ export default function Home() {
       <SiteNav />
       <main id="main-content" tabIndex={-1} className="min-w-0 [&>*]:mx-auto">
         <Hero />
-        <About />
         <Projects />
+        <About />
         <Skills />
         <Contact />
       </main>

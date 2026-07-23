@@ -4,8 +4,8 @@ import Link from 'next/link';
 import { useEffect, useRef, useState, type MouseEvent } from 'react';
 
 const NAV = [
-  { id: 'about', label: 'About' },
   { id: 'projects', label: 'Projects' },
+  { id: 'about', label: 'About' },
   { id: 'skills', label: 'Skills' },
   { id: 'contact', label: 'Contact' },
 ];

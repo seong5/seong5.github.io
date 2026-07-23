@@ -82,7 +82,7 @@ export default function Projects() {
       className="max-w-[1080px] px-[72px] pb-[80px] pt-[80px] max-nav:px-[22px] max-nav:pb-[52px] max-nav:pt-[52px]"
       id="projects"
     >
-      <SectionHead idx="02" title="Projects" />
+      <SectionHead idx="01" title="Projects" />
 
       {/* 상단: 대표 3개 */}
       <RevealGroup className={GRID_CLS}>

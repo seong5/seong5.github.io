@@ -28,7 +28,7 @@ export default function About() {
       className="max-w-[1080px] px-[72px] py-[80px] max-nav:px-[22px] max-nav:py-[52px]"
       id="about"
     >
-      <SectionHead idx="01" title="About" />
+      <SectionHead idx="02" title="About" />
       {/* 카드 없는 에디토리얼 행 — 좌측 라벨 / 우측 제목·본문, hairline 구분 */}
       <RevealGroup className="flex flex-col">
         {ABOUT.map((a) => (
