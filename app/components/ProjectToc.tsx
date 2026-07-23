@@ -49,7 +49,7 @@ export default function ProjectToc({
   return (
     <>
       {/* 넓은 화면: 본문 우측 여백에 고정된 세로 목차 */}
-      <nav className="fixed left-[calc(50%+460px+40px)] top-[120px] z-[8] hidden w-[150px] toc:block">
+      <nav className="fixed left-[calc(50%+460px+40px)] top-[120px] z-[8] hidden w-[168px] toc:block">
         <div className="mb-3 text-[0.6875rem] uppercase tracking-[.12em] text-ink-mute">
           Contents
         </div>
@@ -59,7 +59,7 @@ export default function ProjectToc({
               <a
                 href={`#${s.id}`}
                 onClick={(e) => handleClick(e, s.id)}
-                className={`relative -ml-px block py-1 pl-[14px] text-[0.78125rem] uppercase leading-[1.5] tracking-[.06em] transition ${
+                className={`relative -ml-px block whitespace-nowrap py-1 pl-[14px] text-[0.78125rem] uppercase leading-[1.5] tracking-[.06em] transition ${
                   active === s.id ? 'font-medium text-accent' : 'text-ink-mute hover:text-accent'
                 }`}
               >
