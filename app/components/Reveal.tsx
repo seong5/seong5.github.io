@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 
-function useInView<T extends HTMLElement>(amount: number) {
+function useInView<T extends HTMLElement>(amount: number, rootMargin?: string) {
   const ref = useRef<T>(null);
   const [inView, setInView] = useState(false);
 
@@ -17,11 +17,11 @@ function useInView<T extends HTMLElement>(amount: number) {
           observer.disconnect();
         }
       },
-      { threshold: amount },
+      { threshold: amount, rootMargin },
     );
     observer.observe(el);
     return () => observer.disconnect();
-  }, [amount]);
+  }, [amount, rootMargin]);
 
   return { ref, inView };
 }
@@ -68,6 +68,27 @@ export function RevealItem({
 
   return (
     <div ref={ref} data-reveal-item className={className}>
+      {children}
+    </div>
+  );
+}
+
+/**
+ * 자기 자신을 감지해 개별적으로 등장하는 리빌 카드.
+ * 뷰포트보다 긴 카드에서도 도달 즉시 반응하도록 비율(threshold)이 아닌
+ * 위치(rootMargin) 기반으로 감지한다.
+ */
+export function RevealSelf({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  const { ref, inView } = useInView<HTMLDivElement>(0, '0px 0px -10% 0px');
+
+  return (
+    <div ref={ref} data-reveal-self data-revealed={inView || undefined} className={className}>
       {children}
     </div>
   );

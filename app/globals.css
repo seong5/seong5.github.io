@@ -152,8 +152,21 @@
   opacity: 1;
   transform: translateY(0);
 }
+/* RevealSelf — 카드가 자기 자신을 감지해 개별 등장 */
+[data-reveal-self] {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.5s ease-out,
+    transform 0.5s ease-out;
+}
+[data-reveal-self][data-revealed] {
+  opacity: 1;
+  transform: translateY(0);
+}
 @media (prefers-reduced-motion: reduce) {
-  [data-reveal-item] {
+  [data-reveal-item],
+  [data-reveal-self] {
     transition: none;
     opacity: 1;
     transform: none;

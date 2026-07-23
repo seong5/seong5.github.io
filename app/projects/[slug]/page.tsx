@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import ProjectToc, { type TocSection } from '../../components/ProjectToc';
-import { RevealGroup, RevealItem } from '../../components/Reveal';
+import { RevealGroup, RevealItem, RevealSelf } from '../../components/Reveal';
 import ScrollProgressBar from '../../components/ScrollProgressBar';
 import { getProject, projects } from '../projects';
 
@@ -287,9 +287,9 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
             <h2 className="mb-7 border-b border-hairline pb-3 text-[1.5rem] font-medium uppercase tracking-[-0.01em] text-ink">
               Trouble-Shooting
             </h2>
-            <RevealGroup className="flex flex-col gap-[18px]">
+            <div className="flex flex-col gap-[18px]">
               {project.troubleshooting.map((t, i) => (
-                <RevealItem className="overflow-hidden rounded-card border border-hairline" key={i}>
+                <RevealSelf className="overflow-hidden rounded-card border border-hairline" key={i}>
                   <div className="flex items-baseline gap-[14px] border-b border-hairline bg-surface px-6 py-[18px] max-wrap:px-5">
                     <span className="text-[0.8125rem] font-medium tabular-nums text-paper">
                       {String(i + 1).padStart(2, '0')}
@@ -386,9 +386,9 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                       />
                     )}
                   </div>
-                </RevealItem>
+                </RevealSelf>
               ))}
-            </RevealGroup>
+            </div>
           </section>
         )}
 
