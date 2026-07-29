@@ -97,9 +97,14 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
           className="scroll-mt-[112px] pb-[50px] pt-[74px] toc:scroll-mt-[80px]"
         >
           <div className="mb-[22px] flex flex-wrap items-center justify-between gap-[10px] text-[0.78125rem] text-mute">
-            <div className="flex flex-wrap gap-[10px]">
+            <div className="flex flex-wrap items-center gap-[10px]">
               <span>{project.org}</span>
               <span>{project.period}</span>
+              {project.active && project.currentTask && (
+                <span className="inline-flex items-center rounded-full border border-hairline bg-cloud px-2 py-0.5 text-[0.6875rem] text-mute">
+                  {project.currentTask} 진행 중
+                </span>
+              )}
             </div>
             {project.links.length > 0 && (
               <div className="flex shrink-0 gap-2">
@@ -131,6 +136,9 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
             <div className="bg-cloud px-[18px] py-4">
               <div className="mb-[6px] text-[0.75rem] tracking-[.08em] text-mute">PERIOD</div>
               <div className="text-[0.84375rem] font-medium">{project.period}</div>
+              {project.active && project.currentTask && (
+                <div className="mt-1 text-[0.75rem] text-mute">현재: {project.currentTask} 진행 중</div>
+              )}
             </div>
             <div className="bg-cloud px-[18px] py-4">
               <div className="mb-[6px] text-[0.75rem] tracking-[.08em] text-mute">TEAM</div>

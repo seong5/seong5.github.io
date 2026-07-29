@@ -52,6 +52,8 @@ export type Project = {
   period: string;
   /** 진행 중인 프로젝트 표시 */
   active?: boolean;
+  /** 진행 중인 프로젝트의 현재 작업 내용 (active=true일 때만 표시) */
+  currentTask?: string;
   /** 상세 페이지 facts 그리드 값 */
   role: string;
   type: string;
@@ -779,6 +781,7 @@ export const projects: Project[] = [
     org: '개인 프로젝트',
     period: '2025.08.25 — current',
     active: true,
+    currentTask: 'UI/UX 전체 개선',
     role: 'Frontend · Full-cycle',
     type: 'Side Project',
     scale: '1인 개발',
