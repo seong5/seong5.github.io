@@ -76,7 +76,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
             <span aria-hidden>←</span> <span>메인으로 돌아가기</span>
           </Link>
           <span className="pointer-events-none absolute left-1/2 max-w-[44%] -translate-x-1/2 truncate text-[0.8125rem] font-medium text-ink max-wrap:hidden">
-            {project.title.split(' — ')[0]}
+            {project.title.split(' - ')[0]}
           </span>
           <span className="text-[0.75rem] font-medium tabular-nums tracking-[0.04em] text-ink-mute">
             PROJECT {order} / {total}
@@ -477,7 +477,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                 <span className="inline-block transition-transform group-hover:-translate-x-1">
                   ←
                 </span>{' '}
-                {prev.title.split(' — ')[0]}
+                {prev.title.split(' - ')[0]}
               </span>
             </Link>
           ) : (
@@ -490,7 +490,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
             Next project
             <br />
             <span className="font-semibold text-paper">
-              {next.title.split(' — ')[0]}{' '}
+              {next.title.split(' - ')[0]}{' '}
               <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
             </span>
           </Link>

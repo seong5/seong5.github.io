@@ -95,7 +95,7 @@ export type Project = {
 export const projects: Project[] = [
   {
     slug: 'claude-log',
-    title: 'Claude Log — 토큰 사용량 트래커',
+    title: 'Claude Log - 토큰 사용량 트래커',
     org: '개인 프로젝트',
     period: '2026.04 — current',
     active: true,
@@ -239,7 +239,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'umust-erp',
-    title: 'UMUST R&D ERP — 재고·CRO 통합 관리',
+    title: 'UMUST R&D ERP - 재고·CRO 통합 관리',
     org: 'UMUST R&D · 사업부 IT팀 · 프론트엔드 인턴',
     period: '2026.04.28 — 2026.06.30',
     role: 'Frontend',
@@ -412,7 +412,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'dobong-admin',
-    title: '도봉라이프 어드민 — 운영 관리 콘솔',
+    title: '도봉라이프 어드민 - 운영 관리 콘솔',
     org: 'UMUST R&D · 사업부 IT팀 · 프론트엔드 인턴',
     period: '2026.03.23 — 2026.04.28',
     role: 'Frontend',
@@ -646,7 +646,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'deckly',
-    title: 'Deckly — SI 사업제안서 자동화 플랫폼',
+    title: 'Deckly - SI 사업제안서 자동화 플랫폼',
     org: '똑똑한개발자 · TF팀 · 프론트엔드 인턴',
     period: '2025.12.17 — 2026.01.16',
     role: 'Frontend Intern',
@@ -777,7 +777,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'sub-fc',
-    title: 'SUB-FC — 팀 매니지먼트 서비스',
+    title: 'SUB-FC - 팀 매니지먼트 서비스',
     org: '개인 프로젝트',
     period: '2025.08.25 — current',
     active: true,
@@ -954,7 +954,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'globalnomad',
-    title: 'GlobalNomad — 액티비티 마켓플레이스',
+    title: 'GlobalNomad - 액티비티 마켓플레이스',
     org: '코드잇 · FE 심화 프로젝트',
     period: '2025.07.09 — 2025.08.05 (1m)',
     role: 'Frontend',
@@ -1044,7 +1044,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'whyne',
-    title: 'WHYNE — 와인 리뷰 플랫폼',
+    title: 'WHYNE - 와인 리뷰 플랫폼',
     org: '코드잇 · FE 중급 프로젝트',
     period: '2025.06.05 — 2025.06.24 (3w)',
     role: 'Frontend',
