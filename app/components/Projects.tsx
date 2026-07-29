@@ -17,15 +17,7 @@ function cardImage(p: Project): string | undefined {
   return p.image ?? p.gallery?.[0]?.src;
 }
 
-function ProjectCard({
-  p,
-  featured = false,
-  priority = false,
-}: {
-  p: Project;
-  featured?: boolean;
-  priority?: boolean;
-}) {
+function ProjectCard({ p, priority = false }: { p: Project; priority?: boolean }) {
   const img = cardImage(p);
   const org = p.org.split(' · ')[0];
 
@@ -56,15 +48,10 @@ function ProjectCard({
           <span aria-hidden>·</span>
           <span>{p.period}</span>
         </div>
-        <h3 className="text-[1.0625rem] font-medium leading-[1.35] tracking-[-0.01em] text-paper">
+        <h3 className="text-[1.0625rem] font-medium leading-[1.35] tracking-[-0.01em] text-accent">
           {p.title}
-          {!featured && (
-            <span className="ml-1.5 inline-block text-mute transition-transform duration-200 group-hover:translate-x-1 group-hover:text-accent">
-              →
-            </span>
-          )}
         </h3>
-        <p className="line-clamp-2 text-[0.875rem] leading-[1.6] text-mute break-keep">
+        <p className="line-clamp-2 text-[0.875rem] leading-[1.6] text-mute transition-colors group-hover:text-paper break-keep">
           {p.summary}
         </p>
       </div>
@@ -88,7 +75,7 @@ export default function Projects() {
       <RevealGroup className={GRID_CLS}>
         {initial.map((p) => (
           <RevealItem key={p.slug}>
-            <ProjectCard p={p} featured priority />
+            <ProjectCard p={p} priority />
           </RevealItem>
         ))}
       </RevealGroup>
