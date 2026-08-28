@@ -218,7 +218,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
           <div className="mb-2 mt-[14px]">
             {project.image ? (
               <div
-                className={`relative aspect-[16/8] w-full overflow-hidden rounded-card bg-cloud ${
+                className={`relative aspect-[16/8] w-full overflow-hidden rounded-card bg-mount ${
                   project.imageNoBorder ? '' : 'border border-hairline'
                 }`}
               >
@@ -330,7 +330,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                         width={t.taskImage.w}
                         height={t.taskImage.h}
                         sizes="(max-width: 920px) 100vw, 860px"
-                        className="h-auto w-full rounded-card border border-hairline bg-canvas"
+                        className="h-auto w-full rounded-card border border-hairline bg-mount"
                         unoptimized={t.taskImage.src.endsWith('.svg')}
                       />
                     )}
@@ -363,7 +363,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                         width={t.actionImage.w}
                         height={t.actionImage.h}
                         sizes="(max-width: 920px) 100vw, 860px"
-                        className="h-auto w-full rounded-card border border-hairline bg-canvas"
+                        className="h-auto w-full rounded-card border border-hairline bg-mount"
                         unoptimized={t.actionImage.src.endsWith('.svg')}
                       />
                     )}
@@ -389,7 +389,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                         width={t.image.w}
                         height={t.image.h}
                         sizes="(max-width: 920px) 100vw, 860px"
-                        className="mt-1 h-auto w-full rounded-card border border-hairline"
+                        className="mt-1 h-auto w-full rounded-card border border-hairline bg-mount"
                         unoptimized={t.image.src.endsWith('.svg')}
                       />
                     )}
@@ -454,7 +454,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                         width={ins.image.w}
                         height={ins.image.h}
                         sizes="(max-width: 920px) 100vw, 560px"
-                        className="h-auto w-auto max-h-[780px] max-w-full"
+                        className="h-auto w-auto max-h-[780px] max-w-full rounded-card bg-mount"
                         unoptimized
                       />
                     </div>

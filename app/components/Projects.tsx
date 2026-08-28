@@ -23,7 +23,8 @@ function ProjectCard({ p, priority = false }: { p: Project; priority?: boolean }
 
   return (
     <Link href={`/projects/${p.slug}`} className="group flex flex-col">
-      <div className="relative aspect-[4/3] w-full overflow-hidden rounded-card bg-cloud">
+      {/* 스크린샷이 전부 라이트 UI라 먹 바탕에 뜨지 않도록 종이 매트 위에 올린다 */}
+      <div className="relative aspect-[4/3] w-full overflow-hidden rounded-card bg-mount">
         {img ? (
           <Image
             src={img}

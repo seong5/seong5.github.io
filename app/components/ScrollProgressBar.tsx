@@ -7,7 +7,7 @@ export default function ScrollProgressBar() {
 
   return (
     <motion.div
-      className="absolute inset-x-0 bottom-0 h-[2px] origin-left bg-accent"
+      className="absolute inset-x-0 bottom-0 h-[2px] origin-left bg-accent-bright"
       style={{ scaleX: scrollYProgress }}
     />
   );

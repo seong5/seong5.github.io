@@ -2,46 +2,61 @@
 
 @theme {
   /* ──────────────────────────────────────────────────────────
-     Mint Dark 디자인 시스템 토큰
-     Graphite(#25272C) 다크 배경 위에 두 계열의 밝은 텍스트를 쓴다:
-     제목·네비게이션 크롬·액센트(CTA·active·hover)는 Sky Mint(#B8F7E4),
-     본문·리스트 등 나머지 콘텐츠 텍스트는 Paper(화이트 계열, #F2F6F4).
-     회색 스케일은 새 색을 더하지 않고 각 베이스를 캔버스 위에 합성해서
-     파생 — 대비 AA 이상. resume(app/resume/**)은 .resume-shell 스코프에서
-     예전 Warm Editorial 값으로 복원되어 이 팔레트의 영향을 받지 않는다.
+     Ink wash(수묵) 디자인 시스템 토큰 — 팔레트 4색
+       #4A4A4A 차콜 · #CBCBCB 쿨그레이 · #FFFFE3 아이보리 · #6D8196 슬레이트
+     Charcoal(#4A4A4A) 먹 바탕 위에 Ivory(#FFFFE3) 종이를 얹는다.
+     Hero는 그 종이 판(bg-ink)이고, 나머지는 먹 위에서 아이보리 농담으로
+     쓴다. 회색은 새 색을 더하지 않고 아이보리를 캔버스 위에 합성해서 파생.
+
+     ⚠️ 대비는 대칭이 아니다. 라이트 버전의 회색(#72726c 등)을 그대로 두면
+     차콜 위에서 전부 죽는다. 아래 값은 차콜(상대휘도 0.0685) 위 기준으로
+     다시 역산했다(주석의 수치). #CBCBCB가 mute/ash 자리를 맡아 팔레트
+     원색이 실제로 일한다.
+
+     resume(app/resume/**)은 .resume-shell 스코프에서 예전 Warm Editorial
+     값으로 복원되어 이 팔레트의 영향을 받지 않는다. resume이 쓰는 토큰은
+     ink·mute·charcoal·hairline·on-primary 5개뿐이고 전부 거기서 덮인다.
      ────────────────────────────────────────────────────────── */
 
   /* Brand & surface → bg-ink, bg-canvas, bg-cloud … */
-  --color-ink: #b8f7e4; /* Sky Mint — 제목·네비 크롬·CTA */
-  --color-canvas: #25272c; /* Graphite — 페이지 배경(다크) */
-  --color-cloud: #2e3337; /* 배경보다 한 단계 밝은 그래파이트 — 카드 스테이지·secondary pill */
-  --color-surface: #2e3337; /* recessed 콘텐츠 카드 면 (Troubleshooting·Insights 컨테이너) */
-  --color-surface-deep: #44464a; /* 카드 위 강조 블록 (Result 등) — paper 15% on graphite */
-  --color-on-primary: #25272c; /* ink(밝은 민트) 위 반전 텍스트 = 캔버스 */
+  --color-ink: #ffffe3; /* 아이보리(팔레트 원색) — 제목·네비 크롬·Hero 종이 판 */
+  --color-canvas: #4a4a4a; /* 차콜(팔레트 원색) — 페이지 배경(먹 바탕) */
+  --color-cloud: #5a5a55; /* 배경보다 한 단계 밝은 면 — 칩·secondary pill·facts 셀 */
+  --color-surface: #5a5a55; /* recessed 콘텐츠 카드 면 (Troubleshooting·Insights 컨테이너) */
+  --color-surface-deep: #6b6b66; /* 카드 위 강조 블록 (Result 등) */
+  --color-on-primary: #4a4a4a; /* ink(아이보리) 판 위 반전 텍스트 = 캔버스 — 8.72:1 */
 
-  /* Paper — 본문 콘텐츠 텍스트 베이스(흰색 계열), 제목/네비의 ink와 구분 */
-  --color-paper: #f2f6f4; /* 프로젝트 카드·리스트·라벨 등 콘텐츠 텍스트 */
+  /* 밝은 스크린샷·다이어그램이 앉는 종이 매트. bg-cloud를 밝히면 그 위의
+     text-paper(밝은 글씨)가 사라지므로 이미지 컨테이너 전용으로 분리한다 */
+  --color-mount: #e8e8d8;
 
-  /* Text scale (dark surface) — paper를 그래파이트 위 합성한 중립 그레이(본문용) */
-  --color-charcoal: #d9dddc; /* paper 88% — 약간 가벼운 본문 */
-  --color-ash: #b9bcbc; /* paper 72% */
-  --color-mute: #a4a7a8; /* paper 62% — 서브타이틀·메타·링크 */
-  --color-stone: #7b7e80; /* paper 42% — 보조 텍스트 */
+  /* Paper — 본문 콘텐츠 텍스트 베이스, 제목의 ink보다 한 단계 낮은 강도 */
+  --color-paper: #e9e9d1; /* 아이보리 88% on 차콜 — 8.0:1 — 카드 제목·라벨 */
+
+  /* Text scale (dark surface) — 아이보리를 차콜 위 합성한 중립 그레이(본문용) */
+  --color-charcoal: #dbdbc4; /* 아이보리 80% — 7.0:1 — 일반 본문 */
+  --color-ash: #cbcbcb; /* 쿨그레이(팔레트 원색) — 5.46:1 */
+  --color-mute: #cbcbcb; /* 쿨그레이(팔레트 원색) — 5.46:1 — 서브타이틀·메타(12px) */
+  --color-stone: #9a9a90; /* 3.0:1 — 큰 글씨·장식 전용(본문 금지) */
 
   /* Ink-mute/-stone — 네비 크롬 전용 저강도(SiteNav·ProjectToc·SectionHead idx·
-     프로젝트 상세 상단 sticky nav). 위 mute/stone이 paper 베이스로 바뀌면서
-     민트를 유지해야 하는 자리를 위해 예전 민트 파생값을 이름 바꿔 보존 */
-  --color-ink-mute: #80a89e; /* 민트 62% on graphite */
-  --color-ink-stone: #637e79; /* 민트 42% on graphite */
+     프로젝트 상세 상단 sticky nav). 비활성 크롬은 중립 그레이로 두고,
+     상태 변화(active)만 슬레이트로 드러낸다 */
+  --color-ink-mute: #babaa9; /* 4.51:1 — 비활성 nav */
+  --color-ink-stone: #9a9a90; /* 3.0:1 — 장식 */
 
-  /* Hairline (유일한 구분선·"섀도") — 중립 톤 */
-  --color-hairline: #3d4849; /* 잉크 16% — 1px 디바이더 */
-  --color-hairline-soft: #323a3d; /* 잉크 9% — sticky bar inset 라인 */
+  /* Hairline (유일한 구분선·"섀도") */
+  --color-hairline: #72726c; /* 아이보리 22% on 차콜 — 1px 디바이더 */
+  --color-hairline-soft: #62625d; /* sticky bar inset 라인 */
 
-  /* Accent — Sky Mint (개발자 포트폴리오 액센트, ink와 동일 값으로 텍스트+CTA 겸임) */
-  --color-accent: #b8f7e4; /* Sky Mint — CTA·active state·hover 인터랙티브 액센트 */
-  --color-accent-soft: #3f4c4d; /* Sky Mint를 캔버스 위 18% — 액센트 hover/active "glow" 배경 */
-  --color-on-accent: #25272c; /* 밝은 accent 배경 위 어두운 텍스트 */
+  /* Accent — Slate. 팔레트 원색 #6D8196은 채도가 16%뿐이라 "파랑"이 아니라
+     "푸른기 도는 회색"이고, 차콜 위에서는 2.21:1로 묻힌다. 차콜 그라운드에서는
+     AA(4.5:1) 때문에 밝기를 내릴 수 없으므로, 밝기는 그대로 두고 채도만 올려
+     선명도를 얻는다(16~18% → 45%). 세 값 모두 색상은 209°로 통일 */
+  --color-accent: #9fbedb; /* S45% · 4.59:1 — CTA·active state·hover 텍스트 */
+  --color-accent-bright: #6f9dc8; /* S45% · 3.09:1 — 진행바 등 비텍스트 전용 */
+  --color-accent-soft: #3c5d7c; /* S35% — hover/active 배경 (바탕 대비 1.29:1) */
+  --color-on-accent: #4a4a4a; /* 밝은 accent 채움 위 차콜 텍스트 — 4.59:1 */
 
   /* Semantic (retail chrome에서 유일하게 허용되는 컬러) */
   --color-sale: #d30005;
@@ -84,6 +99,12 @@
 :focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 3px;
+}
+
+/* 아이보리 종이 판(Hero) 안에서는 링을 차콜로 뒤집는다 —
+   accent(밝은 슬레이트)는 아이보리 위에서 1.90:1이라 링이 보이지 않는다 */
+.bg-ink :focus-visible {
+  outline-color: var(--color-canvas);
 }
 
 /* prefers-reduced-motion: JS 훅 대신 CSS로 처리 — SSR/CSR 판단 시점 차이로 인한
@@ -136,8 +157,8 @@
 
 /* ── 특수 효과 유틸 (Phase 4에서 product-card/PDP 재작성 시 정리 예정) ── */
 @utility ph-frame {
-  /* 제품 placeholder — Nike는 solid soft-cloud 스테이지에 사진을 올린다 */
-  background: var(--color-cloud);
+  /* 이미지 placeholder — 실제 이미지와 같은 종이 매트 위에 올린다 */
+  background: var(--color-mount);
 }
 
 /* Reveal.tsx 스크롤 리빌 트랜지션 (motion 대신 순수 CSS + IntersectionObserver) */

@@ -13,7 +13,7 @@ export default function Hero() {
           <TypewriterText text="Ready to Run" startDelayMs={975} caretOnDone />
         </h1>
 
-        <p className="mt-4 text-[0.8125rem] font-medium uppercase tracking-[0.1em] text-canvas/70">
+        <p className="mt-4 text-[0.8125rem] font-medium uppercase tracking-[0.1em] text-canvas/80">
           Frontend Developer
         </p>
 
@@ -31,7 +31,7 @@ export default function Hero() {
         </p>
 
         {/* CTA — 소개(리드+본문)가 끝난 뒤의 행동 지점. 이어지는 두 문단을 가르지 않도록 아래에 둔다.
-            반전 패널 위라 accent는 대비가 부족하다 → canvas 반전 pill을 쓴다. */}
+            종이 판 위라 accent(밝은 슬레이트)는 1.90:1로 묻힌다 → canvas 반전 pill을 쓴다. */}
         <div className="mt-10 flex flex-wrap items-center gap-3">
           <a href="#projects" className={buttonClasses('outline', 'border border-transparent')}>
             프로젝트 보기
@@ -47,7 +47,7 @@ export default function Hero() {
         <dl className="mt-9 grid grid-cols-4 gap-x-6 gap-y-6 border-t border-canvas/20 pt-6 max-wrap:grid-cols-2">
           {PROFILE_FACTS.map((f) => (
             <div key={f.label}>
-              <dt className="text-[0.6875rem] font-medium uppercase tracking-[0.1em] text-canvas/60">
+              <dt className="text-[0.6875rem] font-medium uppercase tracking-[0.1em] text-canvas/85">
                 {f.label}
               </dt>
               <dd className="mt-1.5 text-[0.875rem] font-medium leading-[1.5] text-canvas break-keep">
