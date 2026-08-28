@@ -65,8 +65,9 @@ export default function Projects() {
   const rest = projects.slice(INITIAL_COUNT);
 
   return (
+    /* scroll-mt-14 — max-nav에서 sticky 상단바(56px)에 제목이 가리지 않도록 앵커 도착점을 내린다 */
     <section
-      className="max-w-[1080px] px-[72px] pb-[80px] pt-[80px] max-nav:px-[22px] max-nav:pb-[52px] max-nav:pt-[52px]"
+      className="max-w-[1080px] px-[72px] pb-[80px] pt-[80px] max-nav:scroll-mt-14 max-nav:px-[22px] max-nav:pb-[52px] max-nav:pt-[52px]"
       id="projects"
     >
       <SectionHead idx="01" title="Projects" />

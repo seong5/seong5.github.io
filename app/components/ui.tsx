@@ -5,7 +5,7 @@
 import Link from 'next/link';
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from 'react';
 
-type ButtonVariant = 'primary' | 'secondary' | 'outline';
+type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'onDark';
 
 const BASE =
   'inline-flex items-center justify-center gap-2 rounded-full font-medium leading-[1.5] whitespace-nowrap transition-transform duration-150 active:scale-[0.97] disabled:pointer-events-none disabled:opacity-40';
@@ -18,6 +18,9 @@ const VARIANTS: Record<ButtonVariant, string> = {
   secondary: 'h-12 px-8 text-[1rem] bg-cloud text-ink',
   // 흰 pill — 풀블리드 사진 위 "shop this image" CTA
   outline: 'px-6 py-3 text-[1rem] bg-canvas text-ink',
+  // 반전 패널(bg-ink) 위 저강도 CTA — 그 자리에선 accent 대비가 부족해 쓸 수 없다.
+  // outline과 높이를 맞추려면 짝이 되는 쪽에 border-transparent를 함께 준다.
+  onDark: 'px-6 py-3 text-[1rem] border border-canvas/30 text-canvas hover:bg-canvas/10',
 };
 
 export function buttonClasses(variant: ButtonVariant = 'primary', className = ''): string {
