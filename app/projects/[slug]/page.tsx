@@ -2,9 +2,14 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import InsightAccordion from '../../components/InsightAccordion';
 import ProjectToc, { type TocSection } from '../../components/ProjectToc';
-import { RevealGroup, RevealItem, RevealSelf } from '../../components/Reveal';
+import { RevealGroup, RevealItem } from '../../components/Reveal';
 import ScrollProgressBar from '../../components/ScrollProgressBar';
+import StackChips from '../../components/StackChips';
+import ThemeToggle from '../../components/ThemeToggle';
+import TroubleCard from '../../components/TroubleCard';
+import { Eyebrow, MetaList, StatGrid, buttonClasses } from '../../components/ui';
 import { getProject, projects } from '../projects';
 
 type Params = { slug: string };
@@ -40,6 +45,15 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   };
 }
 
+/** 상세 본문 섹션 제목 — 히어로 h1과 경쟁하지 않도록 작고 굵게, 헤어라인으로만 구분 */
+function H2({ children }: { children: string }) {
+  return (
+    <h2 className="border-b border-border pb-4 font-display text-read font-bold tracking-[0.02em]">
+      {children}
+    </h2>
+  );
+}
+
 export default async function ProjectDetail({ params }: { params: Promise<Params> }) {
   const { slug } = await params;
   const project = getProject(slug);
@@ -49,453 +63,237 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
   const order = String(index + 1).padStart(2, '0');
   const total = String(projects.length).padStart(2, '0');
   const prev = index > 0 ? projects[index - 1] : null;
-  const next = projects[(index + 1) % projects.length];
+  const next = index < projects.length - 1 ? projects[index + 1] : null;
+
+  // 코드가 비공개인 사내 서비스는 links가 비어 있다 — 링크 부재를 그대로 두지 않고 이유를 밝힌다
+  const isPrivate = project.links.length === 0;
+  const stackCore = (project.resumeStack ?? project.stack).slice(0, 3);
+  const stackRest = project.stack.filter((s) => !stackCore.includes(s));
+  const shots = project.gallery ?? [];
+  const work = project.work;
 
   const tocSections: TocSection[] = [
     { id: 'overview', label: 'Overview' },
-    { id: 'what-i-did', label: 'What I did' },
-    ...(project.metrics && project.metrics.length > 0
-      ? [{ id: 'key-results', label: 'Key results' }]
-      : []),
-    ...(project.troubleshooting && project.troubleshooting.length > 0
-      ? [{ id: 'troubleshooting', label: 'Trouble-Shooting' }]
-      : []),
-    ...(project.insights && project.insights.length > 0
-      ? [{ id: 'insights', label: 'Insights' }]
-      : []),
+    ...(shots.length > 0 ? [{ id: 'media', label: 'Screens' }] : []),
+    { id: 'work', label: 'What I did' },
+    ...(project.troubleshooting?.length ? [{ id: 'trouble', label: 'Trouble-Shooting' }] : []),
+    ...(project.insights?.length ? [{ id: 'insights', label: 'Insights' }] : []),
   ];
 
   return (
     <>
-      <nav className="sticky top-0 z-10 bg-canvas shadow-[inset_0_-1px_0_var(--color-hairline-soft)]">
-        <div className="relative mx-auto flex h-14 max-w-[920px] items-center justify-between px-8 max-wrap:px-[22px]">
+      <ScrollProgressBar />
+
+      <header className="sticky top-0 z-80 border-b border-border bg-bg-fade backdrop-blur-[14px]">
+        <div className="mx-auto flex max-w-detail flex-wrap items-center gap-x-[18px] gap-y-2 px-7 py-3">
           <Link
-            className="flex items-center gap-2 text-[0.875rem] font-medium text-ink-mute transition-colors hover:text-accent"
             href="/#projects"
+            className="flex items-center gap-2 font-mono text-meta tracking-[0.1em] text-text transition-colors hover:text-accent-deep"
           >
-            <span aria-hidden>←</span> <span>메인으로 돌아가기</span>
+            <span aria-hidden>←</span>
+            <span>PROJECTS</span>
           </Link>
-          <span className="pointer-events-none absolute left-1/2 max-w-[44%] -translate-x-1/2 truncate text-[0.8125rem] font-medium text-ink max-wrap:hidden">
+          <span aria-hidden className="h-4 w-px bg-border" />
+          <span className="text-label font-semibold tracking-[-0.01em]">
             {project.title.split(' - ')[0]}
           </span>
-          <span className="text-[0.75rem] font-medium tabular-nums tracking-[0.04em] text-ink-mute">
-            PROJECT {order} / {total}
-          </span>
-        </div>
-        <ScrollProgressBar />
-      </nav>
-
-      <ProjectToc sections={tocSections} slug={project.slug} />
-
-      <main
-        id="main-content"
-        tabIndex={-1}
-        className="mx-auto max-w-[920px] px-8 max-wrap:px-[22px]"
-      >
-        <header
-          id="overview"
-          className="scroll-mt-[112px] pb-[50px] pt-[74px] toc:scroll-mt-[80px]"
-        >
-          <div className="mb-[22px] flex flex-wrap items-center justify-between gap-[10px] text-[0.78125rem] text-mute">
-            <div className="flex flex-wrap items-center gap-[10px]">
-              <span>{project.org}</span>
-              <span>{project.period}</span>
-              {project.active && project.currentTask && (
-                <span className="inline-flex items-center rounded-full border border-hairline bg-cloud px-2 py-0.5 text-[0.6875rem] text-mute">
-                  {project.currentTask} 진행 중
-                </span>
-              )}
-            </div>
-            {project.links.length > 0 && (
-              <div className="flex shrink-0 gap-2">
-                {project.links.map((link) => (
-                  <a
-                    key={link.href}
-                    className="whitespace-nowrap rounded-full border border-hairline bg-canvas px-3 py-1.5 text-[0.75rem] text-paper transition hover:border-accent hover:bg-accent-soft"
-                    href={link.href}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {link.label} ↗
-                  </a>
-                ))}
-              </div>
-            )}
+          <div className="ml-auto flex items-center gap-3">
+            <span className="font-mono text-meta tabular-nums tracking-[0.08em] text-muted">
+              {order} / {total}
+            </span>
+            <ThemeToggle />
           </div>
-          <h1 className="text-[clamp(1.75rem,4.4vw,2.625rem)] font-medium leading-[1.2] tracking-[-0.01em]">
-            {project.title}
+        </div>
+      </header>
+
+      <div id="main-content" tabIndex={-1} className="mx-auto max-w-detail px-7">
+        {/* ── 히어로 ── */}
+        <section className="pt-20" id="top">
+          <div className="fade-in-slow flex flex-wrap items-center gap-3 font-mono text-meta tracking-[0.1em] text-muted">
+            <span className="rounded-chip bg-surface-2 px-2.5 py-1 text-text">{project.org}</span>
+            <span>{project.period}</span>
+            {project.active ? (
+              <span className="inline-flex items-center gap-1.5 text-accent-deep">
+                <span aria-hidden className="h-1.5 w-1.5 rounded-chip bg-accent" />
+                진행 중{project.currentTask ? ` · ${project.currentTask}` : ''}
+              </span>
+            ) : null}
+          </div>
+
+          <h1 className="mt-[26px] max-w-[18em] text-h1-sub font-bold tracking-[-0.04em] text-balance break-keep">
+            <span className="rise-mask">
+              <span className="rise-line">{project.title}</span>
+            </span>
           </h1>
-          <p className="mt-[18px] text-[1rem] font-normal leading-[1.8] text-charcoal break-keep">
+
+          <div className="mt-[30px] flex flex-wrap gap-2.5">
+            {project.links.map((l) => (
+              <a
+                key={l.label}
+                href={l.href}
+                target="_blank"
+                rel="noreferrer"
+                className={buttonClasses('accent', 'px-[18px] py-2.5')}
+              >
+                {l.label}
+                <span aria-hidden className="font-mono">
+                  ↗
+                </span>
+              </a>
+            ))}
+            {isPrivate ? (
+              <span className="inline-flex items-center rounded-chip border border-dashed border-border px-[18px] py-2.5 text-label font-semibold text-muted">
+                사내 서비스 · 코드 비공개
+              </span>
+            ) : null}
+          </div>
+
+          <p className="mt-[34px] max-w-[44em] text-[clamp(1rem,1.7vw,1.1875rem)] leading-[1.78] text-muted text-pretty break-keep">
             {project.detail ?? project.summary}
           </p>
-          <div className="mt-[34px] grid grid-cols-4 gap-px overflow-hidden rounded-card border border-hairline bg-hairline max-wrap:grid-cols-2">
-            <div className="bg-cloud px-[18px] py-4">
-              <div className="mb-[6px] text-[0.75rem] tracking-[.08em] text-mute">ROLE</div>
-              <div className="text-[0.84375rem] font-medium">{project.role}</div>
-            </div>
-            <div className="bg-cloud px-[18px] py-4">
-              <div className="mb-[6px] text-[0.75rem] tracking-[.08em] text-mute">PERIOD</div>
-              <div className="text-[0.84375rem] font-medium">{project.period}</div>
-              {project.active && project.currentTask && (
-                <div className="mt-1 text-[0.75rem] text-mute">현재: {project.currentTask} 진행 중</div>
-              )}
-            </div>
-            <div className="bg-cloud px-[18px] py-4">
-              <div className="mb-[6px] text-[0.75rem] tracking-[.08em] text-mute">TEAM</div>
-              <div className="whitespace-nowrap text-[0.84375rem] font-medium">{project.scale}</div>
-            </div>
-            <div className="bg-cloud px-[18px] py-4">
-              <div className="mb-[6px] text-[0.75rem] tracking-[.08em] text-mute">CATEGORY</div>
-              <div className="text-[0.84375rem] font-medium">{project.type}</div>
-            </div>
-          </div>
-          <div className="mt-[18px]">
-            <div className="mb-[10px] text-[0.75rem] tracking-[.08em] text-mute">STACK</div>
-            <div className="flex flex-wrap gap-2">
-              {project.stack.map((s) => (
-                <span
-                  className="rounded-full border border-hairline bg-cloud px-3 py-1.5 text-[0.75rem] text-paper"
-                  key={s}
-                >
-                  {s}
-                </span>
-              ))}
-            </div>
-          </div>
-        </header>
-
-        {project.gallery ? (
-          project.galleryCols === 3 ? (
-            <div className="mb-2 mt-[14px] grid grid-cols-3 gap-[14px] max-wrap:grid-cols-1">
-              {project.gallery.map((g, i) => (
-                <div className="flex justify-center" key={g.src}>
-                  <Image
-                    src={g.src}
-                    alt={`${project.title} 스크린샷 ${i + 1}`}
-                    width={g.w}
-                    height={g.h}
-                    sizes="(max-width: 920px) 100vw, 300px"
-                    className="h-auto max-h-[440px] w-auto max-w-full"
-                    loading={i < 3 ? 'eager' : 'lazy'}
-                    fetchPriority={i === 0 ? 'high' : undefined}
-                  />
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="mb-2 mt-[14px] flex flex-col gap-[14px]">
-              <div className="grid grid-cols-2 gap-[14px] max-wrap:grid-cols-1">
-                {project.gallery.slice(0, 2).map((g, i) => (
-                  <div className="flex justify-center" key={g.src}>
-                    <Image
-                      src={g.src}
-                      alt={`${project.title} 스크린샷 ${i + 1}`}
-                      width={g.w}
-                      height={g.h}
-                      sizes="(max-width: 920px) 50vw, 460px"
-                      className="h-auto max-h-[440px] w-auto max-w-full"
-                      loading="eager"
-                      fetchPriority={i === 0 ? 'high' : undefined}
-                    />
-                  </div>
-                ))}
-              </div>
-              {project.gallery.slice(2).map((g, i) => (
-                <div className="flex justify-center" key={g.src}>
-                  <Image
-                    src={g.src}
-                    alt={`${project.title} 스크린샷 ${i + 3}`}
-                    width={g.w}
-                    height={g.h}
-                    sizes="(max-width: 920px) 100vw, 920px"
-                    className="h-auto w-auto max-w-full"
-                  />
-                </div>
-              ))}
-            </div>
-          )
-        ) : (
-          <div className="mb-2 mt-[14px]">
-            {project.image ? (
-              <div
-                className={`relative aspect-[16/8] w-full overflow-hidden rounded-card bg-mount ${
-                  project.imageNoBorder ? '' : 'border border-hairline'
-                }`}
-              >
-                <Image
-                  src={project.image}
-                  alt={project.title}
-                  fill
-                  sizes="(max-width: 920px) 100vw, 920px"
-                  className={project.imageFit === 'contain' ? 'object-contain' : 'object-cover'}
-                  loading="eager"
-                  fetchPriority="high"
-                />
-              </div>
-            ) : (
-              <div className="ph-frame flex aspect-[16/8] w-full items-end rounded-card border border-hairline p-4">
-                <span className="text-[0.75rem] leading-[1.4] text-mute">
-                  [img] {project.thumbnail}
-                </span>
-              </div>
-            )}
-          </div>
-        )}
-
-        <section
-          id="what-i-did"
-          className="scroll-mt-[112px] border-t border-hairline py-12 toc:scroll-mt-[80px]"
-        >
-          <h2 className="mb-7 border-b border-hairline pb-3 text-[1.5rem] font-medium uppercase tracking-[-0.01em] text-ink">
-            What I did
-          </h2>
-          <RevealGroup className="flex flex-col">
-            {project.highlights.map((h, i) => (
-              <RevealItem
-                className="grid grid-cols-[auto_1fr] gap-4 border-t border-hairline py-[15px] first:border-t-0"
-                key={i}
-              >
-                <span className="mt-0.5 text-[0.8125rem] tabular-nums text-paper">
-                  {String(i + 1).padStart(2, '0')}
-                </span>
-                <p className="text-[0.9375rem] font-normal leading-[1.7] text-charcoal">{h}</p>
-              </RevealItem>
-            ))}
-          </RevealGroup>
         </section>
 
-        {project.metrics && project.metrics.length > 0 && (
-          <section
-            id="key-results"
-            className="scroll-mt-[112px] border-t border-hairline py-12 toc:scroll-mt-[80px]"
-          >
-            <h2 className="mb-7 border-b border-hairline pb-3 text-[1.5rem] font-medium uppercase tracking-[-0.01em] text-ink">
-              Key results
-            </h2>
-            <RevealGroup className="grid gap-px overflow-hidden rounded-card border border-hairline bg-hairline [grid-template-columns:repeat(auto-fit,minmax(140px,1fr))]">
-              {project.metrics.map((m, i) => (
-                <RevealItem className="bg-cloud px-[18px] py-5" key={i}>
-                  <div className="text-[clamp(1.375rem,3vw,1.75rem)] font-semibold leading-none tracking-[-.02em] text-paper">
-                    {m.value}
-                  </div>
-                  <div className="mt-[10px] text-[0.78125rem] font-normal leading-[1.5] text-mute">
-                    {m.label}
-                  </div>
-                </RevealItem>
-              ))}
-            </RevealGroup>
+        {/* ── 지표 — 시안에서 목차보다 위로 올라왔다. 스크롤 전에 결과가 먼저 읽힌다 ── */}
+        {project.metrics?.length ? (
+          <section className="pt-14">
+            <StatGrid items={project.metrics} />
           </section>
-        )}
+        ) : null}
 
-        {project.troubleshooting && project.troubleshooting.length > 0 && (
-          <section
-            id="troubleshooting"
-            className="scroll-mt-[112px] border-t border-hairline py-12 toc:scroll-mt-[80px]"
-          >
-            <h2 className="mb-7 border-b border-hairline pb-3 text-[1.5rem] font-medium uppercase tracking-[-0.01em] text-ink">
-              Trouble-Shooting
-            </h2>
-            <div className="flex flex-col gap-[18px]">
-              {project.troubleshooting.map((t, i) => (
-                <RevealSelf className="overflow-hidden rounded-card border border-hairline" key={i}>
-                  <div className="flex items-baseline gap-[14px] border-b border-hairline bg-surface px-6 py-[18px] max-wrap:px-5">
-                    <span className="text-[0.8125rem] font-medium tabular-nums text-paper">
-                      {String(i + 1).padStart(2, '0')}
-                    </span>
-                    <h3 className="text-[1.1875rem] font-medium leading-[1.4] tracking-[-.01em] text-paper">
-                      {t.title}
-                    </h3>
-                  </div>
-                  <div className="flex flex-col gap-6 bg-surface p-6 max-wrap:p-5">
-                    <div className="grid grid-cols-[64px_1fr] gap-x-4 gap-y-1 max-wrap:grid-cols-1 max-wrap:gap-y-1.5">
-                      <span className="text-[0.75rem] font-medium uppercase tracking-[.08em] text-paper">
-                        Problem
-                      </span>
-                      <p className="text-[0.90625rem] font-normal leading-[1.7] text-charcoal">
-                        {t.situation}
-                      </p>
-                    </div>
-                    <div className="grid grid-cols-[64px_1fr] gap-x-4 gap-y-1 max-wrap:grid-cols-1 max-wrap:gap-y-1.5">
-                      <span className="text-[0.75rem] font-medium uppercase tracking-[.08em] text-paper">
-                        Goal
-                      </span>
-                      <p className="text-[0.90625rem] font-normal leading-[1.7] text-charcoal">
-                        {t.task}
-                      </p>
-                    </div>
-                    {t.taskImage && (
-                      <Image
-                        src={t.taskImage.src}
-                        alt={`${t.title} 문제 구조 다이어그램`}
-                        width={t.taskImage.w}
-                        height={t.taskImage.h}
-                        sizes="(max-width: 920px) 100vw, 860px"
-                        className="h-auto w-full rounded-card border border-hairline bg-mount"
-                        unoptimized={t.taskImage.src.endsWith('.svg')}
-                      />
-                    )}
-                    <div className="grid grid-cols-[64px_1fr] gap-x-4 gap-y-2 max-wrap:grid-cols-1">
-                      <span className="text-[0.75rem] font-medium uppercase tracking-[.08em] text-paper">
-                        Action
-                      </span>
-                      <ul className="flex flex-col gap-[10px]">
-                        {t.action.map((a, j) => {
-                          const isSub = a.startsWith('\t');
-                          return (
-                            <li
-                              className={
-                                isSub
-                                  ? 'relative ml-[18px] pl-[18px] text-[0.90625rem] font-normal leading-[1.7] text-charcoal before:absolute before:left-0 before:top-[10px] before:h-[5px] before:w-[5px] before:rounded-full before:border before:border-mute'
-                                  : 'relative pl-[18px] text-[0.90625rem] font-normal leading-[1.7] text-charcoal before:absolute before:left-0 before:top-[11px] before:h-[5px] before:w-[5px] before:rounded-full before:bg-mute'
-                              }
-                              key={j}
-                            >
-                              {isSub ? a.slice(1) : a}
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    </div>
-                    {t.actionImage && (
-                      <Image
-                        src={t.actionImage.src}
-                        alt={`${t.title} 해결 구조 다이어그램`}
-                        width={t.actionImage.w}
-                        height={t.actionImage.h}
-                        sizes="(max-width: 920px) 100vw, 860px"
-                        className="h-auto w-full rounded-card border border-hairline bg-mount"
-                        unoptimized={t.actionImage.src.endsWith('.svg')}
-                      />
-                    )}
-                    <div className="grid grid-cols-[64px_1fr] gap-x-4 gap-y-2 rounded-card bg-surface-deep p-4 max-wrap:grid-cols-1">
-                      <span className="text-[0.75rem] font-medium uppercase tracking-[.08em] text-paper">
-                        Result
-                      </span>
-                      <ul className="flex flex-col gap-[10px]">
-                        {t.result.map((r, j) => (
-                          <li
-                            className="relative pl-[18px] text-[0.90625rem] font-normal leading-[1.7] text-charcoal before:absolute before:left-0 before:top-[10px] before:h-[6px] before:w-[6px] before:rounded-full before:bg-mute"
-                            key={j}
-                          >
-                            {r}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    {t.image && (
-                      <Image
-                        src={t.image.src}
-                        alt={`${t.title} 다이어그램`}
-                        width={t.image.w}
-                        height={t.image.h}
-                        sizes="(max-width: 920px) 100vw, 860px"
-                        className="mt-1 h-auto w-full rounded-card border border-hairline bg-mount"
-                        unoptimized={t.image.src.endsWith('.svg')}
-                      />
-                    )}
-                  </div>
-                </RevealSelf>
-              ))}
-            </div>
-          </section>
-        )}
+        {/* ── 좌측 목차 + 본문 ── */}
+        <div className="flex flex-wrap items-start gap-12 pt-16">
+          <ProjectToc sections={tocSections} />
 
-        {project.insights && project.insights.length > 0 && (
-          <section
-            id="insights"
-            className="scroll-mt-[112px] border-t border-hairline py-12 toc:scroll-mt-[80px]"
-          >
-            <h2 className="mb-7 border-b border-hairline pb-3 text-[1.5rem] font-medium uppercase tracking-[-0.01em] text-ink">
-              Insights
-            </h2>
-            <div className="flex flex-col gap-9">
-              {project.insights.map((ins, i) => (
-                <div key={i}>
-                  <h3 className="text-[1rem] font-medium leading-[1.5] tracking-[-.01em] text-paper">
-                    {ins.title}
-                  </h3>
-                  {ins.intro && (
-                    <p className="mt-[14px] text-[0.9375rem] font-normal leading-[1.8] text-charcoal">
-                      {ins.intro}
-                    </p>
-                  )}
-                  <RevealGroup className="mt-[22px] flex flex-col gap-[14px]">
-                    {ins.steps.map((s, j) => (
-                      <RevealItem
-                        className="rounded-card border border-hairline bg-surface p-6 max-wrap:p-5"
-                        key={j}
-                      >
-                        <div className="flex items-baseline gap-[14px]">
-                          <span className="text-[0.8125rem] tabular-nums text-paper">
-                            {String(j + 1).padStart(2, '0')}
-                          </span>
-                          <h4 className="text-[0.90625rem] font-medium leading-[1.5] text-paper">
-                            {s.title}
-                          </h4>
+          <main className="flex min-w-0 flex-1 basis-[560px] flex-col gap-[84px]">
+            <section id="overview" className="flex scroll-mt-24 flex-col gap-[22px]">
+              <H2>Overview</H2>
+              <MetaList
+                items={[
+                  { label: 'ROLE', value: project.role },
+                  { label: 'PERIOD', value: project.period },
+                  { label: 'TEAM', value: project.scale },
+                  { label: 'CATEGORY', value: project.type },
+                ]}
+              />
+              <div className="flex flex-col gap-2.5 pt-2">
+                <Eyebrow>STACK</Eyebrow>
+                <StackChips core={stackCore} rest={stackRest} />
+              </div>
+            </section>
+
+            {shots.length > 0 ? (
+              <section id="media" className="flex scroll-mt-24 flex-col gap-[22px]">
+                <H2>Screens</H2>
+                <RevealGroup className="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-3.5">
+                  {shots.map((m) => (
+                    <RevealItem key={m.src}>
+                      <figure className="m-0 flex flex-col gap-2.5">
+                        <div className="overflow-hidden rounded-media border border-border bg-surface-2">
+                          <Image
+                            src={m.src}
+                            alt={m.alt ?? `${project.title} 화면`}
+                            width={m.w}
+                            height={m.h}
+                            className="w-full"
+                          />
                         </div>
-                        <ul className="mt-3 flex flex-col gap-[10px] pl-[30px]">
-                          {s.points.map((p, k) => (
-                            <li
-                              className="relative pl-[18px] text-[0.90625rem] font-normal leading-[1.7] text-charcoal before:absolute before:left-0 before:top-[11px] before:h-[5px] before:w-[5px] before:rounded-full before:bg-mute"
-                              key={k}
-                            >
-                              {p}
-                            </li>
-                          ))}
-                        </ul>
-                      </RevealItem>
-                    ))}
-                  </RevealGroup>
-                  {ins.image && (
-                    <div className="mt-[18px] flex justify-center">
-                      <Image
-                        src={ins.image.src}
-                        alt={`${ins.title} 다이어그램`}
-                        width={ins.image.w}
-                        height={ins.image.h}
-                        sizes="(max-width: 920px) 100vw, 560px"
-                        className="h-auto w-auto max-h-[780px] max-w-full rounded-card bg-mount"
-                        unoptimized
-                      />
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
+                        {m.caption ? (
+                          <figcaption className="text-label leading-[1.55] text-muted break-keep">
+                            {m.caption}
+                          </figcaption>
+                        ) : null}
+                      </figure>
+                    </RevealItem>
+                  ))}
+                </RevealGroup>
+              </section>
+            ) : null}
 
-        <div className="flex items-center justify-between border-t border-hairline pb-20 pt-10">
+            <section id="work" className="flex scroll-mt-24 flex-col gap-[26px]">
+              <H2>What I did</H2>
+              {work ? (
+                <RevealGroup className="flex flex-col gap-[26px]">
+                  {work.map((g) => (
+                    <RevealItem
+                      key={g.tag}
+                      className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] items-start gap-6"
+                    >
+                      <span className="pt-1 font-mono text-eyebrow tracking-[0.16em] text-accent-deep">
+                        {g.tag}
+                      </span>
+                      <div className="col-span-2 flex flex-col gap-3.5">
+                        {g.items.map((i) => (
+                          <p key={i} className="text-read leading-[1.75] text-pretty break-keep">
+                            {i}
+                          </p>
+                        ))}
+                      </div>
+                    </RevealItem>
+                  ))}
+                </RevealGroup>
+              ) : (
+                <ul className="m-0 flex list-disc flex-col gap-3.5 pl-5">
+                  {project.highlights.map((h) => (
+                    <li key={h} className="text-read leading-[1.75] text-pretty break-keep">
+                      {h}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </section>
+
+            {project.troubleshooting?.length ? (
+              <section id="trouble" className="flex scroll-mt-24 flex-col gap-5">
+                <H2>Trouble-Shooting</H2>
+                <RevealGroup className="flex flex-col gap-5">
+                  {project.troubleshooting.map((t, i) => (
+                    <RevealItem key={t.title}>
+                      <TroubleCard t={t} num={String(i + 1).padStart(2, '0')} />
+                    </RevealItem>
+                  ))}
+                </RevealGroup>
+              </section>
+            ) : null}
+
+            {project.insights?.length ? (
+              <section id="insights" className="flex scroll-mt-24 flex-col gap-3">
+                <H2>Insights</H2>
+                <InsightAccordion insights={project.insights} />
+              </section>
+            ) : null}
+          </main>
+        </div>
+
+        {/* ── 이전/다음 ── */}
+        <nav className="mt-24 grid grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-px border-y border-border bg-border">
           {prev ? (
             <Link
-              className="group text-[0.8125rem] text-mute transition-colors hover:text-accent"
               href={`/projects/${prev.slug}`}
+              className="flex flex-col gap-2.5 bg-bg px-[26px] py-[34px] text-text transition-colors hover:bg-surface-2"
             >
-              Previous project
-              <br />
-              <span className="font-semibold text-paper">
-                <span className="inline-block transition-transform group-hover:-translate-x-1">
-                  ←
-                </span>{' '}
+              <Eyebrow>← PREVIOUS PROJECT</Eyebrow>
+              <span className="text-lead font-bold tracking-[-0.025em] break-keep">
                 {prev.title.split(' - ')[0]}
               </span>
             </Link>
-          ) : (
-            <span />
-          )}
-          <Link
-            className="group text-right text-[0.8125rem] text-mute transition-colors hover:text-accent"
-            href={`/projects/${next.slug}`}
-          >
-            Next project
-            <br />
-            <span className="font-semibold text-paper">
-              {next.title.split(' - ')[0]}{' '}
-              <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
-            </span>
-          </Link>
-        </div>
-      </main>
+          ) : null}
+          {next ? (
+            <Link
+              href={`/projects/${next.slug}`}
+              className="flex flex-col gap-2.5 bg-bg px-[26px] py-[34px] text-text transition-colors hover:bg-surface-2"
+            >
+              <Eyebrow>NEXT PROJECT →</Eyebrow>
+              <span className="text-lead font-bold tracking-[-0.025em] break-keep">
+                {next.title.split(' - ')[0]}
+              </span>
+            </Link>
+          ) : null}
+        </nav>
+
+        <p className="m-0 py-10 pb-18 font-mono text-meta text-muted">
+          © 2026 신성오 (Shin Seong-oh) — All rights reserved.
+        </p>
+      </div>
     </>
   );
 }

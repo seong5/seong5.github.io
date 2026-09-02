@@ -1,41 +1,35 @@
+import { PROFILE } from '../content/profile';
+import { RevealGroup, RevealItem } from './Reveal';
 import SectionHead from './SectionHead';
 
 const LINKS = [
-  { label: 'EMAIL', value: 'greenbi0852@gmail.com', href: 'mailto:greenbi0852@gmail.com' },
-  {
-    label: 'GITHUB',
-    value: 'github.com/seong5',
-    href: 'https://github.com/seong5',
-    external: true,
-  },
+  { label: 'EMAIL', value: PROFILE.email, href: `mailto:${PROFILE.email}` },
+  { label: 'GITHUB', value: 'github.com/seong5', href: PROFILE.github, external: true },
 ];
 
 export default function Contact() {
   return (
-    <section
-      className="max-w-[1080px] px-[72px] py-[80px] max-nav:px-[22px] max-nav:py-[52px]"
-      id="contact"
-    >
-      <SectionHead idx="04" title="Contact" />
-      <div className="mt-2 flex flex-wrap gap-x-14 gap-y-2 max-nav:flex-col max-nav:gap-x-0">
+    <section id="contact" className="mx-auto max-w-page scroll-mt-20 px-7 pt-[68px] pb-10">
+      <SectionHead idx="04" title="Contact" className="mb-11" />
+      <RevealGroup className="flex flex-col gap-2">
         {LINKS.map(({ label, value, href, external }) => (
-          <a
-            key={label}
-            href={href}
-            className="flex items-center justify-start gap-3 py-3 text-[0.875rem] text-paper transition-colors hover:text-mute"
-            {...(external ? { target: '_blank', rel: 'noreferrer' } : {})}
-          >
-            <span>
-              <span className="text-[0.75rem] tracking-[0.08em] text-mute">{label}</span>
-              <br />
-              {value}
-            </span>
-          </a>
+          <RevealItem key={label}>
+            <a
+              href={href}
+              {...(external ? { target: '_blank', rel: 'noreferrer' } : {})}
+              className="flex flex-wrap items-baseline gap-x-[18px] gap-y-2 border-b border-border px-1 py-[26px] text-text transition-[padding] duration-200 hover:pl-4"
+            >
+              <span className="font-mono text-eyebrow tracking-[0.16em] text-muted">{label}</span>
+              <span className="font-display text-h2 font-bold tracking-[-0.035em] break-all">
+                {value}
+              </span>
+            </a>
+          </RevealItem>
         ))}
-      </div>
-      <div className="mt-9 text-[0.75rem] text-mute">
+      </RevealGroup>
+      <p className="mt-14 pb-16 font-mono text-meta text-muted">
         © 2026 신성오 (Shin Seong-oh) — All rights reserved.
-      </div>
+      </p>
     </section>
   );
 }

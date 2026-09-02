@@ -27,19 +27,45 @@ export type Insight = {
   image?: Figure;
 };
 
-/** 트러블슈팅 — STAR(Situation·Task·Action·Result) 구조 */
+/**
+ * 트러블슈팅 — 결론 우선 구조.
+ *
+ * 기존 STAR(situation·task·action·result)에서 옮겨왔다. 방문자는 카드 하나를
+ * 끝까지 읽지 않으므로 "무엇이 해결됐나(conclusion) → 왜 그랬나(cause)"를 먼저 두고,
+ * 경위(problem·actions)는 접어둔다. lesson이 카드의 마무리다.
+ */
 export type Trouble = {
   title: string;
-  situation: string;
-  task: string;
-  action: string[];
-  result: string[];
-  /** Task(Goal) 아래에 붙는 다이어그램 */
-  taskImage?: Figure;
-  /** Action 아래에 붙는 다이어그램 */
-  actionImage?: Figure;
-  /** Result 아래에 붙는 다이어그램 */
+  /** RESULT — 무엇이 해결됐는지 한 문장. 카드에서 가장 크게, 가장 먼저 읽힌다 */
+  conclusion: string;
+  /** CAUSE — 근본 원인 요약. conclusion 바로 아래 강조 블록 */
+  cause: string;
+  /** PROBLEM — 처음 관측된 증상. 기본 접힘 */
+  problem: string;
+  /** ACTION — 조치 과정. 기본 접힘 */
+  actions: string[];
+  /** LEARNED — 다음에 가져갈 교훈 */
+  lesson: string;
+  /** before/after 비교 다이어그램 — 2열로 나란히 */
+  compare?: { label: string; src: string; w: number; h: number }[];
+  /** 단일 다이어그램 */
   image?: Figure;
+};
+
+/**
+ * What I did — 태그로 묶은 작업 그룹.
+ * highlights(평문 배열)는 resume(동결 라우트)이 소비하므로 그대로 두고,
+ * 상세 페이지만 이 그룹을 쓴다. 없으면 highlights로 폴백한다.
+ */
+export type WorkGroup = { tag: string; items: string[] };
+
+/** 상세 갤러리 한 장 — 캡션이 있으면 figure/figcaption으로 렌더 */
+export type Shot = {
+  src: string;
+  w: number;
+  h: number;
+  alt?: string;
+  caption?: string;
 };
 
 export type Project = {
@@ -62,8 +88,10 @@ export type Project = {
   summary: string;
   /** 상세 페이지 헤더용 설명 (없으면 summary 사용) */
   detail?: string;
-  /** 핵심 경험 및 성과 — 상세 "What I did" 번호 리스트 */
+  /** 핵심 경험 및 성과 — 평문 배열. resume(동결)이 상위 3개를 쓴다 */
   highlights: string[];
+  /** 상세 "What I did" 태그 그룹. 없으면 highlights를 그대로 렌더 */
+  work?: WorkGroup[];
   /** 입사지원서용 간소화 불릿 (없으면 highlights 상위 3개 사용) */
   resumeBullets?: string[];
   /** 기술 스택 */
@@ -81,7 +109,7 @@ export type Project = {
   /** 대표 이미지 테두리 제거 (기본은 border 표시) */
   imageNoBorder?: boolean;
   /** 상세 페이지 갤러리(여러 장). 있으면 단일 hero 대신 갤러리 섹션을 렌더 */
-  gallery?: { src: string; w: number; h: number }[];
+  gallery?: Shot[];
   /** 갤러리를 한 줄에 같은 높이로 N열 배치. 미지정 시 기본(2열 + 나머지 전체폭) */
   galleryCols?: 2 | 3;
   /** 정량 지표 — 있으면 "Key results" 섹션(카드 그리드) 렌더 */
@@ -115,6 +143,35 @@ export const projects: Project[] = [
       '구조·데이터 흐름 설계 시 Claude Code로 여러 대안을 빠르게 비교·검증하고, 코드 리뷰용 sub-agent를 직접 구성해 주기적 리뷰로 코드 품질을 관리.',
       'GitHub에 오픈소스로 공개하고 macOS 전용 설치 파일을 v1.0.8까지 배포, 지속적인 버전 업데이트로 고도화·유지보수 진행.',
     ],
+    work: [
+      {
+        tag: 'PRODUCT',
+        items: [
+          '매번 /usage나 웹으로 확인하던 사용량을 메뉴바에 %로 상주 표시하고, 클릭 시 그래프·히트맵 상세를 자동 갱신해 작업 흐름을 끊지 않도록 개선.',
+        ],
+      },
+      {
+        tag: 'ARCHITECTURE',
+        items: [
+          '처음 도입한 Electron으로 화면(렌더러)·데이터(메인)·연결(IPC) 3계층 구조를 설계하고, 미리 허용한 기능만 노출하는 안전한 연결 방식을 적용.',
+          'Tray 앱 특성상 몰리기 쉬운 호출을 막기 위해 IPC 진입 쓰로틀(1초)·fetch 최소 간격(5초)·인플라이트 프로미스 싱글턴의 3겹 캐싱/중복 제거 로직을 계층적으로 설계.',
+        ],
+      },
+      {
+        tag: 'PERFORMANCE',
+        items: [
+          'Claude Code 대화 로그(jsonl)를 바이트 오프셋 기반 증분 파싱으로 처리해, 파일이 커져도 새로 추가된 양에만 비례하는 일정한 갱신 속도와 데이터 정합성을 확보.',
+          'React StrictMode 이중 실행·자동 마운트·주기적 인터벌 등 정상적인 중복 호출이 rate-limit 오류로 노출되던 문제를, 실패 시 캐시를 반환하는 일관된 fallback 정책으로 통일해 해결.',
+        ],
+      },
+      {
+        tag: 'OPERATION',
+        items: [
+          '구조·데이터 흐름 설계 시 Claude Code로 여러 대안을 빠르게 비교·검증하고, 코드 리뷰용 sub-agent를 직접 구성해 주기적 리뷰로 코드 품질을 관리.',
+          'GitHub에 오픈소스로 공개하고 macOS 전용 설치 파일을 v1.0.8까지 배포, 지속적인 버전 업데이트로 고도화·유지보수 진행.',
+        ],
+      },
+    ],
     resumeBullets: [
       '메뉴바 % 상주 표시로 토큰 사용량 실시간 확인 UX 개선',
       '3겹 캐싱·중복 제거로 Tray 앱 API 호출 과부하 방지',
@@ -135,7 +192,10 @@ export const projects: Project[] = [
     resumeStack: ['Electron', 'React', 'TypeScript', 'Zustand', 'Playwright'],
     links: [
       { label: 'GitHub', href: 'https://github.com/seong5/claude-log' },
-      { label: 'Release', href: 'https://github.com/seong5/claude-log/releases/tag/v1.0.8' },
+      {
+        label: 'Release',
+        href: 'https://github.com/seong5/claude-log/releases/tag/v1.0.8',
+      },
     ],
     thumbnail: 'claude-log.jpg',
     image: '/projects/claude-log-1-card.webp',
@@ -184,56 +244,68 @@ export const projects: Project[] = [
     troubleshooting: [
       {
         title: '과금 없이 실제 사용량 조회 — OAuth 토큰 소스 발굴',
-        situation:
+        conclusion:
+          '호출당 과금 없이 이미 발급된 로그인 토큰을 재사용해, /usage·Claude 앱·웹과 일치하는 실제 사용량을 상주 표시하게 됐습니다.',
+        cause:
+          'API 방식은 호출 건수당 과금되어 주기적으로 갱신하는 상주 위젯에는 운영 부담이 컸고, 5시간 윈도우로 직접 계산한 값도 실제 /usage 수치와 일치하지 않았습니다.',
+        problem:
           '최초에는 가장 간편한 Anthropic API로 사용량을 가져오려 했지만, 호출 건수당 과금되는 방식이라 사용량을 주기적으로 갱신하는 상주 위젯에는 운영상 부담이 컸습니다.',
-        task: '과금 없이 /usage 명령어 및 Claude 앱·웹과 일치하는 실제 사용량을 위젯에 표시하는 것이 목표였습니다.',
-        action: [
-          '1차로 세션 첫 사용 시점부터 5시간 윈도우 총사용량을 계산하는 방식(5시간마다 리셋되는 점에 착안)으로 전환했으나, 이 값도 실제 /usage·Claude 앱·웹과 일치하지 않았습니다.',
-          "'Claude Code 로그인 OAuth 토큰을 재사용하면 과금 없이 실제 사용량을 조회할 수 있지 않을까'라는 가설을 세우고 구글링·CLI 탐색으로 검증했습니다.",
-          '그 결과 토큰 저장 우선순위를 다음 순서로 파악했습니다.',
-          '\t환경변수(ANTHROPIC_OAUTH_ACCESS_TOKEN)·.env',
-          '\t~/.claude/.credentials.json의 claudeAiOauth.accessToken',
-          '\tmacOS Keychain(security find-generic-password)',
+        actions: [
+          '1차로 세션 첫 사용 시점부터 5시간 윈도우 총사용량을 계산하는 방식으로 전환했으나, 이 값도 실제 /usage·Claude 앱·웹과 일치하지 않았습니다.',
+          '‘Claude Code 로그인 OAuth 토큰을 재사용하면 과금 없이 실제 사용량을 조회할 수 있지 않을까’라는 가설을 세우고 구글링·CLI 탐색으로 검증했습니다.',
+          '토큰 저장 우선순위를 파악했습니다 — ① 환경변수(ANTHROPIC_OAUTH_ACCESS_TOKEN)·.env ② ~/.claude/.credentials.json의 claudeAiOauth.accessToken ③ macOS Keychain(security find-generic-password).',
           '이 순서로 확보한 토큰으로 실제 사용량 엔드포인트를 호출해 위젯 데이터를 가져오도록 구현했습니다.',
         ],
-        result: [
-          '호출당 과금 없이 이미 발급된 로그인 토큰을 재사용해 실제 사용량을 조회하게 되었습니다.',
-          '위젯 값이 /usage·Claude 앱·웹과 일치해 신뢰할 수 있는 수치를 상주 표시합니다.',
-        ],
-        image: { src: '/projects/claude-log-token-priority.webp', w: 1436, h: 1310 },
+        lesson:
+          '위젯 값이 /usage·Claude 앱·웹과 일치해, 사용자가 신뢰할 수 있는 수치를 상주 표시합니다.',
+        image: {
+          src: '/projects/claude-log-token-priority.webp',
+          w: 1436,
+          h: 1310,
+        },
       },
       {
         title: '단일 동작에서 발생하는 사용량 조회 오류 메시지 해결',
-        situation:
+        conclusion:
+          '정상적인 단일 동작이 더 이상 오류로 노출되지 않고, 가드별로 다르던 실패 처리를 캐시 반환 하나의 fallback 정책으로 통일했습니다.',
+        cause:
+          '개발 모드 StrictMode의 useEffect 2회 실행, 마운트 시 자동 호출, 5분 인터벌, 포커스 복귀가 모두 같은 함수를 호출해, 캐시가 빈 타이밍에 두 번째 호출이 끼면 에러를 그대로 던졌습니다.',
+        problem:
           '앱을 실행하거나 한 번만 새로고침해도 높은 확률로 사용량이 표시되지 않고 rate-limit 조회 오류가 노출됐습니다. 사용자 상호작용은 1회인데도 오류가 나는 상황이었습니다.',
-        task: '1회 동작이 내부적으로 여러 중복 호출로 처리돼 오류가 나는 원인을 찾아, 정상 흐름에서는 오류가 나지 않게 하는 것이 목표였습니다.',
-        action: [
+        actions: [
           '메인 프로세스(src/main/index.ts)에 3단계 가드가 있었습니다 — IPC 진입의 OAUTH_IPC_MIN_INTERVAL_MS(1000), fetch 내부의 OAUTH_USAGE_MIN_INTERVAL_MS(5000), 동시 호출을 묶는 oauthUsageInflight 프로미스.',
           '개발 모드 React.StrictMode로 useEffect가 2번 실행되고, App.tsx 마운트 시 fetchOAuthUsage() 자동 호출·5분 인터벌·포커스 복귀가 모두 같은 함수를 호출했습니다.',
           '첫 호출 실패나 캐시가 빈 타이밍에 두 번째 호출이 끼면, 단순히 에러를 던져 useOAuthUsage 훅에서 화면 오류로 그대로 노출됐습니다.',
+          '가드의 목적(과도한 호출 차단)은 유지하되, 실패 시 마지막 캐시를 반환하는 fallback으로 세 가드의 실패 처리를 통일했습니다.',
         ],
-        result: [
-          '정상적인 단일 동작이 더 이상 오류로 노출되지 않습니다.',
-          '과도한 호출을 막는 가드 목적은 유지하되, StrictMode 이중 실행·자동 마운트·인터벌·포커스 복귀 같은 정상 중복 호출은 조용히 처리되게 했습니다.',
-          '가드별로 다르던 실패 처리를 캐시 반환이라는 하나의 fallback 정책으로 통일해 유지보수성도 확보했습니다.',
-        ],
-        image: { src: '/projects/claude-log-defense-pipeline.webp', w: 1920, h: 836 },
+        lesson:
+          '과도한 호출을 막는 가드의 목적은 유지하되, StrictMode 이중 실행·자동 마운트·인터벌·포커스 복귀 같은 정상 중복 호출은 조용히 처리되어야 합니다.',
+        image: {
+          src: '/projects/claude-log-defense-pipeline.webp',
+          w: 1920,
+          h: 836,
+        },
       },
       {
         title: '증분 파싱(Incremental Parsing)으로 갱신 비용 일정화',
-        situation:
+        conclusion:
+          '파일이 커져도 갱신 비용이 추가분에만 비례해, O(전체 파일)을 O(추가된 양)으로 바꿨습니다.',
+        cause:
+          'Claude Code는 대화를 ~/.claude/projects/**/*.jsonl에 계속 이어붙이는데, 갱신마다 파일 전체를 다시 파싱하면 파일이 커질수록 느려지는 구조였습니다.',
+        problem:
           'Claude Code는 대화를 ~/.claude/projects/**/*.jsonl에 계속 이어붙입니다. 갱신마다 파일 전체를 다시 파싱하면 파일이 커질수록 느려지는 구조였습니다.',
-        task: '파일별로 읽은 바이트 위치(offset)를 기억해 변경 시 추가분만 파싱하도록 — O(전체 파일)을 O(추가된 양)으로 바꾸는 것이 목표였습니다.',
-        action: [
+        actions: [
           '파일별 상태를 Map에 { offset, watcher }로 보관하고, 변경 이벤트가 오면 저장된 offset부터 읽습니다.',
           '한 줄이 다 쓰이기 전에 이벤트가 올 수 있어, 마지막 조각은 항상 건너뛰고 offset도 완성된 줄까지만 전진시켜 끝줄을 다음번에 온전히 다시 읽습니다.',
           'offset은 실제 UTF-8 바이트 길이에 줄바꿈(\\n) 1바이트를 더해 전진시킵니다. 글자 수가 아닌 바이트 단위라 위치가 어긋나거나 유실·중복 집계가 없습니다.',
         ],
-        result: [
-          '파일이 커져도 갱신 비용이 추가분에만 비례해 일정한 반응 속도를 유지합니다.',
-          '쓰는 도중 깨진 줄을 읽는 사고를 막아 데이터 정합성을 보장합니다.',
-        ],
-        image: { src: '/projects/claude-log-incremental-parsing.webp', w: 1920, h: 1251 },
+        lesson:
+          '쓰는 도중 깨진 줄을 읽는 사고를 막아 데이터 정합성을 보장합니다. 누적되는 로그를 다루는 모든 곳에 같은 패턴을 쓸 수 있습니다.',
+        image: {
+          src: '/projects/claude-log-incremental-parsing.webp',
+          w: 1920,
+          h: 1251,
+        },
       },
     ],
   },
@@ -254,6 +326,22 @@ export const projects: Project[] = [
       '재고관리와 CRO(연구용역) 두 도메인을 하나의 서비스로 통합해 전체 데이터 서비스 흐름을 구축.',
       'Zod 스키마로 폼·API 응답을 런타임 검증해 TypeScript 컴파일 단계의 한계를 보완.',
       '상태 전이·뮤테이션 등 핵심 비즈니스 로직에 단위 테스트를 우선 작성하고 MSW API Mocking 환경을 구축해 코드 퀄리티와 이후 API 작업의 안정성을 확보.',
+    ],
+    work: [
+      {
+        tag: 'DESIGN',
+        items: [
+          '서비스 전반의 ERD를 설계하고 DB·스키마 데이터 모델링부터 FE 전반 구현·배포까지 풀사이클을 직접 주도.',
+          '재고관리와 CRO(연구용역) 두 도메인을 하나의 서비스로 통합해 전체 데이터 서비스 흐름을 구축.',
+        ],
+      },
+      {
+        tag: 'QUALITY',
+        items: [
+          'Zod 스키마로 폼·API 응답을 런타임 검증해 TypeScript 컴파일 단계의 한계를 보완.',
+          '상태 전이·뮤테이션 등 핵심 비즈니스 로직에 단위 테스트를 우선 작성하고 MSW API Mocking 환경을 구축해 코드 퀄리티와 이후 API 작업의 안정성을 확보.',
+        ],
+      },
     ],
     resumeBullets: [
       'ERD 설계부터 FE 구현·배포까지 풀사이클 주도',
@@ -277,6 +365,13 @@ export const projects: Project[] = [
     links: [],
     thumbnail: 'umust-erp.jpg',
     image: '/projects/umust-erp.webp',
+    gallery: [{ src: '/projects/umust-erp.webp', w: 1280, h: 647 }],
+    metrics: [
+      { value: '404 해소', label: '배포 환경 CRO API 전면 실패 → 완전 해결' },
+      { value: '0회', label: 'status 탭 전환 시 네트워크 요청' },
+      { value: '1곳 수렴', label: 'croApiPath()로 경로 생성 통합' },
+      { value: '풀사이클', label: 'ERD 설계 → FE 구현 → 배포' },
+    ],
     insights: [
       {
         title: '쿼리키는 화면 상태가 아니라 서버 응답의 정체성으로 설계한다',
@@ -374,39 +469,52 @@ export const projects: Project[] = [
     troubleshooting: [
       {
         title: '배포 환경에서 발생한 CRO API 404 에러',
-        situation:
+        conclusion:
+          '배포 404가 완전히 해소되고, 공개 경로·내부 경로·프론트 호출부의 책임이 분리돼 같은 유형의 라우팅 버그 재발 표면이 사라졌습니다.',
+        cause:
+          '게이트웨이의 병합된 Nginx 설정에 /api/ location이 재고용만 잡혀 있어 CRO 요청이 재고 API로 조용히 폴백되고 있었고, 로컬은 Vite dev 프록시가 이 차이를 가렸습니다.',
+        problem:
           '로컬에서는 정상이던 서비스가 배포 환경에서 CRO 도메인의 모든 API가 404로 실패했습니다. 재고·거래 API는 정상이고 CRO만 실패해, 도메인 단위 라우팅 문제로 판단했습니다.',
-        task: '로컬은 되고 배포만 안 되는 환경 차이를 역추적해, 프론트 요청 경로와 게이트웨이(Nginx)·백엔드 라우팅을 하나의 규칙으로 정합화하는 것이 목표였습니다.',
-        taskImage: { src: '/projects/umust-erp-404-broken.svg', w: 680, h: 368 },
-        action: [
+        actions: [
           '운영 서버에 SSH로 접속해 docker ps로 컨테이너·포트 매핑을 확인하고, 재고와 CRO 백엔드가 별도 컨테이너로 분리돼 있음을 파악했습니다.',
           '게이트웨이의 병합된 Nginx 설정을 덤프해보니 /api/ location이 재고용만 잡혀 있고 CRO 라우팅이 없어 CRO 요청이 재고 API로 폴백되고 있었습니다. (로컬은 Vite dev 프록시가 이 차이를 가렸습니다.)',
           'CRO 공개 경로를 재고와 네임스페이스가 겹치지 않게 분리하고, 수십 곳에 하드코딩된 경로를 croApiPath() 헬퍼로 교체했습니다.',
           '게이트웨이가 공개 경로(/cro-api)를 CRO 실제 경로(/api/cro)로 rewrite하도록 수정하고, Vite dev 프록시·CI 빌드 env를 추가해 로컬·배포가 같은 접두사 규칙을 공유하게 했습니다.',
         ],
-        actionImage: { src: '/projects/umust-erp-404-fixed.svg', w: 680, h: 360 },
-        result: [
-          '배포 404가 완전히 해소됐습니다.',
-          '공개 경로(/cro-api)·내부 경로(/api/cro)·프론트 호출부의 책임이 분리되고, 경로 생성이 croApiPath() 한 곳으로 수렴해 같은 유형의 라우팅 버그 재발 표면이 사라졌습니다.',
+        lesson:
           '추측 대신 SSH·docker ps·nginx -T로 운영 라우팅을 직접 검증한 것이 결정적이었고, 공개 API 네임스페이스를 서비스별로 분리하지 않으면 게이트웨이 prefix 매칭에서 다른 서비스로 조용히 폴백된다는 점을 확인했습니다.',
+        compare: [
+          {
+            label: 'BEFORE — 재고 API로 폴백',
+            src: '/projects/umust-erp-404-broken.svg',
+            w: 680,
+            h: 368,
+          },
+          {
+            label: 'AFTER — 분리된 라우팅',
+            src: '/projects/umust-erp-404-fixed.svg',
+            w: 680,
+            h: 360,
+          },
         ],
       },
       {
         title: 'dev 환경에서 CRO 화면만 데이터가 안 뜨는 문제 (502 → CORS)',
-        situation:
-          '재고 화면은 정상인데 CRO 화면만 데이터가 안 떴습니다. CRO API를 Swagger에서 직접 호출하면 200이었고, 증상도 Vite 프록시 경유는 502, 브라우저 직접 호출은 CORS로 바뀌어 서버·네트워크·CORS 문제가 뒤섞여 보였습니다.',
-        task: 'Swagger는 되는데 앱만 안 되는 차이를 역추적해 문제 레이어(네트워크 / 브라우저 보안정책 / 서버 origin)를 하나씩 분리하고, dev·prod를 안전하게 정합화하는 것이 목표였습니다.',
-        action: [
+        conclusion:
+          '최종 원인은 CRO 서버 CORS 허용 origin에 dev origin이 빠진 것이었고, allowedOriginPatterns로 교체해 내부망 IP는 와일드카드로·dev 포트는 고정했습니다.',
+        cause:
+          'Swagger의 200은 CRO 서버가 서빙하는 same-origin이라 검사를 건너뛴 것이고 앱은 cross-origin이라 검사 대상이었습니다. WebMvcConfig의 허용 origin에 배포 포트만 있고 dev origin(:5173)이 빠져 있었습니다.',
+        problem:
+          '재고 화면은 정상인데 CRO 화면만 데이터가 안 떴습니다. CRO API를 Swagger에서 직접 호출하면 200이었고, 증상도 Vite 프록시 경유는 502·브라우저 직접 호출은 CORS로 바뀌어 서버·네트워크·CORS 문제가 뒤섞여 보였습니다.',
+        actions: [
           'Vite 프록시 경유 CRO 요청은 전부 502였습니다. curl로 확인하니 이 dev 머신에서는 node·curl이 API 호스트에 연결 거부당했고 브라우저는 두 API 모두 도달(Swagger 200) → 서버 다운이 아니라 node(프록시) 경로만 막힌 환경 차이로 좁혔습니다.',
           'CRO를 브라우저 직접 호출(.env.local에 베이스 URL 지정)로 바꾸자 502가 CORS 에러로 바뀌었습니다. 브라우저는 CRO 서버에 도달했으나 응답에 CORS 헤더가 없어 차단 → 남은 문제는 CORS임을 확정했습니다.',
           'Swagger 200 ≠ CORS 정상임을 규명했습니다. Swagger는 CRO 서버가 서빙하는 same-origin이라 검사를 건너뛴 것이고, 앱은 dev origin→CRO 서버 cross-origin이라 검사 대상이었습니다. 메인 API는 CORS 헤더가 있어 정상, CRO만 없어 막혔습니다.',
           '백엔드가 CORS를 추가한 뒤에도 실패가 이어지자, 프론트 담당이지만 백엔드 레포를 직접 분석했습니다. WebMvcConfig의 addMapping 허용 origin에 배포 포트만 있고 dev origin(:5173)이 빠진 것을 찾아냈고, Allow-Origin은 scheme·host·port가 정확히 일치해야 하므로 이 불일치가 최종 원인이었습니다.',
+          '프론트는 vite.config를 건드리지 않고 .env.local(gitignore)로만 직접 호출을 설정해 다른 머신·CI의 표준 상태를 유지했습니다.',
         ],
-        result: [
-          '최종 원인은 CRO 서버 CORS 허용 origin에 dev origin 누락이었습니다. allowedOrigins는 부분 와일드카드·allowCredentials(true)+와일드카드(*) 조합이 안 돼, allowedOriginPatterns로 교체해 내부망 IP는 와일드카드로, dev 포트는 고정했습니다.',
-          '프론트는 vite.config를 건드리지 않고 .env.local(gitignore)로만 직접 호출을 설정해 다른 머신·CI의 표준 상태를 유지했습니다. prod는 게이트웨이 same-origin이라 CORS 검사가 없어, CRO 서버 origin만 허용해두면 dev·prod 모두 안전합니다.',
-          '특정 도메인만 실패하면 서버별 CORS 차이를 먼저 의심하고, same-origin 도구(Swagger)의 성공은 로직이 정상이라는 증거일 뿐 CORS가 된다는 증거가 아니며, 502 ↔ CORS 전환으로 네트워크 계층과 브라우저 정책 계층을 분리 진단할 수 있음을 확인했습니다.',
-        ],
+        lesson:
+          '특정 도메인만 실패하면 서버별 CORS 차이를 먼저 의심하고, same-origin 도구(Swagger)의 성공은 로직이 정상이라는 증거일 뿐 CORS가 된다는 증거가 아니며, 502 ↔ CORS 전환으로 네트워크 계층과 브라우저 정책 계층을 분리 진단할 수 있습니다.',
       },
     ],
   },
@@ -428,6 +536,28 @@ export const projects: Project[] = [
       '책임이 과중하던 위저드 컴포넌트를 순수 함수·상태 오케스트레이션 훅·표현 계층 3계층으로 분리해 테스트 용이성과 재사용성을 확보.',
       'next.config rewrites로 CORS를 우회하고 serverApi/clientApi를 이원화해 실행 환경별 토큰 주입을 일원화.',
       'Playwright E2E(3개 브라우저)와 Postman Mock Server를 도입해 인증·폼 검증 플로우와 에러 시나리오를 API 완성 전에 선행 검증하고 개발 공수를 단축.',
+    ],
+    work: [
+      {
+        tag: 'AUTH',
+        items: [
+          'Next.js proxy.ts(구 middleware) 단일 진입점에서 JWT의 role을 읽어 /admin·/business 접근을 서버 단계에서 분기·차단하는 RBAC 가드를 구현하고, 페이지마다 흩어지던 권한 체크를 제거.',
+          'next.config rewrites로 CORS를 우회하고 serverApi/clientApi를 이원화해 실행 환경별 토큰 주입을 일원화.',
+        ],
+      },
+      {
+        tag: 'FORM',
+        items: [
+          '코스·사업장·프로모션 등록 폼을 수동 useState에서 React Hook Form + Zod 단일 스키마 검증으로 마이그레이션하고, 다단계 위저드는 스텝별 부분 검증으로 UX와 성능을 동시에 개선.',
+          '책임이 과중하던 위저드 컴포넌트를 순수 함수·상태 오케스트레이션 훅·표현 계층 3계층으로 분리해 테스트 용이성과 재사용성을 확보.',
+        ],
+      },
+      {
+        tag: 'QUALITY',
+        items: [
+          'Playwright E2E(3개 브라우저)와 Postman Mock Server를 도입해 인증·폼 검증 플로우와 에러 시나리오를 API 완성 전에 선행 검증하고 개발 공수를 단축.',
+        ],
+      },
     ],
     resumeBullets: [
       'middleware RBAC 가드로 /admin·/business 권한 분기·차단',
@@ -451,6 +581,13 @@ export const projects: Project[] = [
     links: [],
     thumbnail: 'dobong-admin.jpg',
     image: '/projects/dobong-admin.webp',
+    gallery: [{ src: '/projects/dobong-admin.webp', w: 1280, h: 600 }],
+    metrics: [
+      { value: '백엔드 변경 0', label: '프록시 + 인터셉터로 CORS 해소' },
+      { value: '100 → 20', label: '리뷰 수집 스캔 상한 축소' },
+      { value: '3계층', label: '위저드를 순수함수·훅·표현 계층으로 분리' },
+      { value: '3 브라우저', label: 'Playwright E2E 선행 검증' },
+    ],
     insights: [
       {
         title: 'RBAC 라우팅 가드를 미들웨어 한 곳으로 통합',
@@ -598,49 +735,52 @@ export const projects: Project[] = [
     troubleshooting: [
       {
         title: '브라우저 → 백엔드 직접 호출 시 CORS 차단',
-        situation:
+        conclusion:
+          'CORS 에러가 백엔드 변경 0으로 제거되고, 서버·클라이언트의 호출 경로와 토큰 주입 책임이 명확히 분리됐습니다.',
+        cause:
+          '클라이언트 컴포넌트가 브라우저에서 백엔드로 직접(cross-origin) 요청해 CORS 정책에 걸렸습니다. 백엔드 설정 수정은 협업·배포 비용이 커 프론트에서 풀어야 했습니다.',
+        problem:
           '클라이언트 컴포넌트에서 axios로 백엔드 API를 직접 호출하자 브라우저가 CORS 정책으로 요청을 차단했습니다. 백엔드 CORS 설정 수정은 협업·배포 비용이 커, 프론트에서 우회할 전략이 필요했습니다.',
-        task: '백엔드 설정 변경 없이 브라우저 요청을 동일 출처로 만들고, 서버와 클라이언트 양쪽의 토큰 주입을 일관되게 유지하는 것을 목표로 했습니다.',
-        action: [
+        actions: [
           'next.config의 rewrites로 /backend/{path}를 NEXT_PUBLIC_API_URL로 프록시하고, clientApi의 baseURL을 /backend로 지정해 브라우저가 자신과 같은 출처로 요청을 보내도록 했습니다.',
           '토큰 주입은 axios 요청 인터셉터에서 getSession()으로 세션 토큰을 꺼내 Authorization 헤더에 붙여 일원화했습니다.',
           '서버 컴포넌트는 auth() 기반 serverApi로 백엔드에 직접 호출하도록 분리해, 실행 환경별 호출 경로를 명확히 나눴습니다.',
         ],
-        result: [
-          'CORS 에러가 제거되고 백엔드 변경은 0이었습니다.',
-          '서버는 auth() 기반 serverApi, 클라이언트는 프록시 + 인터셉터 기반 clientApi로 실행 환경별 호출 경로와 토큰 주입 책임이 명확히 분리됐습니다.',
-        ],
+        lesson:
+          '서버는 auth() 기반 serverApi, 클라이언트는 프록시 + 인터셉터 기반 clientApi로 실행 환경별 호출 경로와 토큰 주입 책임을 분리하면, 백엔드를 건드리지 않고도 CORS를 구조적으로 회피할 수 있습니다.',
         image: { src: '/projects/dobong-admin-cors.svg', w: 680, h: 510 },
       },
       {
         title: '리뷰 전체 병합 시 순차 HTTP 요청 폭증으로 인한 로딩 지연',
-        situation:
+        conclusion:
+          '수집 지연을 상한으로 제한해 체감 비용을 제거하고, 재진입 시 불필요한 재요청도 캐싱으로 막았습니다.',
+        cause:
+          '커서(lastId) 페이지네이션은 다음 커서를 받아야 다음 요청을 보낼 수 있어 본질적으로 순차인데, 페이지 상한을 100으로 둬 최악의 경우 요청이 100번 누적됐습니다.',
+        problem:
           '관리자 상세 화면에서 장소·코스 리뷰를 커서(lastId) 기반으로 끝까지 긁어오는데, 페이지 상한을 100으로 두니 순차(while) 요청이 누적돼 체감 로딩이 느렸습니다.',
-        task: '커서 기반 전체 수집의 지연을 제한하면서, 재진입 시 불필요한 재요청을 막는 것을 목표로 했습니다.',
-        action: [
+        actions: [
           '커서 페이지네이션은 다음 lastId가 있어야 다음 요청을 보낼 수 있어 본질적으로 순차입니다. 그래서 스캔 상한을 100 → 20으로 낮춰 최악의 지연을 제한했습니다.',
           'TanStack Query에 staleTime 5분을 두어 재진입 시 재요청을 막았습니다.',
           "코드 주석으로 '추후 서버 페이지네이션으로 전환'이라는 후속 과제를 명시해, 임시 방어와 근본 개선 경로를 분리했습니다.",
         ],
-        result: [
-          '수집 지연을 상한으로 제한해 체감 비용을 제거했습니다.',
-          '당장의 UX(상한·캐싱)와 구조 개선(페이지네이션 도입)을 분리해 우선순위를 잡은 사례입니다.',
-        ],
+        lesson:
+          '당장의 UX(상한·캐싱)와 구조 개선(서버 페이지네이션 도입)을 분리해 우선순위를 잡은 사례입니다. 임시 방어를 넣을 때는 근본 개선 경로를 코드에 함께 남겨야 합니다.',
       },
       {
         title: '다단계 폼 — 마지막 스텝에서야 에러가 터지는 검증 UX',
-        situation:
+        conclusion:
+          '각 단계에서 즉시 피드백을 받아, 잘못된 입력으로 다음 스텝에 진입하는 일이 사라졌습니다.',
+        cause:
+          '전체 스키마를 제출 시점에 한 번에 검증하니 1스텝의 오류가 마지막 단계에서야 드러났고, 반대로 항상 전체를 검증하면 아직 채우지 않은 필드 때문에 다음 스텝 진행이 막혔습니다.',
+        problem:
           '코스 등록이 다단계 위저드인데, 전체 스키마를 제출 시점에 한 번에 검증하니 사용자가 1스텝에서 잘못 입력해도 마지막 단계에 가서야 에러를 확인했습니다. 반대로 전체 필드를 항상 검증하면 다음 스텝 진행이 불필요하게 막혔습니다.',
-        task: "스텝별로 '그 단계에 필요한 필드만' 검증해 진행을 통제하되, 최종 제출 시 전체 스키마로 마무리하는 것을 목표로 했습니다.",
-        action: [
+        actions: [
           "RHF + zodResolver(mode: 'onBlur') 기반에서 handleNext가 trigger(['title','durationStr','level'])처럼 해당 스텝 필드만 부분 검증하도록 구성했습니다.",
           '이미지처럼 스키마 밖 조건은 stepValidationError 상태로 별도 처리했습니다.',
           "동적 항목(하이라이트)은 useFieldArray로 관리하면서 '항목 제목 5개 이상' 같은 규칙은 Zod superRefine으로 교차 검증했습니다.",
         ],
-        result: [
-          '각 단계에서 즉시 피드백을 받아, 잘못된 입력으로 다음 스텝에 진입하는 일이 사라졌습니다.',
+        lesson:
           '제출 시점엔 전체 스키마가 한 번 더 보장되고, 검증 규칙이 Zod 스키마 한 곳에 모여 유지보수성이 높아졌습니다.',
-        ],
       },
     ],
   },
@@ -662,6 +802,23 @@ export const projects: Project[] = [
       'Mutation + 목록 리페치 2단계를 Mutation 단일 호출로 개선해 네트워크 요청을 기존 대비 50% 절감.',
       'API 응답 필드 최적화로 제안서 목록 데이터 크기를 1,415KB → 206KB로 약 85% 축소하여 초기 로딩 속도 개선.',
       'Admin 페이지에 사용자 트래킹 기능을 직접 구현해 실제 사용자 데이터 기반의 서비스 고도화·운영 전략 수립에 기여.',
+    ],
+    work: [
+      {
+        tag: 'PRODUCT',
+        items: [
+          'Langchain으로 미팅 회의록 기반 AI 제안서 자동 생성 플로우를 설계해, 수기 작성 대비 초안 생성 시간을 2~3분 내로 단축.',
+          'Admin 페이지에 사용자 트래킹 기능을 직접 구현해 실제 사용자 데이터 기반의 서비스 고도화·운영 전략 수립에 기여.',
+        ],
+      },
+      {
+        tag: 'PERFORMANCE',
+        items: [
+          '낙관적 업데이트(Optimistic Updates)를 도입해 평균 1.5~3초이던 사용자 대기 시간을 0초로 단축하고 서비스 반응성을 개선.',
+          'Mutation + 목록 리페치 2단계를 Mutation 단일 호출로 개선해 네트워크 요청을 기존 대비 50% 절감.',
+          'API 응답 필드 최적화로 제안서 목록 데이터 크기를 1,415KB → 206KB로 약 85% 축소하여 초기 로딩 속도 개선.',
+        ],
+      },
     ],
     resumeBullets: [
       '제안서 목록 API 1.4MB → 206KB (85%↓) 최적화',
@@ -688,6 +845,7 @@ export const projects: Project[] = [
     links: [],
     thumbnail: 'deckly.jpg',
     image: '/projects/deckly.webp',
+    gallery: [{ src: '/projects/deckly.webp', w: 1920, h: 990 }],
     metrics: [
       { value: '85%', label: '제안서 목록 API 응답 크기 감축' },
       { value: '50%', label: 'Mutation 네트워크 요청 절감' },
@@ -745,32 +903,34 @@ export const projects: Project[] = [
     troubleshooting: [
       {
         title: '계정 전환 시 이전 사용자의 제안서 목록이 노출되는 캐시 오염',
-        situation:
+        conclusion:
+          '계정 전환 시 이전 사용자의 목록이 노출되던 문제가 해소되고, 로그아웃 시점에 메모리 캐시까지 비워집니다.',
+        cause:
+          "제안서 목록 API의 queryKey가 사용자 식별자 없이 ['proposals']처럼 정적으로 구성돼, TanStack Query가 모든 사용자에게 동일한 캐시를 공유하고 있었습니다.",
+        problem:
           '계정 A로 로그인 후 로그아웃하고 계정 B로 로그인하면, /dashboard에 여전히 A의 제안서 목록이 렌더링되고 새로고침을 해야만 B의 목록이 보이는 문제가 발생했습니다.',
-        task: '인증 상태의 변화와 데이터 캐시의 생명주기를 일치시켜, 계정 전환 시 이전 사용자의 데이터가 남지 않도록 격리하는 것을 목표로 했습니다.',
-        action: [
+        actions: [
           "제안서 목록 API의 queryKey가 사용자 식별자 없이 ['proposals']처럼 정적으로 구성돼, TanStack Query가 모든 사용자에게 동일 캐시를 공유하던 것을 원인으로 확인했습니다.",
           "쿼리 키에 로그인 사용자 고유 ID를 포함하도록 수정(['proposals'] → ['proposals', userId])해 계정마다 별도 캐시 저장소를 할당하고, 사용자 전환 시 새 키로 독립적인 Fetching이 발생하도록 했습니다.",
           '로그아웃 핸들러에서 queryClient.clear()를 실행해 메모리에 남은 모든 쿼리 데이터를 즉시 삭제하는 보안 중심의 클린업 프로세스를 구축했습니다.',
         ],
-        result: [
-          '계정 전환 시 이전 사용자의 목록이 노출되던 문제가 해소됐습니다.',
-          '인증 상태와 캐시 생명주기를 일치시켜, 다중 사용자 환경에서 의도치 않은 데이터 유출 가능성을 원천 차단했습니다.',
-        ],
+        lesson:
+          '인증 상태와 캐시 생명주기를 일치시켜, 다중 사용자 환경에서 의도치 않은 데이터 유출 가능성을 원천 차단했습니다. 사용자별로 달라지는 응답의 쿼리 키에는 반드시 사용자 식별자가 들어가야 합니다.',
       },
       {
         title: '과대 페이로드로 인한 제안서 목록 로딩 지연',
-        situation:
+        conclusion:
+          'API 응답 크기를 1,415KB에서 206KB로 약 85% 줄여 스켈레톤 지연·타임아웃 현상을 해소했습니다.',
+        cause:
+          "getProposals()가 .select('*')로 목록 렌더링에 쓰지 않는 필드까지 전부 전송해, 단일 API 응답이 1,415KB에 달했습니다.",
+        problem:
           '로그인 후 /dashboard 리다이렉트 시 제안서 목록 스켈레톤 UI가 비정상적으로 길게 유지되거나, 심한 경우 네트워크 타임아웃 에러가 노출되는 현상이 발생했습니다.',
-        task: '목록 렌더링에 불필요한 데이터 전송을 제거해 응답 크기와 로딩 시간을 줄이는 것을 목표로 했습니다.',
-        action: [
+        actions: [
           "Chrome DevTools Network 탭으로 단일 API 응답 크기가 1,415KB임을 측정하고, getProposals()가 .select('*')로 모든 필드를 전송하던 것을 원인으로 확인했습니다.",
           "목록 렌더링에 필요한 필드만 명시적으로 선택하도록 .select('id, title, client, status, progress, error, created_at, updated_at, …')로 변경했습니다.",
         ],
-        result: [
-          'API 응답 크기를 1,415KB에서 206KB로 약 85% 감소시켜 네트워크 리소스를 최적화했습니다.',
-          '스켈레톤 지연·타임아웃 현상이 해소되고 목록 초기 로딩 속도가 개선됐습니다.',
-        ],
+        lesson:
+          '목록에 실제로 쓰이는 필드만 명시적으로 선택하는 것만으로 네트워크 비용을 크게 줄일 수 있습니다. 추측 대신 DevTools로 응답 크기를 먼저 측정한 것이 원인 특정을 빠르게 만들었습니다.',
         image: { src: '/projects/deckly-payload-after.webp', w: 425, h: 18 },
       },
     ],
@@ -795,6 +955,33 @@ export const projects: Project[] = [
       '알림 시스템을 Database Subscription에서 Supabase Broadcast로 전환해 등록 시점에 맞춘 정확한 실시간 알림을 구현.',
       'Zod 런타임 검증과 Jest 기반 TDD를 도입해 데이터 무결성과 안정적인 코드 품질을 확보.',
       '실사용자 20명을 확보하고 주기적인 피드백 수집을 바탕으로 UI/UX 개선·기능 고도화에 반영.',
+    ],
+    work: [
+      {
+        tag: 'ARCHITECTURE',
+        items: [
+          'Supabase 기반으로 직접 SQL DB 스키마 설계·데이터 모델링부터 FE·BE·배포까지 1인 풀사이클로 진행.',
+          '알림 시스템을 Database Subscription에서 Supabase Broadcast로 전환해 등록 시점에 맞춘 정확한 실시간 알림을 구현.',
+        ],
+      },
+      {
+        tag: 'PERFORMANCE',
+        items: [
+          '서버 컴포넌트 전환으로 핵심 콘텐츠를 HTML에 선반영해 메인 페이지 Lighthouse Performance를 71 → 99점(약 39%↑)으로 개선.',
+        ],
+      },
+      {
+        tag: 'QUALITY',
+        items: [
+          'Zod 런타임 검증과 Jest 기반 TDD를 도입해 데이터 무결성과 안정적인 코드 품질을 확보.',
+        ],
+      },
+      {
+        tag: 'OPERATION',
+        items: [
+          '실사용자 20명을 확보하고 주기적인 피드백 수집을 바탕으로 UI/UX 개선·기능 고도화에 반영.',
+        ],
+      },
     ],
     resumeBullets: [
       'Lighthouse Performance 71 → 99점 (서버 컴포넌트 전환)',
@@ -935,20 +1122,20 @@ export const projects: Project[] = [
     troubleshooting: [
       {
         title: '알림 시점이 부정확한 Database Subscription을 Broadcast로 전환',
-        situation:
+        conclusion:
+          '페이지 새로고침 없이 등록 즉시 팀원에게 알림이 전달되고, 수신 시 추가 API 호출 없이 UI를 렌더링합니다.',
+        cause:
+          'Database Subscription은 DB 변화에 반응하는 방식이라 관리자 작업·단순 수정에도 알림이 발송됐고, 특정 경기·일정의 맥락을 메시지에 담기 어려웠습니다.',
+        problem:
           '경기 결과 확인·일정 등록은 핵심 기능이라 등록 즉시 알림이 필요했습니다. 초기 Database Subscription 방식은 관리자 작업·단순 수정에도 알림이 발송되는 부정확한 트리거 시점, 특정 경기·일정에 구체적 메시지를 담기 어려운 맥락 결여가 한계였습니다.',
-        task: 'DB 변화에 반응하는 방식 대신, 사용자가 등록 버튼을 눌렀을 때만 작동하는 이벤트 기반으로 알림 시점의 정확도를 높이는 것이 목표였습니다.',
-        action: [
+        actions: [
           'API Route(/api/matches·/api/schedules)에서 DB 트랜잭션 성공이 확인된 시점에만 channel.send()를 호출하도록 설계해, 관리자 데이터 수정에도 알림이 가던 로직을 제거했습니다.',
           'NotificationProvider로 서비스 전체에서 등록 이벤트를 한 곳에서 감지하게 해, 페이지마다 알림 로직을 두지 않도록 했습니다.',
           '수신된 알림은 Zustand 전역 보관함에 저장해 종 아이콘과 상세 드롭다운이 항상 같은 최신 데이터를 보여주도록 했습니다.',
           'useEffect 클린업으로 언마운트 시 자동 구독 해제해 메모리 누수를 방지하고, 알림 전송 실패가 등록 로직에 영향을 주지 않도록 비동기 예외 처리를 적용했습니다.',
         ],
-        result: [
-          '페이지 새로고침 없이도 팀원에게 실시간으로 알림을 전달할 수 있게 됐습니다.',
-          'Broadcast에 필요한 정보를 모두 담아 전달해, 알림 수신 시 추가 API 호출 없이 UI를 렌더링하며 네트워크 비용을 절감했습니다.',
-          'TypeScript로 알림 타입을 구분하고 Zustand로 UI와 로직을 완전히 분리해, 새로운 알림 기능을 확장할 수 있는 기반을 마련했습니다.',
-        ],
+        lesson:
+          'TypeScript로 알림 타입을 구분하고 Zustand로 UI와 로직을 완전히 분리해, 새로운 알림 기능을 확장할 수 있는 기반을 마련했습니다. 알림은 "데이터가 변했을 때"가 아니라 "사용자가 의도한 행동을 했을 때" 보내야 정확합니다.',
       },
     ],
   },
@@ -969,6 +1156,27 @@ export const projects: Project[] = [
       '등록 이미지 개수에 따라 레이아웃이 유동적으로 변하는 반응형 이미지 그리드를 구현해 화면 비율과 시각적 일관성을 확보.',
       'Kakao Maps SDK를 지연 로딩으로 주입하고 window 참조 전 클라이언트 실행 여부를 검증해 SSR 참조 에러를 방지, Read-Only·Resize로 디바이스별 일관된 지도 뷰 유지.',
       'Zustand로 판매자 관리 로직의 Prop Drilling을 해소하고, TanStack Query staleTime으로 중복 API 요청을 차단해 서버 부하를 경감.',
+    ],
+    work: [
+      {
+        tag: 'PRODUCT',
+        items: [
+          '체험 예약 입력의 복잡도를 낮추기 위해 디바이스별 단계(Step)형 입력 폼을 설계해 이탈률을 줄이는 사용자 경험을 제공.',
+          '등록 이미지 개수에 따라 레이아웃이 유동적으로 변하는 반응형 이미지 그리드를 구현해 화면 비율과 시각적 일관성을 확보.',
+        ],
+      },
+      {
+        tag: 'INTEGRATION',
+        items: [
+          'Kakao Maps SDK를 지연 로딩으로 주입하고 window 참조 전 클라이언트 실행 여부를 검증해 SSR 참조 에러를 방지, Read-Only·Resize로 디바이스별 일관된 지도 뷰 유지.',
+        ],
+      },
+      {
+        tag: 'PERFORMANCE',
+        items: [
+          'Zustand로 판매자 관리 로직의 Prop Drilling을 해소하고, TanStack Query staleTime으로 중복 API 요청을 차단해 서버 부하를 경감.',
+        ],
+      },
     ],
     resumeBullets: [
       '디바이스별 Step형 예약 플로우 설계·구현',
@@ -996,6 +1204,7 @@ export const projects: Project[] = [
     ],
     thumbnail: 'globalnomad.jpg',
     image: '/projects/globalnomad.webp',
+    gallery: [{ src: '/projects/globalnomad.webp', w: 1920, h: 990 }],
     insights: [
       {
         title: '디바이스 대응력을 고려한 기능 단위 컴포넌트 설계',
@@ -1027,18 +1236,19 @@ export const projects: Project[] = [
     troubleshooting: [
       {
         title: '디바이스별로 다른 예약 플로우를 위한 컴포넌트·로직 분리',
-        situation:
+        conclusion:
+          'PC·태블릿·모바일 각각에 맞는 예약 플로우를 완성하고, 스프린트 내에 구현하지 못했던 위저드를 마무리했습니다.',
+        cause:
+          '하나의 캘린더 컴포넌트가 모든 디바이스의 UI와 로직을 함께 처리해, 조건문과 검증이 기기별로 얽힌 강결합 상태였습니다.',
+        problem:
           '체험 상세 페이지의 예약 플로우가 Figma 시안상 디바이스별로 달라야 했습니다. PC는 한 화면에서 모든 단계를 진행하지만 Tablet·Mobile은 예약 → 날짜 → 시간 → 인원 → 완료의 위저드여야 했는데, 스프린트 기간 내에 이를 구현하지 못했습니다.',
-        task: '하나의 캘린더 컴포넌트가 모든 디바이스의 UI·로직을 처리해 조건문·검증이 기기별로 얽힌 강결합을 풀어, 디바이스별 예약 플로우를 안정적으로 구현하는 것이 목표였습니다.',
-        action: [
+        actions: [
           'PC는 한 화면 진행을 유지하고, 태블릿·모바일은 각각 사용될 컴포넌트를 분리해 개발했습니다.',
           "모바일·태블릿은 useState로 현재 단계를 추적하고 기기별 스텝 수에 따라 조건부 렌더링하는 '다음' 버튼 중심의 위저드 플로우를 구현했습니다.",
           'UI는 분리하되 예약에 필요한 핵심 로직(날짜 검증·API 호출 등)은 커스텀 훅으로 캡슐화해 데이터 무결성과 유지보수성을 확보했습니다.',
         ],
-        result: [
-          'PC·태블릿·모바일 각각에 맞는 예약 플로우를 완성했습니다.',
+        lesson:
           'UI와 비즈니스 로직을 분리해 컴포넌트 가독성과 재사용성이 높아지고, 디바이스 조건이 늘어도 대응하기 쉬운 구조를 확보했습니다.',
-        ],
       },
     ],
   },
@@ -1059,6 +1269,27 @@ export const projects: Project[] = [
       '라이브러리 없이 Range Slider형 가격 필터(0~100만원)와 와인 타입·평점 다중 조건 필터링 로직을 직접 구현해 최적화.',
       'AWS(Route53·EC2)로 배포 전 과정을 직접 수행한 뒤, 비용·운영 안정성을 고려해 Vercel로 마이그레이션.',
       '컨테이너-프리젠테이션 패턴으로 비즈니스 로직과 뷰를 분리해 컴포넌트 재사용성과 유지보수성을 확보.',
+    ],
+    work: [
+      {
+        tag: 'PRODUCT',
+        items: [
+          'UI 라이브러리 없이 캐러셀을 직접 구현해 번들 크기를 최적화하고, 평점 4.2점 이상 상위 와인 8종을 랜덤 추천하는 메인 인터페이스를 제공.',
+          '라이브러리 없이 Range Slider형 가격 필터(0~100만원)와 와인 타입·평점 다중 조건 필터링 로직을 직접 구현해 최적화.',
+        ],
+      },
+      {
+        tag: 'ARCHITECTURE',
+        items: [
+          '컨테이너-프리젠테이션 패턴으로 비즈니스 로직과 뷰를 분리해 컴포넌트 재사용성과 유지보수성을 확보.',
+        ],
+      },
+      {
+        tag: 'INFRA',
+        items: [
+          'AWS(Route53·EC2)로 배포 전 과정을 직접 수행한 뒤, 비용·운영 안정성을 고려해 Vercel로 마이그레이션.',
+        ],
+      },
     ],
     resumeBullets: [
       'UI 라이브러리 없이 캐러셀·필터 직접 구현, 번들 최적화',
@@ -1086,6 +1317,7 @@ export const projects: Project[] = [
     ],
     thumbnail: 'whyne.jpg',
     image: '/projects/whyne.webp',
+    gallery: [{ src: '/projects/whyne.webp', w: 1920, h: 981 }],
     imageNoBorder: true,
     insights: [
       {
@@ -1137,17 +1369,18 @@ export const projects: Project[] = [
     troubleshooting: [
       {
         title: 'EC2 재시작 후 발생한 도메인 연결 끊김·SSH 권한 에러',
-        situation:
+        conclusion:
+          '변경된 IP를 DNS 레코드에 반영해 도메인 연결이 즉시 복구되고, 접속·배포 절차를 매뉴얼화해 재발을 막았습니다.',
+        cause:
+          'EC2를 중단 후 재시작하면 Public IP가 바뀌는데 Route53 레코드가 기존 IP를 가리키고 있었고, SSH는 키 페어(.pem)가 없는 경로에서 실행해 권한을 얻지 못했습니다.',
+        problem:
           'EC2 인스턴스를 재시작한 뒤 서비스에 접속이 되지 않는 현상이 발생했고, SSH 터미널 접속 시에도 권한 에러가 나 배포가 중단됐습니다.',
-        task: '재시작으로 끊긴 도메인 연결을 복구하고, 반복 가능한 SSH 접속·배포 절차를 정립하는 것을 목표로 했습니다.',
-        action: [
+        actions: [
           '원인 ①: EC2를 중단 후 재시작하면 Public IP가 바뀌어 Route53의 기존 IP와 불일치하며 도메인 연결이 끊겼습니다. 변경된 Public IP를 Route53 레코드에 즉시 업데이트해 복구했습니다.',
           '원인 ②: 키 페어(.pem)가 없는 경로에서 SSH를 실행해 권한을 얻지 못했습니다. SSH·배포 스크립트를 키 파일이 있는 디렉토리에서 수행하도록 매뉴얼화하고 권한(chmod 400)을 재확인했습니다.',
         ],
-        result: [
-          '변경된 IP를 DNS 레코드에 반영해 도메인 연결이 즉시 복구됐습니다.',
-          '실행 경로·권한 절차를 매뉴얼화해, 인스턴스 재시작 시 같은 클래스의 접속·배포 중단이 재발하지 않도록 했습니다.',
-        ],
+        lesson:
+          '실행 경로·권한 절차를 매뉴얼화해, 인스턴스 재시작 시 같은 클래스의 접속·배포 중단이 재발하지 않도록 했습니다. 고정 IP가 필요하면 Elastic IP를 붙이는 것이 근본 해법입니다.',
       },
     ],
   },

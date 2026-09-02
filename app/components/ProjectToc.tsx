@@ -1,22 +1,17 @@
 'use client';
 
 import { useEffect, useState, type MouseEvent } from 'react';
-import { motion, useReducedMotion } from 'motion/react';
 
 export type TocSection = { id: string; label: string };
 
-export default function ProjectToc({
-  sections,
-  slug,
-}: {
-  sections: TocSection[];
-  slug: string;
-}) {
+/**
+ * 프로젝트 상세 목차.
+ *
+ * 넓은 화면에서는 본문 좌측 208px sticky 열, 좁은 화면에서는 가로 스크롤 칩 줄.
+ * active 표시는 motion 대신 좌측 2px 보더 + 색 전환으로 처리한다(라이브러리 불필요).
+ */
+export default function ProjectToc({ sections }: { sections: TocSection[] }) {
   const [active, setActive] = useState(sections[0]?.id ?? '');
-  const reduceMotion = useReducedMotion();
-  const indicatorTransition = reduceMotion
-    ? { duration: 0 }
-    : { type: 'spring' as const, stiffness: 380, damping: 32 };
 
   useEffect(() => {
     const els = sections
@@ -31,8 +26,7 @@ export default function ProjectToc({
           .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
         if (visible[0]) setActive(visible[0].target.id);
       },
-      // 상단 sticky 바(약 62~106px)만큼 위를 잘라내고, 화면 하단 70%는 비활성 처리
-      { rootMargin: '-110px 0px -70% 0px', threshold: 0 },
+      { rootMargin: '-15% 0px -70% 0px', threshold: 0 },
     );
     els.forEach((el) => observer.observe(el));
     return () => observer.disconnect();
@@ -47,61 +41,31 @@ export default function ProjectToc({
   };
 
   return (
-    <>
-      {/* 넓은 화면: 본문 우측 여백에 고정된 세로 목차 */}
-      <nav className="fixed left-[calc(50%+460px+40px)] top-[120px] z-[8] hidden w-[168px] toc:block">
-        <div className="mb-3 text-[0.6875rem] uppercase tracking-[.12em] text-ink-mute">
-          Contents
-        </div>
-        <ul className="flex flex-col border-l border-hairline">
-          {sections.map((s) => (
-            <li key={s.id}>
-              <a
-                href={`#${s.id}`}
-                onClick={(e) => handleClick(e, s.id)}
-                className={`relative -ml-px block whitespace-nowrap py-1 pl-[14px] text-[0.78125rem] uppercase leading-[1.5] tracking-[.06em] transition ${
-                  active === s.id ? 'font-medium text-accent' : 'text-ink-mute hover:text-accent'
-                }`}
-              >
-                {active === s.id && (
-                  <motion.span
-                    layoutId={`toc-desktop-indicator-${slug}`}
-                    className="absolute inset-y-0 left-0 w-0.5 bg-accent"
-                    transition={indicatorTransition}
-                  />
-                )}
-                {s.label}
-              </a>
-            </li>
-          ))}
-        </ul>
+    <aside className="flex-none nav:sticky nav:top-[78px] nav:w-52">
+      <span className="mb-2.5 hidden font-mono text-eyebrow tracking-[0.18em] text-muted nav:block">
+        CONTENTS
+      </span>
+      <nav className="flex gap-1 overflow-x-auto pb-2 nav:flex-col nav:overflow-visible nav:pb-0 [&::-webkit-scrollbar]:hidden">
+        {sections.map((s, i) => {
+          const on = active === s.id;
+          return (
+            <a
+              key={s.id}
+              href={`#${s.id}`}
+              onClick={(e) => handleClick(e, s.id)}
+              aria-current={on ? 'true' : undefined}
+              className={`flex flex-none items-baseline gap-2.5 rounded-[8px] px-2.5 py-[7px] text-label font-semibold whitespace-nowrap transition-colors nav:border-l-2 nav:rounded-none ${
+                on
+                  ? 'bg-surface-2 text-text nav:bg-transparent nav:border-accent'
+                  : 'text-muted hover:text-text nav:border-transparent'
+              }`}
+            >
+              <span className="font-mono text-eyebrow">{String(i + 1).padStart(2, '0')}</span>
+              {s.label}
+            </a>
+          );
+        })}
       </nav>
-
-      {/* 좁은 화면: 상단 바 아래 sticky 가로 탭 목차 */}
-      <nav className="sticky top-[62px] z-[8] hidden border-b border-hairline bg-canvas/90 backdrop-blur-[8px] nav:block toc:hidden">
-        <ul className="mx-auto flex max-w-[920px] gap-1.5 overflow-x-auto px-8 py-2.5 max-wrap:px-[22px] [&::-webkit-scrollbar]:hidden">
-          {sections.map((s) => (
-            <li key={s.id}>
-              <a
-                href={`#${s.id}`}
-                onClick={(e) => handleClick(e, s.id)}
-                className={`relative block whitespace-nowrap rounded-full px-3 py-1.5 text-[0.75rem] uppercase tracking-[.06em] transition ${
-                  active === s.id ? 'font-medium text-accent' : 'text-ink-mute hover:text-accent'
-                }`}
-              >
-                {active === s.id && (
-                  <motion.span
-                    layoutId={`toc-mobile-indicator-${slug}`}
-                    className="absolute inset-0 rounded-full border border-hairline bg-accent-soft"
-                    transition={indicatorTransition}
-                  />
-                )}
-                <span className="relative z-10">{s.label}</span>
-              </a>
-            </li>
-          ))}
-        </ul>
-      </nav>
-    </>
+    </aside>
   );
 }

@@ -1,29 +1,82 @@
 /* ──────────────────────────────────────────────────────────
-   Nike 디자인 시스템 공통 빌딩 블록 (Phase 1)
-   pill geometry · 순흑백 · 평면. button 3종 / filter-chip / badge.
+   TRACK 디자인 시스템 빌딩 블록.
+   시안(Portfolio / Project Detail Redesign.dc.html)에서 반복 횟수가
+   충분한 요소만 프리미티브로 뽑았다. 한 번만 쓰이는 모양은 여기 넣지 않는다.
+
+   ⚠️ 라임(accent)은 라이트 배경에서 텍스트로 쓰면 1.4:1로 죽는다.
+   채움 위 텍스트는 accent-ink, 액센트 "텍스트" 자리는 accent-deep.
+   (globals.css 상단 규칙)
    ────────────────────────────────────────────────────────── */
 import Link from 'next/link';
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from 'react';
 
-type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'onDark';
+/* ── Eyebrow ──
+   두 시안 합쳐 30회 이상 나오는 마이크로 라벨. STACK · RESULT · CAUSE ·
+   CONTENTS · 01 · 기간. 모노가 이 디자인의 시그니처라 여기서 폰트를 고정한다. */
+export function Eyebrow({
+  children,
+  className = '',
+  as: Tag = 'span',
+}: {
+  children: ReactNode;
+  className?: string;
+  as?: 'span' | 'div' | 'dt';
+}) {
+  return (
+    <Tag
+      className={`font-mono text-eyebrow font-medium uppercase tracking-[0.16em] text-muted ${className}`.trim()}
+    >
+      {children}
+    </Tag>
+  );
+}
 
-const BASE =
-  'inline-flex items-center justify-center gap-2 rounded-full font-medium leading-[1.5] whitespace-nowrap transition-transform duration-150 active:scale-[0.97] disabled:pointer-events-none disabled:opacity-40';
+/* ── Chip ──
+   pill. 스택·org·태그. solid가 기본이고 outline은 "펼친 나머지"처럼
+   한 단계 낮은 위계를 나타낼 때 쓴다. */
+type ChipVariant = 'solid' | 'outline' | 'accent' | 'dashed';
 
-/* button-primary / -secondary / -outline-on-image */
-const VARIANTS: Record<ButtonVariant, string> = {
-  // bg-accent · 흰 텍스트 — 시스템의 유일한 primary CTA
-  primary: 'h-12 px-8 text-[1rem] bg-accent text-on-accent',
-  // bg-cloud · 잉크 텍스트 — primary가 이미 있을 때의 저강도 대안
-  secondary: 'h-12 px-8 text-[1rem] bg-cloud text-ink',
-  // 흰 pill — 풀블리드 사진 위 "shop this image" CTA
-  outline: 'px-6 py-3 text-[1rem] bg-canvas text-ink',
-  // 반전 패널(bg-ink) 위 저강도 CTA — 그 자리에선 accent 대비가 부족해 쓸 수 없다.
-  // outline과 높이를 맞추려면 짝이 되는 쪽에 border-transparent를 함께 준다.
-  onDark: 'px-6 py-3 text-[1rem] border border-canvas/30 text-canvas hover:bg-canvas/10',
+const CHIP: Record<ChipVariant, string> = {
+  solid: 'bg-surface-2 text-text',
+  outline: 'border border-border text-muted',
+  accent: 'bg-accent text-accent-ink',
+  dashed: 'border border-dashed border-border text-muted',
 };
 
-export function buttonClasses(variant: ButtonVariant = 'primary', className = ''): string {
+export function Chip({
+  variant = 'solid',
+  children,
+  className = '',
+}: {
+  variant?: ChipVariant;
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <span
+      className={`inline-flex items-center gap-2 rounded-chip px-3.5 py-1.5 text-label font-semibold ${CHIP[variant]} ${className}`.trim()}
+    >
+      {children}
+    </span>
+  );
+}
+
+/* ── Button ── */
+type ButtonVariant = 'accent' | 'outline' | 'dashed';
+
+const BASE =
+  'inline-flex items-center justify-center gap-2.5 rounded-chip font-semibold whitespace-nowrap transition-[transform,background-color,border-color] duration-200 cursor-pointer disabled:pointer-events-none disabled:opacity-40';
+
+const VARIANTS: Record<ButtonVariant, string> = {
+  // 유일한 primary CTA. 라임 채움 + 근검정 텍스트로 15.4:1
+  accent: 'px-[22px] py-3.5 text-body bg-accent text-accent-ink hover:-translate-y-0.5',
+  outline: 'px-[22px] py-3.5 text-body border border-border text-text hover:bg-surface-2',
+  // "더보기"처럼 아직 내용이 없는 자리 — 점선이 그 미완결을 그대로 표현한다
+  dashed:
+    'px-4 py-3 text-label border border-dashed border-border text-text hover:bg-surface-2 hover:border-solid',
+};
+
+export function buttonClasses(variant: ButtonVariant = 'accent', className = ''): string {
   return `${BASE} ${VARIANTS[variant]} ${className}`.trim();
 }
 
@@ -36,7 +89,7 @@ type ButtonProps = {
 } & Omit<ButtonHTMLAttributes<HTMLButtonElement> & AnchorHTMLAttributes<HTMLAnchorElement>, 'href'>;
 
 export function Button({
-  variant = 'primary',
+  variant = 'accent',
   href,
   external,
   children,
@@ -67,65 +120,73 @@ export function Button({
   );
 }
 
-/* filter-chip + filter-chip-active — 선택 시 완전 반전(검정), 중간 상태 없음 */
-export function FilterChip({
-  active = false,
+/* ── Panel ──
+   스킬·트러블슈팅·인사이트가 공유하는 카드 면.
+   이 시스템에 그림자 경계는 없다 — 1px border가 유일한 구분이다. */
+export function Panel({
   children,
   className = '',
-  ...rest
-}: {
-  active?: boolean;
-  children: ReactNode;
-  className?: string;
-} & ButtonHTMLAttributes<HTMLButtonElement>) {
-  return (
-    <button
-      type="button"
-      aria-pressed={active}
-      className={`inline-flex h-10 items-center rounded-full px-4 text-[1rem] font-medium leading-[1.5] transition-colors ${
-        active
-          ? 'bg-accent text-on-accent'
-          : 'border border-hairline bg-canvas text-ink hover:border-accent'
-      } ${className}`.trim()}
-      {...rest}
-    >
-      {children}
-    </button>
-  );
-}
-
-/* badge-promo — 흰 배경 + 1px hairline, 제품 이미지 위 top-left */
-export function PromoBadge({
-  children,
-  className = '',
+  as: Tag = 'div',
 }: {
   children: ReactNode;
   className?: string;
+  as?: 'div' | 'article' | 'section';
 }) {
   return (
-    <span
-      className={`inline-flex items-center rounded-full border border-hairline bg-canvas px-3 py-1 text-[0.75rem] font-medium leading-[1.5] text-ink ${className}`.trim()}
-    >
+    <Tag className={`rounded-panel border border-border bg-surface ${className}`.trim()}>
       {children}
-    </span>
+    </Tag>
   );
 }
 
-/* badge-sale-text — 컨테이너 없는 유일한 배지, price-row 인라인 텍스트 */
-export function SalePrice({
-  price,
-  original,
-  percentOff,
+/* ── StatGrid ──
+   지표 그리드. gap을 1px로 두고 컨테이너를 border 색으로 칠하면
+   셀 사이가 헤어라인이 된다 — 셀마다 border를 주는 것보다 모서리가 깨끗하다. */
+export function StatGrid({
+  items,
+  className = '',
 }: {
-  price: string;
-  original?: string;
-  percentOff?: string;
+  items: { value: string; label: string }[];
+  className?: string;
 }) {
   return (
-    <span className="inline-flex items-baseline gap-2 text-[0.875rem] font-medium leading-[1.5]">
-      <span className="text-sale">{price}</span>
-      {original ? <span className="text-mute line-through">{original}</span> : null}
-      {percentOff ? <span className="text-sale">{percentOff}</span> : null}
-    </span>
+    <div
+      className={`grid grid-cols-[repeat(auto-fit,minmax(190px,1fr))] gap-px overflow-hidden rounded-card border border-border bg-border ${className}`.trim()}
+    >
+      {items.map((it) => (
+        <div key={it.label} className="flex flex-col gap-2 bg-surface px-6 py-[26px]">
+          <span className="font-display text-stat font-bold tracking-[-0.03em] text-accent-deep">
+            {it.value}
+          </span>
+          <span className="text-label leading-[1.55] text-muted break-keep">{it.label}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/* ── MetaList ──
+   ROLE·PERIOD·TEAM·CATEGORY 같은 라벨/값 쌍. <dl>로 의미까지 맞춘다. */
+export function MetaList({
+  items,
+  min = '150px',
+  className = '',
+}: {
+  items: { label: string; value: string }[];
+  min?: string;
+  className?: string;
+}) {
+  return (
+    <dl
+      className={`grid gap-[22px] ${className}`.trim()}
+      style={{ gridTemplateColumns: `repeat(auto-fit, minmax(${min}, 1fr))` }}
+    >
+      {items.map((m) => (
+        <div key={m.label} className="flex flex-col gap-[7px]">
+          <Eyebrow as="dt">{m.label}</Eyebrow>
+          <dd className="m-0 text-body font-semibold leading-[1.5] break-keep">{m.value}</dd>
+        </div>
+      ))}
+    </dl>
   );
 }
