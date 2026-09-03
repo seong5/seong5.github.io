@@ -36,6 +36,7 @@
   --color-accent: #c6f24e; /* 라임. 채움 전용 */
   --color-accent-ink: #101410; /* 라임 채움 위 텍스트 — 대비 15.4:1 */
   --color-accent-deep: #2c4a1e; /* 액센트 "텍스트" 자리 — bg 대비 8.6:1 */
+  --color-hl-band: var(--color-accent); /* 형광펜 밴드 — 라이트는 라임 원색 */
 
   --color-shadow: rgba(20, 24, 29, 0.4); /* 카드 hover 리프트에만 */
 
@@ -126,6 +127,9 @@
   --color-text: #edeff1;
   --color-muted: #8a939d; /* bg 대비 7.0:1 */
   --color-accent-deep: #c6f24e; /* 다크에선 라임이 그대로 텍스트 가능 (12:1) */
+  /* 라임 원색 밴드 위 #edeff1 텍스트는 1.3:1로 죽는다.
+     26% 틴트를 surface(#14181c)에 깔면 합성색 ≈ #425129, 흰 텍스트 대비 7.4:1 */
+  --color-hl-band: color-mix(in srgb, var(--color-accent) 26%, transparent);
   --color-shadow: rgba(0, 0, 0, 0.8);
 }
 
@@ -141,6 +145,7 @@
     --color-text: #edeff1;
     --color-muted: #8a939d;
     --color-accent-deep: #c6f24e;
+    --color-hl-band: color-mix(in srgb, var(--color-accent) 26%, transparent);
     --color-shadow: rgba(0, 0, 0, 0.8);
   }
 }
@@ -175,6 +180,25 @@
 ::selection {
   background: var(--color-accent);
   color: var(--color-accent-ink);
+}
+
+/* ── 형광펜 ──
+   인사이트 step 제목의 핵심어를 마커로 그은 것처럼 강조한다.
+   라임은 채움 전용이라 글자색은 건드리지 않고 밴드만 글자 하단 55%에 깐다.
+   줄바꿈이 생기면 줄마다 밴드가 따라붙도록 box-decoration-break: clone.
+   좌우 0.12em 여유는 margin으로 상쇄해 레이아웃을 밀지 않는다. */
+.hl-marker {
+  background-image: linear-gradient(
+    to bottom,
+    transparent 45%,
+    var(--color-hl-band) 45%,
+    var(--color-hl-band) 96%,
+    transparent 96%
+  );
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  padding-inline: 0.12em;
+  margin-inline: -0.12em;
 }
 
 /* ── Motion ──

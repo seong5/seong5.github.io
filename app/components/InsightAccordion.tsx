@@ -40,23 +40,29 @@ export default function InsightAccordion({ insights }: { insights: Insight[] }) 
                 {n.intro ? (
                   <p className="text-body text-muted text-pretty break-keep">{n.intro}</p>
                 ) : null}
-                {n.steps.map((s) => (
-                  <div
-                    key={s.title}
-                    className="flex flex-col gap-2.5 border-l-2 border-accent pl-[18px]"
-                  >
-                    <span className="text-body font-bold tracking-[-0.015em] break-keep">
-                      {s.title}
-                    </span>
-                    <ul className="m-0 flex list-disc flex-col gap-2 pl-[18px]">
-                      {s.points.map((pt) => (
-                        <li key={pt} className="text-body text-muted text-pretty break-keep">
-                          {pt}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
+                {n.steps.map((s) => {
+                  // 제목이 "핵심어 — 부연" 구조면 핵심어에만 형광펜을 긋는다.
+                  const at = s.title.indexOf(' — ');
+                  const lead = at === -1 ? s.title : s.title.slice(0, at);
+                  const tail = at === -1 ? '' : s.title.slice(at);
+                  return (
+                    <div key={s.title} className="flex flex-col gap-2.5 pl-[18px]">
+                      <span className="text-body font-bold tracking-[-0.015em] break-keep">
+                        {/* 밴드가 줄마다 따라붙어야 하므로 인라인 span에 건다.
+                            바깥 span은 flex 자식이라 블록이 되어 그라디언트가 어긋난다. */}
+                        <span className="hl-marker">{lead}</span>
+                        {tail}
+                      </span>
+                      <ul className="m-0 flex list-disc flex-col gap-2 pl-[18px]">
+                        {s.points.map((pt) => (
+                          <li key={pt} className="text-body text-muted text-pretty break-keep">
+                            {pt}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  );
+                })}
                 {n.image ? (
                   <div className="overflow-hidden rounded-inset border border-border bg-surface-2">
                     <Image
