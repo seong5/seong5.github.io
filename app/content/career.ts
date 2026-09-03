@@ -87,4 +87,12 @@ export const JOURNEY: JourneyNode[] = [
     kind: 'project',
     projectSlugs: ['claude-log'],
   },
+  {
+    id: 'dajeonghae',
+    period: '2026.08 — 현재',
+    org: '다정해',
+    role: '개인 프로젝트 · 1인 개발',
+    kind: 'project',
+    projectSlugs: ['dajeonghae'],
+  },
 ];
