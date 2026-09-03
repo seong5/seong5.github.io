@@ -1,6 +1,7 @@
 import SiteNav from './components/SiteNav';
 import ScrollProgressBar from './components/ScrollProgressBar';
 import Hero from './components/Hero';
+import Journey from './components/Journey';
 import About from './components/About';
 import Skills from './components/Skills';
 import Projects from './components/Projects';
@@ -15,6 +16,7 @@ export default function Home() {
       <SiteNav />
       <main id="main-content" tabIndex={-1}>
         <Hero />
+        <Journey />
         <Projects />
         <About />
         <Skills />

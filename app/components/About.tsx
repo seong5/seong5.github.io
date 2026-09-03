@@ -22,7 +22,7 @@ const ABOUT = [
 export default function About() {
   return (
     <section id="about" className="mx-auto max-w-page scroll-mt-20 px-7 pt-[68px] pb-10">
-      <SectionHead idx="02" title="About" className="mb-3" />
+      <SectionHead idx="03" title="About" className="mb-3" />
       <RevealGroup className="flex flex-col">
         {ABOUT.map((a) => (
           <RevealItem

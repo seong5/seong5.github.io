@@ -10,7 +10,7 @@ const LINKS = [
 export default function Contact() {
   return (
     <section id="contact" className="mx-auto max-w-page scroll-mt-20 px-7 pt-[68px] pb-10">
-      <SectionHead idx="04" title="Contact" className="mb-11" />
+      <SectionHead idx="05" title="Contact" className="mb-11" />
       <RevealGroup className="flex flex-col gap-2">
         {LINKS.map(({ label, value, href, external }) => (
           <RevealItem key={label}>

@@ -109,6 +109,9 @@
      의존이 크게 줄었다. --breakpoint-toc(1340px)은 TOC가 좌측으로 가면서 삭제. */
   --breakpoint-nav: 880px;
   --breakpoint-wrap: 760px;
+  /* Journey 가로 바가 성립하는 하한 — 노드당 폭이 166px 아래로 떨어지면
+     역할 한 줄이 3~4줄로 접힌다. 이 아래로는 세로 타임라인으로 전환한다. */
+  --breakpoint-journey: 1040px;
 }
 
 /* ── Dark ──
@@ -180,6 +183,20 @@
 ::selection {
   background: var(--color-accent);
   color: var(--color-accent-ink);
+}
+
+/* ── Journey 가로 바 ──
+   컬럼 수가 데이터(JOURNEY.length)에서 온다. Tailwind는 동적 클래스를 만들 수 없고,
+   숫자를 하드코딩하면 노드가 늘어날 때 조용히 어긋난다. 그래서 변수로 받는다.
+   전환 폭은 --breakpoint-journey와 같은 값을 쓴다. */
+.journey-track {
+  display: grid;
+  grid-template-columns: 1.4fr repeat(var(--journey-nodes, 5), 1fr);
+}
+@media not all and (min-width: 1040px) {
+  .journey-track {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ── 형광펜 ──

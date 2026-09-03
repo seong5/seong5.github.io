@@ -5,6 +5,7 @@ import { PROFILE } from '../content/profile';
 import ThemeToggle from './ThemeToggle';
 
 const NAV = [
+  { id: 'journey', label: 'Journey' },
   { id: 'projects', label: 'Projects' },
   { id: 'about', label: 'About' },
   { id: 'skills', label: 'Skills' },

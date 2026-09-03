@@ -85,7 +85,7 @@ export default function Projects() {
   return (
     <section id="projects" className="mx-auto max-w-page scroll-mt-20 px-7 pt-[68px] pb-10">
       <SectionHead
-        idx="01"
+        idx="02"
         title="Projects"
         className="mb-10"
         action={

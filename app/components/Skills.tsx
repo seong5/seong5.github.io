@@ -14,7 +14,7 @@ const SKILLS = [
 export default function Skills() {
   return (
     <section id="skills" className="mx-auto max-w-page scroll-mt-20 px-7 pt-[68px] pb-10">
-      <SectionHead idx="03" title="Skills" className="mb-10" />
+      <SectionHead idx="04" title="Skills" className="mb-10" />
       <RevealGroup className="grid grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-3.5">
         {SKILLS.map((g) => (
           <RevealItem key={g.label}>
