@@ -1,6 +1,6 @@
 export default function Loading() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-bg">
+    <div className="flex min-h-screen items-center justify-center bg-background">
       <div
         role="status"
         aria-label="불러오는 중"

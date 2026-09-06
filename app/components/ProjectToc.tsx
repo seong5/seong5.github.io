@@ -42,7 +42,7 @@ export default function ProjectToc({ sections }: { sections: TocSection[] }) {
 
   return (
     <aside className="flex-none nav:sticky nav:top-[78px] nav:w-52">
-      <span className="mb-2.5 hidden font-mono text-eyebrow tracking-[0.18em] text-muted nav:block">
+      <span className="mb-2.5 hidden font-mono text-eyebrow tracking-[0.18em] text-muted-foreground nav:block">
         CONTENTS
       </span>
       <nav className="flex gap-1 overflow-x-auto pb-2 nav:flex-col nav:overflow-visible nav:pb-0 [&::-webkit-scrollbar]:hidden">
@@ -56,8 +56,8 @@ export default function ProjectToc({ sections }: { sections: TocSection[] }) {
               aria-current={on ? 'true' : undefined}
               className={`flex flex-none items-baseline gap-2.5 rounded-[8px] px-2.5 py-[7px] text-label font-semibold whitespace-nowrap transition-colors nav:border-l-2 nav:rounded-none ${
                 on
-                  ? 'bg-surface-2 text-text nav:bg-transparent nav:border-accent'
-                  : 'text-muted hover:text-text nav:border-transparent'
+                  ? 'bg-muted text-foreground nav:bg-transparent nav:border-primary'
+                  : 'text-muted-foreground hover:text-foreground nav:border-transparent'
               }`}
             >
               <span className="font-mono text-eyebrow">{String(i + 1).padStart(2, '0')}</span>

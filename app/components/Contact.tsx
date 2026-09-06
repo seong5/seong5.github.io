@@ -17,9 +17,9 @@ export default function Contact() {
             <a
               href={href}
               {...(external ? { target: '_blank', rel: 'noreferrer' } : {})}
-              className="flex flex-wrap items-baseline gap-x-[18px] gap-y-2 border-b border-border px-1 py-[26px] text-text transition-[padding] duration-200 hover:pl-4"
+              className="flex flex-wrap items-baseline gap-x-[18px] gap-y-2 border-b border-border px-1 py-[26px] text-foreground transition-[padding] duration-200 hover:pl-4"
             >
-              <span className="font-mono text-eyebrow tracking-[0.16em] text-muted">{label}</span>
+              <span className="font-mono text-eyebrow tracking-[0.16em] text-muted-foreground">{label}</span>
               <span className="font-display text-h2 font-bold tracking-[-0.035em] break-all">
                 {value}
               </span>
@@ -27,7 +27,7 @@ export default function Contact() {
           </RevealItem>
         ))}
       </RevealGroup>
-      <p className="mt-14 pb-16 font-mono text-meta text-muted">
+      <p className="mt-14 pb-16 font-mono text-meta text-muted-foreground">
         © 2026 신성오 (Shin Seong-oh) — All rights reserved.
       </p>
     </section>

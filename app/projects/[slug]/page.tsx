@@ -2,14 +2,17 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import BackToTop from '../../components/BackToTop';
 import InsightAccordion from '../../components/InsightAccordion';
+import MetricBadges from '../../components/MetricBadges';
 import ProjectToc, { type TocSection } from '../../components/ProjectToc';
 import { RevealGroup, RevealItem } from '../../components/Reveal';
 import ScrollProgressBar from '../../components/ScrollProgressBar';
 import StackChips from '../../components/StackChips';
 import ThemeToggle from '../../components/ThemeToggle';
 import TroubleCard from '../../components/TroubleCard';
-import { Eyebrow, MetaList, StatGrid, buttonClasses } from '../../components/ui';
+import { Eyebrow, MetaList } from '../../components/primitives';
+import { Button } from '../../components/ui/button';
 import { getProject, projects } from '../projects';
 
 type Params = { slug: string };
@@ -84,11 +87,11 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
     <>
       <ScrollProgressBar />
 
-      <header className="sticky top-0 z-80 border-b border-border bg-bg-fade backdrop-blur-[14px]">
+      <header className="sticky top-0 z-80 border-b border-border bg-background-fade backdrop-blur-[14px]">
         <div className="mx-auto flex max-w-detail flex-wrap items-center gap-x-[18px] gap-y-2 px-7 py-3">
           <Link
             href="/#projects"
-            className="flex items-center gap-2 font-mono text-meta tracking-[0.1em] text-text transition-colors hover:text-accent-deep"
+            className="flex items-center gap-2 font-mono text-meta tracking-[0.1em] text-foreground transition-colors hover:text-primary-strong"
           >
             <span aria-hidden>←</span>
             <span>PROJECTS</span>
@@ -98,7 +101,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
             {project.title.split(' - ')[0]}
           </span>
           <div className="ml-auto flex items-center gap-3">
-            <span className="font-mono text-meta tabular-nums tracking-[0.08em] text-muted">
+            <span className="font-mono text-meta tabular-nums tracking-[0.08em] text-muted-foreground">
               {order} / {total}
             </span>
             <ThemeToggle />
@@ -109,12 +112,12 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
       <div id="main-content" tabIndex={-1} className="mx-auto max-w-detail px-7">
         {/* ── 히어로 ── */}
         <section className="pt-20" id="top">
-          <div className="fade-in-slow flex flex-wrap items-center gap-3 font-mono text-meta tracking-[0.1em] text-muted">
-            <span className="rounded-chip bg-surface-2 px-2.5 py-1 text-text">{project.org}</span>
+          <div className="fade-in-slow flex flex-wrap items-center gap-3 font-mono text-meta tracking-[0.1em] text-muted-foreground">
+            <span className="rounded-chip bg-muted px-2.5 py-1 text-foreground">{project.org}</span>
             <span>{project.period}</span>
             {project.active ? (
-              <span className="inline-flex items-center gap-1.5 text-accent-deep">
-                <span aria-hidden className="h-1.5 w-1.5 rounded-chip bg-accent" />
+              <span className="inline-flex items-center gap-1.5 text-primary-strong">
+                <span aria-hidden className="h-1.5 w-1.5 rounded-chip bg-primary" />
                 진행 중{project.currentTask ? ` · ${project.currentTask}` : ''}
               </span>
             ) : null}
@@ -128,35 +131,32 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
 
           <div className="mt-[30px] flex flex-wrap gap-2.5">
             {project.links.map((l) => (
-              <a
-                key={l.label}
-                href={l.href}
-                target="_blank"
-                rel="noreferrer"
-                className={buttonClasses('accent', 'px-[18px] py-2.5')}
-              >
-                {l.label}
-                <span aria-hidden className="font-mono">
-                  ↗
-                </span>
-              </a>
+              <Button key={l.label} asChild size="track" className="px-[18px] py-2.5">
+                <a href={l.href} target="_blank" rel="noreferrer">
+                  {l.label}
+                  <span aria-hidden className="font-mono">
+                    ↗
+                  </span>
+                </a>
+              </Button>
             ))}
             {isPrivate ? (
-              <span className="inline-flex items-center rounded-chip border border-dashed border-border px-[18px] py-2.5 text-label font-semibold text-muted">
+              <span className="inline-flex items-center rounded-chip border border-dashed border-border px-[18px] py-2.5 text-label font-semibold text-muted-foreground">
                 사내 서비스 · 코드 비공개
               </span>
             ) : null}
           </div>
 
-          <p className="mt-[34px] max-w-[44em] text-[clamp(1rem,1.7vw,1.1875rem)] leading-[1.78] text-muted text-pretty break-keep">
+          <p className="mt-[34px] max-w-[44em] text-[clamp(1rem,1.7vw,1.1875rem)] leading-[1.78] text-muted-foreground text-pretty break-keep">
             {project.detail ?? project.summary}
           </p>
         </section>
 
-        {/* ── 지표 — 시안에서 목차보다 위로 올라왔다. 스크롤 전에 결과가 먼저 읽힌다 ── */}
+        {/* ── 지표 — 시안에서 목차보다 위로 올라왔다. 스크롤 전에 결과가 먼저 읽힌다.
+            숫자를 설명하는 카드가 있으면 뱃지가 그리로 가는 앵커가 된다 ── */}
         {project.metrics?.length ? (
           <section className="pt-14">
-            <StatGrid items={project.metrics} />
+            <MetricBadges items={project.metrics} />
           </section>
         ) : null}
 
@@ -188,7 +188,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                   {shots.map((m) => (
                     <RevealItem key={m.src}>
                       <figure className="m-0 flex flex-col gap-2.5">
-                        <div className="overflow-hidden rounded-media border border-border bg-surface-2">
+                        <div className="overflow-hidden rounded-media border border-border bg-muted">
                           <Image
                             src={m.src}
                             alt={m.alt ?? `${project.title} 화면`}
@@ -198,7 +198,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                           />
                         </div>
                         {m.caption ? (
-                          <figcaption className="text-label leading-[1.55] text-muted break-keep">
+                          <figcaption className="text-label leading-[1.55] text-muted-foreground break-keep">
                             {m.caption}
                           </figcaption>
                         ) : null}
@@ -218,7 +218,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                       key={g.tag}
                       className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] items-start gap-6"
                     >
-                      <span className="pt-1 font-mono text-eyebrow tracking-[0.16em] text-accent-deep">
+                      <span className="pt-1 font-mono text-eyebrow tracking-[0.16em] text-primary-strong">
                         {g.tag}
                       </span>
                       <div className="col-span-2 flex flex-col gap-3.5">
@@ -248,7 +248,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                 <RevealGroup className="flex flex-col gap-5">
                   {project.troubleshooting.map((t, i) => (
                     <RevealItem key={t.title}>
-                      <TroubleCard t={t} num={String(i + 1).padStart(2, '0')} />
+                      <TroubleCard t={t} index={i + 1} />
                     </RevealItem>
                   ))}
                 </RevealGroup>
@@ -269,7 +269,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
           {prev ? (
             <Link
               href={`/projects/${prev.slug}`}
-              className="flex flex-col gap-2.5 bg-bg px-[26px] py-[34px] text-text transition-colors hover:bg-surface-2"
+              className="flex flex-col gap-2.5 bg-background px-[26px] py-[34px] text-foreground transition-colors hover:bg-muted"
             >
               <Eyebrow>← PREVIOUS PROJECT</Eyebrow>
               <span className="text-lead font-bold tracking-[-0.025em] break-keep">
@@ -280,7 +280,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
           {next ? (
             <Link
               href={`/projects/${next.slug}`}
-              className="flex flex-col gap-2.5 bg-bg px-[26px] py-[34px] text-text transition-colors hover:bg-surface-2"
+              className="flex flex-col gap-2.5 bg-background px-[26px] py-[34px] text-foreground transition-colors hover:bg-muted"
             >
               <Eyebrow>NEXT PROJECT →</Eyebrow>
               <span className="text-lead font-bold tracking-[-0.025em] break-keep">
@@ -290,10 +290,13 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
           ) : null}
         </nav>
 
-        <p className="m-0 py-10 pb-18 font-mono text-meta text-muted">
+        <p className="m-0 py-10 pb-18 font-mono text-meta text-muted-foreground">
           © 2026 신성오 (Shin Seong-oh) — All rights reserved.
         </p>
       </div>
+
+      {/* 본문을 다 지난 뒤 탭 순서 마지막에 닿도록 여기 둔다 */}
+      <BackToTop />
     </>
   );
 }

@@ -6,7 +6,7 @@ import { projects, type Project } from '../projects/projects';
 import { RevealGroup, RevealItem } from './Reveal';
 import SectionHead from './SectionHead';
 import Tilt from './Tilt';
-import { Eyebrow } from './ui';
+import { Eyebrow } from './primitives';
 
 const INITIAL_COUNT = 3;
 
@@ -28,31 +28,31 @@ function ProjectCard({ p }: { p: Project }) {
     <Tilt>
       <Link
         href={`/projects/${p.slug}`}
-        className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-7 rounded-card border border-border bg-surface p-[30px] text-text transition-[border-color,box-shadow] duration-300 hover:border-accent-deep hover:shadow-[0_18px_40px_-28px_var(--color-shadow)]"
+        className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-7 rounded-card border border-border bg-card p-[30px] text-foreground transition-[border-color,box-shadow] duration-300 hover:border-primary-strong hover:shadow-[0_18px_40px_-28px_var(--color-shadow)]"
       >
         <div className="flex flex-col gap-3.5">
-          <div className="flex flex-wrap items-center gap-2.5 font-mono text-eyebrow tracking-[0.12em] text-muted">
-            <span className="rounded-chip bg-surface-2 px-2.5 py-1 text-text">{org}</span>
+          <div className="flex flex-wrap items-center gap-2.5 font-mono text-eyebrow tracking-[0.12em] text-muted-foreground">
+            <span className="rounded-chip bg-muted px-2.5 py-1 text-foreground">{org}</span>
             <span>{p.period}</span>
             {p.active ? (
-              <span className="inline-flex items-center gap-1.5 text-accent-deep">
-                <span aria-hidden className="h-1.5 w-1.5 rounded-chip bg-accent" />
+              <span className="inline-flex items-center gap-1.5 text-primary-strong">
+                <span aria-hidden className="h-1.5 w-1.5 rounded-chip bg-primary" />
                 진행 중{p.currentTask ? ` · ${p.currentTask}` : ''}
               </span>
             ) : null}
           </div>
           <h3 className="text-title font-bold tracking-[-0.025em] break-keep">{p.title}</h3>
-          <p className="text-body text-muted text-pretty break-keep">{p.summary}</p>
+          <p className="text-body text-muted-foreground text-pretty break-keep">{p.summary}</p>
         </div>
 
         {/* 우측 레일 — 상세로 들어가기 전에 판단할 재료(지표·역할·스택)를 카드에서 노출한다 */}
         <div className="flex flex-col gap-4 border-l border-border pl-7 max-wrap:border-l-0 max-wrap:pl-0">
           <div className="flex flex-col gap-1.5">
             <Eyebrow>{head.label}</Eyebrow>
-            <span className="font-display text-title font-bold tracking-[-0.02em] text-accent-deep break-keep">
+            <span className="font-display text-title font-bold tracking-[-0.02em] text-primary-strong break-keep">
               {head.value}
             </span>
-            <span className="text-label leading-[1.5] text-muted break-keep">{head.caption}</span>
+            <span className="text-label leading-[1.5] text-muted-foreground break-keep">{head.caption}</span>
           </div>
           <div className="flex flex-col gap-1.5">
             <Eyebrow>담당 역할</Eyebrow>
@@ -64,7 +64,7 @@ function ProjectCard({ p }: { p: Project }) {
               {stack.map((s) => (
                 <span
                   key={s}
-                  className="rounded-[6px] bg-surface-2 px-2.5 py-1 font-mono text-eyebrow"
+                  className="rounded-[6px] bg-muted px-2.5 py-1 font-mono text-eyebrow"
                 >
                   {s}
                 </span>
@@ -89,7 +89,7 @@ export default function Projects() {
         title="Projects"
         className="mb-10"
         action={
-          <span className="font-mono text-meta tracking-[0.1em] text-muted">
+          <span className="font-mono text-meta tracking-[0.1em] text-muted-foreground">
             {projects.length} PROJECTS
           </span>
         }
@@ -108,7 +108,7 @@ export default function Projects() {
           type="button"
           onClick={() => setShowAll((v) => !v)}
           aria-expanded={showAll}
-          className="mt-4 w-full cursor-pointer rounded-panel border border-dashed border-border p-[18px] text-label font-semibold text-text transition-colors hover:border-solid hover:bg-surface-2"
+          className="mt-4 w-full cursor-pointer rounded-panel border border-dashed border-border p-[18px] text-label font-semibold text-foreground transition-colors hover:border-solid hover:bg-muted"
         >
           {showAll ? '접기 ↑' : `프로젝트 더보기 (+${rest.length})`}
         </button>

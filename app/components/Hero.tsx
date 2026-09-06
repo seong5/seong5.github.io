@@ -1,13 +1,13 @@
 import { PROFILE } from '../content/profile';
-import { buttonClasses } from './ui';
+import { Button } from './ui/button';
 
 export default function Hero() {
   return (
     <section id="top" className="mx-auto max-w-page px-7 pt-[92px] pb-20">
       {/* 상태 표시 — 라임 점이 깜빡이며 "지금 구직 중"을 첫 줄에서 알린다 */}
       <div className="fade-in-slow mb-10 flex items-center gap-2.5">
-        <span aria-hidden className="pulse-dot h-[7px] w-[7px] rounded-chip bg-accent" />
-        <span className="font-mono text-meta tracking-[0.14em] text-muted">
+        <span aria-hidden className="pulse-dot h-[7px] w-[7px] rounded-chip bg-primary" />
+        <span className="font-mono text-meta tracking-[0.14em] text-muted-foreground">
           FRONTEND DEVELOPER · SEOUL, KR
         </span>
       </div>
@@ -19,7 +19,7 @@ export default function Hero() {
           <span className="rise-line">Ready to Learn,</span>
         </span>
         <span className="rise-mask">
-          <span className="rise-line text-accent-deep" style={{ animationDelay: '120ms' }}>
+          <span className="rise-line text-primary-strong" style={{ animationDelay: '120ms' }}>
             Ready to Run
           </span>
         </span>
@@ -31,7 +31,7 @@ export default function Hero() {
         <p className="text-quote font-semibold tracking-[-0.02em] text-pretty break-keep">
           빠르게 배우고 적용하며 끝까지 파고들어 문제를 확실한 성과로 만듭니다.
         </p>
-        <div className="flex flex-col gap-[18px] text-read text-muted text-pretty break-keep">
+        <div className="flex flex-col gap-[18px] text-read text-muted-foreground text-pretty break-keep">
           <p>
             개발하며 마주한 불편함과 문제점을 그냥 넘기지 않고 하나의 서비스나 기능으로 풀어내며
             성취감을 느끼는 개발자입니다.
@@ -48,23 +48,22 @@ export default function Hero() {
       </div>
 
       <div className="mt-13 flex flex-wrap gap-2.5">
-        <a href="#projects" className={buttonClasses('accent')}>
-          프로젝트 보기
-          <span aria-hidden className="font-mono">
-            ↓
-          </span>
-        </a>
-        <a href={`mailto:${PROFILE.email}`} className={buttonClasses('outline')}>
-          {PROFILE.email}
-        </a>
-        <a
-          href={PROFILE.github}
-          target="_blank"
-          rel="noreferrer"
-          className={buttonClasses('outline')}
-        >
-          github.com/seong5
-        </a>
+        <Button asChild size="track">
+          <a href="#projects">
+            프로젝트 보기
+            <span aria-hidden className="font-mono">
+              ↓
+            </span>
+          </a>
+        </Button>
+        <Button asChild variant="outline" size="track">
+          <a href={`mailto:${PROFILE.email}`}>{PROFILE.email}</a>
+        </Button>
+        <Button asChild variant="outline" size="track">
+          <a href={PROFILE.github} target="_blank" rel="noreferrer">
+            github.com/seong5
+          </a>
+        </Button>
       </div>
     </section>
   );

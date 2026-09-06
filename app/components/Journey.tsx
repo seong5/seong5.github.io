@@ -24,14 +24,14 @@ import SectionHead from './SectionHead';
 function Track({ period, dashed = false }: { period: string; dashed?: boolean }) {
   return (
     <>
-      <span className="pr-6 font-mono text-eyebrow tracking-[0.12em] text-muted max-journey:pr-0">
+      <span className="pr-6 font-mono text-eyebrow tracking-[0.12em] text-muted-foreground max-journey:pr-0">
         {period}
       </span>
       {dashed ? (
         <span aria-hidden className="block h-0 border-t-2 border-dashed border-border max-journey:hidden" />
       ) : (
         <span aria-hidden className="relative block h-[2px] bg-border max-journey:hidden">
-          <span className="absolute top-1/2 left-0 h-[10px] w-[10px] -translate-y-1/2 rounded-chip bg-accent" />
+          <span className="absolute top-1/2 left-0 h-[10px] w-[10px] -translate-y-1/2 rounded-chip bg-primary" />
         </span>
       )}
     </>
@@ -46,7 +46,7 @@ export default function Journey() {
         title="Journey"
         className="mb-10"
         action={
-          <span className="font-mono text-meta tracking-[0.1em] text-muted">2018 — NOW</span>
+          <span className="font-mono text-meta tracking-[0.1em] text-muted-foreground">2018 — NOW</span>
         }
       />
 
@@ -64,7 +64,7 @@ export default function Journey() {
               {JOURNEY_PROLOGUE.items.map((it) => (
                 <div key={it.org} className="flex flex-col">
                   <span className="text-meta font-medium break-keep">{it.org}</span>
-                  <span className="text-meta leading-[1.5] text-muted break-keep">{it.role}</span>
+                  <span className="text-meta leading-[1.5] text-muted-foreground break-keep">{it.role}</span>
                 </div>
               ))}
             </div>
@@ -87,7 +87,7 @@ export default function Journey() {
               <Track period={n.period} />
               <div className="flex flex-col gap-1.5 pt-3 pr-6 max-journey:pr-0">
                 <span className="text-label font-bold tracking-[-0.01em] break-keep">{n.org}</span>
-                <span className="text-meta leading-[1.5] text-muted break-keep">{n.role}</span>
+                <span className="text-meta leading-[1.5] text-muted-foreground break-keep">{n.role}</span>
                 {/* 뱃지는 세로로 쌓는다 — 노드 폭이 166px라 두 개가 가로로 붙으면
                     컬럼마다 줄 수가 달라져 바 아래 정렬이 흐트러진다.
                     items-start가 없으면 뱃지가 컬럼 폭만큼 늘어난다. */}
@@ -97,7 +97,7 @@ export default function Journey() {
                       <Link
                         key={c.slug}
                         href={`/projects/${c.slug}`}
-                        className="rounded-[6px] bg-surface-2 px-2.5 py-1 font-mono text-eyebrow text-text transition-colors hover:bg-accent hover:text-accent-ink"
+                        className="rounded-[6px] bg-muted px-2.5 py-1 font-mono text-eyebrow text-foreground transition-colors hover:bg-primary hover:text-primary-foreground"
                       >
                         {c.name}
                       </Link>

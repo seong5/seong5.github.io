@@ -20,7 +20,7 @@ export default function SectionHead({
       className={`flex items-end justify-between gap-6 border-b border-border pb-[22px] ${className}`.trim()}
     >
       <div className="flex items-baseline gap-4">
-        <span className="font-mono text-label tabular-nums text-accent-deep">{idx}</span>
+        <span className="font-mono text-label tabular-nums text-primary-strong">{idx}</span>
         <h2 className="font-display text-h2 font-bold tracking-[-0.035em]">{title}</h2>
       </div>
       {action ? <div className="shrink-0">{action}</div> : null}

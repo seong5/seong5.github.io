@@ -62,11 +62,11 @@ export default function SiteNav() {
   };
 
   return (
-    <header className="sticky top-0 z-80 border-b border-border bg-bg-fade backdrop-blur-[14px]">
+    <header className="sticky top-0 z-80 border-b border-border bg-background-fade backdrop-blur-[14px]">
       <div className="mx-auto flex max-w-page flex-wrap items-center gap-x-7 gap-y-2 px-7 py-3.5">
-        <a href="#top" className="flex flex-col gap-px text-text">
+        <a href="#top" className="flex flex-col gap-px text-foreground">
           <span className="text-read font-bold tracking-[-0.01em]">{PROFILE.name}</span>
-          <span className="font-mono text-eyebrow tracking-[0.18em] text-muted">
+          <span className="font-mono text-eyebrow tracking-[0.18em] text-muted-foreground">
             {PROFILE.nameEn.toUpperCase()}
           </span>
         </a>
@@ -79,12 +79,12 @@ export default function SiteNav() {
               onClick={(e) => handleNavClick(e, n.id)}
               aria-current={active === n.id ? 'true' : undefined}
               className={`flex items-baseline gap-1.5 rounded-chip px-3 py-2 text-label font-semibold transition-colors ${
-                active === n.id ? 'bg-surface-2 text-text' : 'text-text hover:bg-surface-2'
+                active === n.id ? 'bg-muted text-foreground' : 'text-foreground hover:bg-muted'
               }`}
             >
               <span
                 className={`font-mono text-eyebrow ${
-                  active === n.id ? 'text-accent-deep' : 'text-muted'
+                  active === n.id ? 'text-primary-strong' : 'text-muted-foreground'
                 }`}
               >
                 {String(i + 1).padStart(2, '0')}

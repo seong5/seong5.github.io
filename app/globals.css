@@ -1,44 +1,14 @@
 @import 'tailwindcss';
+@import 'tw-animate-css';
 
 /* 색은 토큰 스왑으로 해결하므로 dark: 변형이 거의 필요 없다.
    테마 토글 아이콘처럼 "표시/숨김"이 갈리는 자리에만 쓴다. */
 @custom-variant dark (&:where([data-theme="dark"] *, [data-theme="dark"]));
 
 @theme {
-  /* ──────────────────────────────────────────────────────────
-     TRACK — 잉크 + 라임. 러닝의 속도감.
-       #14181D 잉크 · #F5F4F0 본 화이트 · #C6F24E 라임
-
-     시안: Claude Design "프로젝트 UI/UX 개선"(11725b3e)
-       Portfolio Redesign.dc.html · Project Detail Redesign.dc.html
-     시안에는 4팔레트(track·clay·signal·dusk)가 있으나 제품은 track 단일.
-     나머지 3개 값은 이 파일 맨 아래 주석에 보존해 교체 비용을 낮춘다.
-
-     ⚠️ 라임(#C6F24E)은 라이트 배경 위 "텍스트"로 쓰면 1.4:1로 완전히 죽는다.
-     라이트에서 accent는 채움(버튼 배경·보더·좌측 라인)에만 쓰고,
-     액센트 텍스트 자리는 accent-deep(짙은 녹색 #2C4A1E, 8.6:1)이 맡는다.
-     다크에서는 라임이 #0C0F12 위에서 12:1이라 accent-deep === accent로 합쳐진다.
-     ────────────────────────────────────────────────────────── */
-
-  /* Surface — bg-bg / bg-surface / bg-surface-2 */
-  --color-bg: #f5f4f0; /* 페이지 바탕 (본 화이트) */
-  --color-bg-fade: rgba(245, 244, 240, 0.82); /* sticky 헤더 backdrop-blur 뒤 */
-  --color-surface: #ffffff; /* 카드 면 — 바탕보다 한 단계 위 */
-  --color-surface-2: #ecece6; /* 칩·중첩 강조 블록·이미지 매트 */
-  --color-border: #e2e0d8; /* 유일한 구분선. 이 시스템에 그림자 경계는 없다 */
-
-  /* Text — utility가 text-text / text-muted 로 나오는 게 어색하지만
-     실제 사용은 대부분 muted 쪽이고 본문 색은 body에서 한 번 상속된다 */
-  --color-text: #14181d; /* bg 대비 15.8:1 */
-  --color-muted: #666e79; /* bg 대비 5.5:1 — 메타·보조 본문 */
-
-  /* Accent — 위 ⚠️ 규칙을 반드시 지킬 것 */
-  --color-accent: #c6f24e; /* 라임. 채움 전용 */
-  --color-accent-ink: #101410; /* 라임 채움 위 텍스트 — 대비 15.4:1 */
-  --color-accent-deep: #2c4a1e; /* 액센트 "텍스트" 자리 — bg 대비 8.6:1 */
-  --color-hl-band: var(--color-accent); /* 형광펜 밴드 — 라이트는 라임 원색 */
-
-  --color-shadow: rgba(20, 24, 29, 0.4); /* 카드 hover 리프트에만 */
+  /* 색 토큰은 이 블록에 없다 — shadcn 규약을 따라 아래 :root(원시값) +
+     @theme inline(Tailwind 매핑)으로 분리했다. 여기 남은 것은 색이 아닌 토큰과
+     resume 동결 라우트 전용 legacy 색뿐이다. */
 
   /* ── legacy — app/resume/** 전용 ──
      이력서 라우트는 동결(명시 요청 전까지 수정 금지)이고
@@ -114,52 +84,160 @@
   --breakpoint-journey: 1040px;
 }
 
+/* ──────────────────────────────────────────────────────────
+   TRACK — 잉크 + 라임. 러닝의 속도감.
+     #14181D 잉크 · #F5F4F0 본 화이트 · #C6F24E 라임
+
+   시안: Claude Design "프로젝트 UI/UX 개선"(11725b3e)
+     Portfolio Redesign.dc.html · Project Detail Redesign.dc.html
+   시안에는 4팔레트(track·clay·signal·dusk)가 있으나 제품은 track 단일.
+   나머지 3개 값은 이 파일 맨 아래 주석에 보존해 교체 비용을 낮춘다.
+
+   ⚠️ 라임(#C6F24E)은 라이트 배경 위 "텍스트"로 쓰면 1.4:1로 완전히 죽는다.
+   라이트에서 primary는 채움(버튼 배경·보더·좌측 라인)에만 쓰고,
+   액센트 텍스트 자리는 primary-strong(짙은 녹색 #2C4A1E, 8.6:1)이 맡는다.
+   다크에서는 라임이 #0C0F12 위에서 12:1이라 primary-strong === primary로 합쳐진다.
+
+   ⚠️ shadcn 규약에서 --muted 와 --accent 는 "면(배경)"이고 그 위 글자는
+   --muted-foreground / --accent-foreground 다. 이 저장소가 예전에 쓰던
+   text-muted(글자색)는 이제 text-muted-foreground 다. 헷갈리지 말 것.
+
+   토큰 구조: 원시값은 :root 와 테마 스왑 블록에, Tailwind 유틸리티 매핑은
+   맨 아래 @theme inline 에. shadcn CLI가 생성하는 형태와 같으므로
+   npx shadcn add 가 손질 없이 동작한다.
+   ────────────────────────────────────────────────────────── */
+:root {
+  --background: #f5f4f0; /* 페이지 바탕 (본 화이트) */
+  --foreground: #14181d; /* 대비 15.8:1 */
+  --card: #ffffff; /* 카드 면 — 바탕보다 한 단계 위 */
+  --card-foreground: #14181d;
+  --popover: #ffffff;
+  --popover-foreground: #14181d;
+  --primary: #c6f24e; /* 라임. 채움 전용 */
+  --primary-foreground: #101410; /* 라임 채움 위 텍스트 — 15.4:1 */
+  --secondary: #ecece6; /* 칩·중첩 강조 블록·이미지 매트 */
+  --secondary-foreground: #14181d;
+  --muted: #ecece6; /* = secondary. shadcn에서 muted는 "면"이다 */
+  --muted-foreground: #666e79; /* 배경 대비 5.5:1 — 메타·보조 본문 */
+  --accent: #ecece6; /* shadcn의 accent는 hover 면. 라임이 아니다 */
+  --accent-foreground: #14181d;
+  --destructive: #b3261e; /* 아직 쓰는 곳 없음 — shadcn 컴포넌트가 요구 */
+  --border: #e2e0d8; /* 유일한 구분선. 이 시스템에 그림자 경계는 없다 */
+  --input: #e2e0d8;
+  --ring: #2c4a1e; /* 포커스 링 — 라이트에서 라임은 링으로도 안 보인다 */
+  --radius: 0.625rem;
+
+  /* ── TRACK 고유 — shadcn 슬롯이 없어 직접 든다 ── */
+  --primary-strong: #2c4a1e; /* 액센트 "텍스트" 자리 — 배경 대비 8.6:1 */
+  --background-fade: rgba(245, 244, 240, 0.82); /* sticky 헤더 backdrop-blur 뒤 */
+  --hl-band: var(--primary); /* 형광펜 밴드 — 라이트는 라임 원색 */
+  --shadow-tint: rgba(20, 24, 29, 0.4); /* 카드 hover 리프트·플로팅 버튼 */
+}
+
 /* ── Dark ──
-   유틸리티가 var(--color-*)를 참조하므로 토큰만 갈아끼우면 같은 클래스가
-   테마에 따라 다른 값으로 해석된다. dark: 변형을 하나도 쓰지 않는다.
-   (.resume-shell 이 이미 이 저장소에서 검증한 패턴)
+   유틸리티가 var(--*)를 참조하므로 원시값만 갈아끼우면 같은 클래스가
+   테마에 따라 다른 값으로 해석된다. dark: 변형은 표시/숨김에만 쓴다.
 
    legacy 토큰(ink·charcoal·mute·hairline·on-primary)은 여기서 건드리지 않는다.
    이력서는 인쇄 문서라 항상 라이트로 남아야 한다. */
 :root[data-theme='dark'] {
-  --color-bg: #0c0f12;
-  --color-bg-fade: rgba(12, 15, 18, 0.82);
-  --color-surface: #14181c;
-  --color-surface-2: #1e242a;
-  --color-border: #252d35;
-  --color-text: #edeff1;
-  --color-muted: #8a939d; /* bg 대비 7.0:1 */
-  --color-accent-deep: #c6f24e; /* 다크에선 라임이 그대로 텍스트 가능 (12:1) */
+  --background: #0c0f12;
+  --foreground: #edeff1;
+  --card: #14181c;
+  --card-foreground: #edeff1;
+  --popover: #14181c;
+  --popover-foreground: #edeff1;
+  --primary: #c6f24e;
+  --primary-foreground: #101410;
+  --secondary: #1e242a;
+  --secondary-foreground: #edeff1;
+  --muted: #1e242a;
+  --muted-foreground: #8a939d; /* 배경 대비 7.0:1 */
+  --accent: #1e242a;
+  --accent-foreground: #edeff1;
+  --destructive: #f2b8b5;
+  --border: #252d35;
+  --input: #252d35;
+  --ring: #c6f24e;
+
+  --primary-strong: #c6f24e; /* 다크에선 라임이 그대로 텍스트 가능 (12:1) */
+  --background-fade: rgba(12, 15, 18, 0.82);
   /* 라임 원색 밴드 위 #edeff1 텍스트는 1.3:1로 죽는다.
-     26% 틴트를 surface(#14181c)에 깔면 합성색 ≈ #425129, 흰 텍스트 대비 7.4:1 */
-  --color-hl-band: color-mix(in srgb, var(--color-accent) 26%, transparent);
-  --color-shadow: rgba(0, 0, 0, 0.8);
+     26% 틴트를 card(#14181c)에 깔면 합성색 ≈ #425129, 흰 텍스트 대비 7.4:1 */
+  --hl-band: color-mix(in srgb, var(--primary) 26%, transparent);
+  --shadow-tint: rgba(0, 0, 0, 0.8);
 }
 
 /* JS가 꺼져 layout.tsx의 인라인 스크립트가 data-theme을 못 세운 경우의 폴백.
    사용자의 명시적 선택([data-theme="light"])이 항상 이긴다. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    --color-bg: #0c0f12;
-    --color-bg-fade: rgba(12, 15, 18, 0.82);
-    --color-surface: #14181c;
-    --color-surface-2: #1e242a;
-    --color-border: #252d35;
-    --color-text: #edeff1;
-    --color-muted: #8a939d;
-    --color-accent-deep: #c6f24e;
-    --color-hl-band: color-mix(in srgb, var(--color-accent) 26%, transparent);
-    --color-shadow: rgba(0, 0, 0, 0.8);
+    --background: #0c0f12;
+    --foreground: #edeff1;
+    --card: #14181c;
+    --card-foreground: #edeff1;
+    --popover: #14181c;
+    --popover-foreground: #edeff1;
+    --primary: #c6f24e;
+    --primary-foreground: #101410;
+    --secondary: #1e242a;
+    --secondary-foreground: #edeff1;
+    --muted: #1e242a;
+    --muted-foreground: #8a939d;
+    --accent: #1e242a;
+    --accent-foreground: #edeff1;
+    --destructive: #f2b8b5;
+    --border: #252d35;
+    --input: #252d35;
+    --ring: #c6f24e;
+
+    --primary-strong: #c6f24e;
+    --background-fade: rgba(12, 15, 18, 0.82);
+    --hl-band: color-mix(in srgb, var(--primary) 26%, transparent);
+    --shadow-tint: rgba(0, 0, 0, 0.8);
   }
+}
+
+/* ── Tailwind 매핑 ──
+   inline이라 유틸리티가 var(--*)를 그대로 물고 나가 테마 스왑을 따라간다. */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-primary-strong: var(--primary-strong);
+  --color-background-fade: var(--background-fade);
+  --color-hl-band: var(--hl-band);
+  --color-shadow: var(--shadow-tint);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
-    background: var(--color-bg);
+    background: var(--color-background);
   }
   body {
-    @apply bg-bg text-text font-sans antialiased font-normal;
+    @apply bg-background text-foreground font-sans antialiased font-normal;
     line-height: 1.6;
     transition:
       background-color 420ms ease,
@@ -168,21 +246,21 @@
 }
 
 /* 키보드 포커스만 표시 — 마우스 클릭 시엔 뜨지 않도록 :focus 대신 :focus-visible.
-   라임은 라이트 배경에서 링으로도 안 보이므로 accent-deep을 쓴다
+   라임은 라이트 배경에서 링으로도 안 보이므로 primary-strong(= --ring)을 쓴다
    (다크에서는 토큰이 라임으로 스왑되어 자동으로 밝아진다) */
 :focus-visible {
-  outline: 2px solid var(--color-accent-deep);
+  outline: 2px solid var(--color-ring);
   outline-offset: 3px;
 }
 
 /* 라임 채움 위에 얹힌 포커스 링은 반전 */
-.bg-accent :focus-visible {
-  outline-color: var(--color-accent-ink);
+.bg-primary :focus-visible {
+  outline-color: var(--color-primary-foreground);
 }
 
 ::selection {
-  background: var(--color-accent);
-  color: var(--color-accent-ink);
+  background: var(--color-primary);
+  color: var(--color-primary-foreground);
 }
 
 /* ── Journey 가로 바 ──
@@ -317,6 +395,12 @@
   [data-tilt] {
     transform: none !important;
     transition: none !important;
+  }
+  /* tw-animate-css는 prefers-reduced-motion을 스스로 존중하지 않는다(가드 0개).
+     Radix Accordion·Collapsible의 높이 애니메이션을 여기서 끈다. */
+  [data-slot='accordion-content'],
+  [data-slot='collapsible-content'] {
+    animation: none !important;
   }
   body {
     transition: none;

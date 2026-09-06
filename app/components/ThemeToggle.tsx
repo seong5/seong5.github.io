@@ -1,40 +1,61 @@
 'use client';
 
-import { useCallback } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
+import { Switch } from './ui/switch';
+
+// 서버에서 useLayoutEffect는 경고를 낸다. 정적 export라 빌드 때 SSR을 거치므로 분기한다.
+const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
 
 /**
- * 테마 토글.
+ * 테마 스위치.
  *
- * 아이콘을 state로 그리지 않고 두 글리프를 모두 렌더한 뒤 dark: 변형으로
- * 하나만 보인다. layout.tsx의 인라인 스크립트가 paint 전에 data-theme을
- * 세우므로, 이 방식이면 하이드레이션 불일치도 아이콘 깜빡임도 없다.
+ * 정적 export라 서버는 테마를 모른다 — 첫 렌더는 항상 라이트로 나가고,
+ * layout.tsx의 인라인 스크립트가 paint 전에 세워둔 data-theme을 읽어 교정한다.
+ * useEffect가 아니라 useLayoutEffect인 이유가 이것이다. 교정이 페인트 전에
+ * 끝나야 다크로 저장한 사용자의 새로고침에서 노브가 튀지 않는다.
+ *
+ * 양옆 글리프는 상태를 안 읽고 dark: 변형으로 색이 갈린다 — 하이드레이션과
+ * 무관하게 처음부터 맞는 색으로 그려진다.
  */
 export default function ThemeToggle({ className = '' }: { className?: string }) {
-  const toggle = useCallback(() => {
-    const root = document.documentElement;
-    const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
-    root.dataset.theme = next;
+  const [dark, setDark] = useState(false);
+
+  useIsomorphicLayoutEffect(() => {
+    setDark(document.documentElement.dataset.theme === 'dark');
+  }, []);
+
+  const toggle = useCallback((next: boolean) => {
+    const theme = next ? 'dark' : 'light';
+    document.documentElement.dataset.theme = theme;
+    setDark(next);
     try {
-      localStorage.setItem('theme', next);
+      localStorage.setItem('theme', theme);
     } catch {
       // 사생활 보호 모드 — 이번 세션에만 적용되고 조용히 넘어간다
     }
   }, []);
 
   return (
-    <button
-      type="button"
-      onClick={toggle}
-      aria-label="라이트/다크 테마 전환"
-      title="테마 전환"
-      className={`grid h-[34px] w-[34px] flex-none cursor-pointer place-items-center rounded-chip border border-border bg-transparent font-mono text-label text-text transition-colors hover:bg-surface-2 ${className}`.trim()}
-    >
-      <span aria-hidden className="dark:hidden">
-        ☾
-      </span>
-      <span aria-hidden className="hidden dark:inline">
+    <div className={`flex flex-none items-center gap-2 ${className}`.trim()}>
+      <span
+        aria-hidden
+        className="font-mono text-label text-primary-strong dark:text-muted-foreground"
+      >
         ☀
       </span>
-    </button>
+      <Switch
+        size="lg"
+        checked={dark}
+        onCheckedChange={toggle}
+        aria-label="라이트/다크 테마 전환"
+        title="테마 전환"
+      />
+      <span
+        aria-hidden
+        className="font-mono text-label text-muted-foreground dark:text-primary-strong"
+      >
+        ☾
+      </span>
+    </div>
   );
 }

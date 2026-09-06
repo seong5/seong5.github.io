@@ -28,7 +28,7 @@ export default function ScrollProgressBar() {
     <div
       aria-hidden
       ref={ref}
-      className="fixed inset-x-0 top-0 z-90 h-0.5 w-0 bg-accent"
+      className="fixed inset-x-0 top-0 z-90 h-0.5 w-0 bg-primary"
       style={{ width: 0 }}
     />
   );

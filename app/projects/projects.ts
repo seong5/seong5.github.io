@@ -3,10 +3,20 @@ export type ProjectLink = {
   href: string;
 };
 
-/** 정량 지표 — 주요 성과 상단 카드 그리드 (스캔 시 눈에 박히는 숫자) */
+/** 지표 뱃지가 가리키는 상세 카드 — 종류 + 배열상 1-based 순번 */
+export type MetricTarget = { kind: 'insight' | 'trouble'; index: number };
+
+/** 앵커 id — 뱃지의 href와 카드의 id가 이 함수 하나를 공유한다 */
+export function cardAnchor(t: MetricTarget): string {
+  return `${t.kind}-${t.index}`;
+}
+
+/** 정량 지표 — 주요 성과 상단 뱃지 (스캔 시 눈에 박히는 숫자) */
 export type Metric = {
   value: string;
   label: string;
+  /** 있으면 뱃지가 그 지표를 설명하는 인사이트/트러블 카드로 가는 링크가 된다 */
+  target?: MetricTarget;
 };
 
 /** 인사이트 단계 — 계층적 설계 설명의 한 단계 */
@@ -170,9 +180,9 @@ export const projects: Project[] = [
       },
     ],
     metrics: [
-      { value: '3 → 1', label: '실시간 구독 수' },
-      { value: '35+ → 1', label: '재시도 처리 지점' },
-      { value: '62', label: '제거한 동기화 사본' },
+      { value: '3 → 1', label: '실시간 구독 수', target: { kind: 'trouble', index: 3 } },
+      { value: '35+ → 1', label: '재시도 처리 지점', target: { kind: 'insight', index: 4 } },
+      { value: '62', label: '제거한 동기화 사본', target: { kind: 'trouble', index: 4 } },
     ],
     stack: [
       'Expo (SDK 57)',
@@ -504,8 +514,8 @@ export const projects: Project[] = [
     ],
     metrics: [
       { value: 'v1.0.8', label: '배포 버전 · 오픈소스 공개' },
-      { value: '3겹', label: '계층적 호출 방어 로직' },
-      { value: 'O(추가분)', label: '증분 파싱 갱신 비용' },
+      { value: '3겹', label: '계층적 호출 방어 로직', target: { kind: 'insight', index: 1 } },
+      { value: 'O(추가분)', label: '증분 파싱 갱신 비용', target: { kind: 'trouble', index: 3 } },
       { value: '1인', label: '기획·UI/UX·개발 풀사이클' },
     ],
     insights: [
@@ -665,9 +675,13 @@ export const projects: Project[] = [
     image: '/projects/umust-erp.webp',
     gallery: [{ src: '/projects/umust-erp.webp', w: 1280, h: 647 }],
     metrics: [
-      { value: '404 해소', label: '배포 환경 CRO API 전면 실패 → 완전 해결' },
-      { value: '0회', label: 'status 탭 전환 시 네트워크 요청' },
-      { value: '1곳 수렴', label: 'croApiPath()로 경로 생성 통합' },
+      {
+        value: '404 해소',
+        label: '배포 환경 CRO API 전면 실패 → 완전 해결',
+        target: { kind: 'trouble', index: 1 },
+      },
+      { value: '0회', label: 'status 탭 전환 시 네트워크 요청', target: { kind: 'insight', index: 1 } },
+      { value: '1곳 수렴', label: 'croApiPath()로 경로 생성 통합', target: { kind: 'trouble', index: 1 } },
       { value: '풀사이클', label: 'ERD 설계 → FE 구현 → 배포' },
     ],
     insights: [
@@ -881,8 +895,8 @@ export const projects: Project[] = [
     image: '/projects/dobong-admin.webp',
     gallery: [{ src: '/projects/dobong-admin.webp', w: 1280, h: 600 }],
     metrics: [
-      { value: '백엔드 변경 0', label: '프록시 + 인터셉터로 CORS 해소' },
-      { value: '100 → 20', label: '리뷰 수집 스캔 상한 축소' },
+      { value: '백엔드 변경 0', label: '프록시 + 인터셉터로 CORS 해소', target: { kind: 'trouble', index: 1 } },
+      { value: '100 → 20', label: '리뷰 수집 스캔 상한 축소', target: { kind: 'trouble', index: 2 } },
       { value: '3계층', label: '위저드를 순수함수·훅·표현 계층으로 분리' },
       { value: '3 브라우저', label: 'Playwright E2E 선행 검증' },
     ],
@@ -1145,9 +1159,9 @@ export const projects: Project[] = [
     image: '/projects/deckly.webp',
     gallery: [{ src: '/projects/deckly.webp', w: 1920, h: 990 }],
     metrics: [
-      { value: '85%', label: '제안서 목록 API 응답 크기 감축' },
-      { value: '50%', label: 'Mutation 네트워크 요청 절감' },
-      { value: '0초', label: '낙관적 업데이트 체감 대기시간' },
+      { value: '85%', label: '제안서 목록 API 응답 크기 감축', target: { kind: 'trouble', index: 2 } },
+      { value: '50%', label: 'Mutation 네트워크 요청 절감', target: { kind: 'insight', index: 2 } },
+      { value: '0초', label: '낙관적 업데이트 체감 대기시간', target: { kind: 'insight', index: 2 } },
       { value: '1인', label: '기획·UI/UX·FE·BE·배포 풀사이클' },
     ],
     insights: [
@@ -1317,10 +1331,10 @@ export const projects: Project[] = [
     ],
     galleryCols: 3,
     metrics: [
-      { value: '71→99', label: '서버 컴포넌트로 성능 개선' },
+      { value: '71→99', label: '서버 컴포넌트로 성능 개선', target: { kind: 'insight', index: 1 } },
       { value: '20명', label: '실사용자 확보' },
-      { value: 'Zod·Jest', label: '런타임 검증·TDD 도입' },
-      { value: 'Broadcast', label: '실시간 알림 정확도 개선' },
+      { value: 'Zod·Jest', label: '런타임 검증·TDD 도입', target: { kind: 'insight', index: 3 } },
+      { value: 'Broadcast', label: '실시간 알림 정확도 개선', target: { kind: 'trouble', index: 1 } },
     ],
     insights: [
       {

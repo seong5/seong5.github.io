@@ -30,12 +30,12 @@ export default function About() {
             className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-8 border-b border-border py-10"
           >
             <div className="flex flex-col gap-3">
-              <span className="font-mono text-meta tracking-[0.2em] text-muted">{a.tag}</span>
+              <span className="font-mono text-meta tracking-[0.2em] text-muted-foreground">{a.tag}</span>
               <h3 className="text-title font-bold tracking-[-0.03em] text-balance break-keep">
                 {a.title}
               </h3>
             </div>
-            <p className="col-span-2 text-read text-muted text-pretty break-keep">{a.body}</p>
+            <p className="col-span-2 text-read text-muted-foreground text-pretty break-keep">{a.body}</p>
           </RevealItem>
         ))}
       </RevealGroup>
