@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
+import { Fragment } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import BackToTop from '../../components/BackToTop';
 import InsightAccordion from '../../components/InsightAccordion';
-import MetricBadges from '../../components/MetricBadges';
 import ProjectToc, { type TocSection } from '../../components/ProjectToc';
 import { RevealGroup, RevealItem } from '../../components/Reveal';
 import ScrollProgressBar from '../../components/ScrollProgressBar';
@@ -12,6 +12,7 @@ import StackChips from '../../components/StackChips';
 import ThemeToggle from '../../components/ThemeToggle';
 import TroubleCard from '../../components/TroubleCard';
 import { Eyebrow, MetaList } from '../../components/primitives';
+import { Badge } from '../../components/ui/badge';
 import { Button } from '../../components/ui/button';
 import { getProject, projects } from '../projects';
 
@@ -55,6 +56,24 @@ function H2({ children }: { children: string }) {
       {children}
     </h2>
   );
+}
+
+/** '==구절==' 을 형광펜으로 바꾼다. InsightAccordion 의 hl-marker 와 같은 밴드다.
+    .hl-marker 에 box-decoration-break: clone 이 걸려 있어 줄바꿈돼도 밴드가 따라붙는다. */
+function marked(text: string) {
+  // 순서가 고정된 조각이라 인덱스를 key 로 쓴다. 원문을 key 에 넣으면
+  // 같은 문자열이 RSC 페이로드에 조각 수만큼 중복으로 실린다.
+  return text
+    .split('==')
+    .map((seg, i) =>
+      i % 2 === 1 ? (
+        <span key={i} className="hl-marker">
+          {seg}
+        </span>
+      ) : (
+        <Fragment key={i}>{seg}</Fragment>
+      ),
+    );
 }
 
 export default async function ProjectDetail({ params }: { params: Promise<Params> }) {
@@ -113,12 +132,12 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
         {/* ── 히어로 ── */}
         <section className="pt-20" id="top">
           <div className="fade-in-slow flex flex-wrap items-center gap-3 font-mono text-meta tracking-[0.1em] text-muted-foreground">
-            <span className="rounded-chip bg-muted px-2.5 py-1 text-foreground">{project.org}</span>
+            <Badge>{project.org}</Badge>
             <span>{project.period}</span>
             {project.active ? (
               <span className="inline-flex items-center gap-1.5 text-primary-strong">
                 <span aria-hidden className="h-1.5 w-1.5 rounded-chip bg-primary" />
-                진행 중{project.currentTask ? ` · ${project.currentTask}` : ''}
+                {project.status ?? `진행 중${project.currentTask ? ` · ${project.currentTask}` : ''}`}
               </span>
             ) : null}
           </div>
@@ -141,9 +160,9 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
               </Button>
             ))}
             {isPrivate ? (
-              <span className="inline-flex items-center rounded-chip border border-dashed border-border px-[18px] py-2.5 text-label font-semibold text-muted-foreground">
+              <Badge variant="dashed" size="lg" className="text-label font-semibold text-muted-foreground">
                 사내 서비스 · 코드 비공개
-              </span>
+              </Badge>
             ) : null}
           </div>
 
@@ -151,14 +170,6 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
             {project.detail ?? project.summary}
           </p>
         </section>
-
-        {/* ── 지표 — 시안에서 목차보다 위로 올라왔다. 스크롤 전에 결과가 먼저 읽힌다.
-            숫자를 설명하는 카드가 있으면 뱃지가 그리로 가는 앵커가 된다 ── */}
-        {project.metrics?.length ? (
-          <section className="pt-14">
-            <MetricBadges items={project.metrics} />
-          </section>
-        ) : null}
 
         {/* ── 좌측 목차 + 본문 ── */}
         <div className="flex flex-wrap items-start gap-12 pt-16">
@@ -216,23 +227,40 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                   {work.map((g) => (
                     <RevealItem
                       key={g.tag}
-                      className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] items-start gap-6"
+                      className="flex flex-col gap-2 not-first:border-t not-first:border-border not-first:pt-[26px] wrap:grid wrap:grid-cols-[112px_1fr] wrap:items-start wrap:gap-6"
                     >
-                      <span className="pt-1 font-mono text-eyebrow tracking-[0.16em] text-primary-strong">
+                      <span className="font-mono text-eyebrow tracking-[0.16em] text-primary-strong wrap:pt-1">
                         {g.tag}
                       </span>
-                      <div className="col-span-2 flex flex-col gap-3.5">
-                        {g.items.map((i) => (
-                          <p key={i} className="text-read leading-[1.75] text-pretty break-keep">
-                            {i}
-                          </p>
-                        ))}
-                      </div>
+                      <ul className="m-0 flex list-disc flex-col gap-3.5 pl-5 marker:text-primary-strong">
+                        {g.items.map((i) => {
+                          // InsightAccordion 의 step 제목과 같은 ' — ' 규약.
+                          // 구분자가 없으면 통째로 평문이라 다른 프로젝트는 그대로다.
+                          const at = i.indexOf(' — ');
+                          return (
+                            <li
+                              key={i}
+                              className="max-w-[44em] text-read leading-[1.75] text-pretty break-keep"
+                            >
+                              {at === -1 ? (
+                                marked(i)
+                              ) : (
+                                <>
+                                  <strong className="font-semibold">
+                                    {marked(i.slice(0, at))}
+                                  </strong>
+                                  {marked(i.slice(at))}
+                                </>
+                              )}
+                            </li>
+                          );
+                        })}
+                      </ul>
                     </RevealItem>
                   ))}
                 </RevealGroup>
               ) : (
-                <ul className="m-0 flex list-disc flex-col gap-3.5 pl-5">
+                <ul className="m-0 flex list-disc flex-col gap-3.5 pl-5 marker:text-primary-strong">
                   {project.highlights.map((h) => (
                     <li key={h} className="text-read leading-[1.75] text-pretty break-keep">
                       {h}
