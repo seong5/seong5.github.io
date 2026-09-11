@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { Badge } from './ui/badge';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from './ui/collapsible';
 
 const CHIP_ROW = 'flex flex-wrap items-center gap-[7px]';
@@ -19,13 +20,20 @@ export default function StackChips({ core, rest }: { core: string[]; rest: strin
     <Collapsible open={open} onOpenChange={setOpen} className="flex flex-col gap-[7px]">
       <div className={CHIP_ROW}>
         {core.map((s) => (
-          <span key={s} className="rounded-chip bg-muted px-3 py-[7px] text-label font-semibold">
+          <Badge key={s} size="md" className="text-label font-semibold text-foreground">
             {s}
-          </span>
+          </Badge>
         ))}
         {rest.length > 0 ? (
-          <CollapsibleTrigger className="cursor-pointer rounded-chip border border-dashed border-border px-3 py-[7px] font-mono text-meta text-muted-foreground transition-colors hover:bg-muted">
-            {open ? '접기' : `+${rest.length} more`}
+          <CollapsibleTrigger asChild>
+            {/* 모양이 칩이라 Button이 아니라 Badge다 — Button base의 굵기·gap을 전부 되돌려야 한다 */}
+            <Badge
+              variant="dashed"
+              size="md"
+              className="cursor-pointer font-mono text-meta text-muted-foreground hover:bg-muted"
+            >
+              {open ? '접기' : `+${rest.length} more`}
+            </Badge>
           </CollapsibleTrigger>
         ) : null}
       </div>
@@ -35,12 +43,9 @@ export default function StackChips({ core, rest }: { core: string[]; rest: strin
       <CollapsibleContent className="overflow-hidden data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">
         <div className={CHIP_ROW}>
           {rest.map((s) => (
-            <span
-              key={s}
-              className="rounded-chip border border-border px-3 py-[7px] text-label text-muted-foreground"
-            >
+            <Badge key={s} variant="outline" size="md" className="text-label text-muted-foreground">
               {s}
-            </span>
+            </Badge>
           ))}
         </div>
       </CollapsibleContent>

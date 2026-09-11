@@ -1,5 +1,7 @@
 import type { CSSProperties } from 'react';
 import Link from 'next/link';
+
+import { Badge } from './ui/badge';
 import { JOURNEY, JOURNEY_PROLOGUE } from '../content/career';
 import { getProject } from '../projects/projects';
 import { RevealGroup, RevealItem } from './Reveal';
@@ -94,13 +96,14 @@ export default function Journey() {
                 {chips.length ? (
                   <div className="mt-1 flex flex-col items-start gap-1.5">
                     {chips.map((c) => (
-                      <Link
+                      <Badge
                         key={c.slug}
-                        href={`/projects/${c.slug}`}
-                        className="rounded-[6px] bg-muted px-2.5 py-1 font-mono text-eyebrow text-foreground transition-colors hover:bg-primary hover:text-primary-foreground"
+                        asChild
+                        variant="tag"
+                        className="font-mono text-eyebrow text-foreground hover:bg-primary hover:text-primary-foreground"
                       >
-                        {c.name}
-                      </Link>
+                        <Link href={`/projects/${c.slug}`}>{c.name}</Link>
+                      </Badge>
                     ))}
                   </div>
                 ) : null}

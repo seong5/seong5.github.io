@@ -10,10 +10,10 @@
     "cssVariables": true,
     "prefix": ""
   },
-  "iconLibrary": "lucide",
   "aliases": {
     "components": "@/app/components",
     "ui": "@/app/components/ui",
-    "hooks": "@/app/hooks"
+    "utils": "@/app/components/ui/cn",
+    "hooks": "@/app/components"
   }
 }

@@ -1,6 +1,7 @@
 import { RevealGroup, RevealItem } from './Reveal';
 import SectionHead from './SectionHead';
 import { Panel } from './primitives';
+import { Badge } from './ui/badge';
 
 const SKILLS = [
   { label: 'FRAMEWORK', items: ['React', 'Next.js (App Router)'] },
@@ -22,12 +23,13 @@ export default function Skills() {
               <span className="font-mono text-eyebrow tracking-[0.16em] text-muted-foreground">{g.label}</span>
               <div className="flex flex-wrap gap-[7px]">
                 {g.items.map((i) => (
-                  <span
+                  <Badge
                     key={i}
-                    className="rounded-chip bg-muted px-3 py-[7px] text-label font-semibold transition-colors hover:bg-primary hover:text-primary-foreground"
+                    size="md"
+                    className="text-label font-semibold text-foreground hover:bg-primary hover:text-primary-foreground"
                   >
                     {i}
-                  </span>
+                  </Badge>
                 ))}
               </div>
             </Panel>

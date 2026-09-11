@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react';
 
+import { Button } from './ui/button';
+
 /**
  * 맨 위로 — 상세 페이지 전용 플로팅 버튼.
  *
@@ -26,8 +28,10 @@ export default function BackToTop() {
   if (!show) return null;
 
   return (
-    <button
+    <Button
       type="button"
+      variant="outline"
+      size="icon-lg"
       // behavior를 넘기지 않는 게 중요하다 — 기본값 'auto'는 CSS scroll-behavior를
       // 따르므로 globals.css의 smooth와 prefers-reduced-motion 해제가 그대로 적용된다.
       // 앵커(<a href="#top">)가 아니라 버튼인 이유는 URL에 해시를 남기지 않기 위해서다.
@@ -40,9 +44,9 @@ export default function BackToTop() {
       // --color-shadow는 rgba(0,0,0,0.8)이고 바탕이 #0C0F12라 검정 위 검정이다.
       // 그래서 테두리를 border(다크 1.38:1)가 아니라 muted(5.5:1 / 7.0:1)로 올려
       // 두 테마 모두에서 형태가 서게 한다.
-      className="fade-in fixed right-6 bottom-6 z-70 grid h-11 w-11 cursor-pointer place-items-center rounded-chip border border-muted-foreground bg-card font-mono text-body text-foreground shadow-[0_6px_20px_-4px_var(--color-shadow)] transition-colors hover:border-primary-strong hover:bg-muted"
+      className="fade-in fixed right-6 bottom-6 z-70 size-11 border-muted-foreground bg-card font-mono text-body shadow-[0_6px_20px_-4px_var(--color-shadow)] hover:border-primary-strong"
     >
       <span aria-hidden>↑</span>
-    </button>
+    </Button>
   );
 }
