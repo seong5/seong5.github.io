@@ -23,6 +23,7 @@ const jetBrainsMono = JetBrains_Mono({
 // 한글 본문은 Pretendard (globals.css의 --font-sans 체인)
 
 const title = '신성오 — Frontend Developer';
+const alt = '신성오 — Frontend Developer 포트폴리오';
 const description =
   '신성오 (Shin Seong-oh) — 사용자 경험 개선의 우선순위를 읽어내고, 끊임없는 도전으로 서비스의 성장을 증명하는 프론트엔드 개발자 포트폴리오.';
 
@@ -35,7 +36,9 @@ export const metadata: Metadata = {
     description,
     url: '/',
     siteName: '신성오 포트폴리오',
-    images: [{ url: '/og-image.png', width: 1200, height: 630 }],
+    /* app/og.png/route.tsx 가 빌드타임에 생성한다. 메타데이터 파일 규약 대신
+       라우트 핸들러를 쓰는 이유는 그 파일 주석 참조 (확장자 없는 산출물 문제) */
+    images: [{ url: '/og.png', width: 1200, height: 630, alt }],
     locale: 'ko_KR',
     type: 'website',
   },
@@ -43,7 +46,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title,
     description,
-    images: ['/og-image.png'],
+    images: ['/og.png'],
   },
 };
 
