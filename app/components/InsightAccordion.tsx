@@ -45,7 +45,12 @@ export default function InsightAccordion({ insights }: { insights: Insight[] }) 
           key={n.title}
           id={anchors[i]}
           value={anchors[i]}
-          className="scroll-mt-24 overflow-hidden rounded-panel border border-border bg-card"
+          // TroubleCard와 같은 호버 — 접힌 항목만 살짝 커진다
+          className={`scroll-mt-24 overflow-hidden rounded-panel border border-border bg-card transition-transform duration-200 ease-out motion-reduce:transition-none ${
+            value.includes(anchors[i])
+              ? ''
+              : 'hover:scale-[1.01] motion-reduce:hover:scale-100 motion-reduce:hover:bg-muted'
+          }`}
         >
           <AccordionTrigger className="items-center gap-4 px-6 py-[22px] text-read font-bold">
             <span className="flex-none font-mono text-eyebrow text-muted-foreground">

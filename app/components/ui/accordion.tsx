@@ -6,7 +6,7 @@
 // (둘 다 살아남고 CSS 순서가 이긴다). 그래서 기본 클래스에서 그 둘을 뺐다.
 // 앞으로 shadcn add 로 컴포넌트를 추가할 때도 같은 손질이 필요하다.
 import * as React from "react"
-import { cn } from "cn"
+import { cn } from "./cn"
 import { Accordion as AccordionPrimitive } from "radix-ui"
 
 function Accordion({
@@ -38,7 +38,10 @@ function AccordionTrigger({
       <AccordionPrimitive.Trigger
         data-slot="accordion-trigger"
         className={cn(
-          "group/acc flex flex-1 items-start justify-between gap-4 py-4 text-left font-medium outline-none transition-colors disabled:pointer-events-none disabled:opacity-50",
+          // TroubleCard 트리거와 같은 어피던스 — cursor는 Tailwind v4가 주지 않아 직접 붙이고,
+          // outline-none 대신 offset만 음수로 덮어 AccordionItem의 overflow-hidden에 안 잘리게 한다.
+          // 호버 신호는 배경색이 아니라 카드 확대다 — 호출부(InsightAccordion)의 AccordionItem이 건다.
+          "group/acc flex flex-1 cursor-pointer items-start justify-between gap-4 py-4 text-left font-medium focus-visible:-outline-offset-2 disabled:pointer-events-none disabled:opacity-50",
           className
         )}
         {...props}
