@@ -28,20 +28,20 @@
      Tailwind 기본 --text-sm 등과 충돌하지 않도록 시맨틱 이름을 쓴다.
      시안의 9px 모노 라벨은 10px로 올렸다 — 대문자 + 0.16em 자간 + muted가
      겹치면 9px는 가독 한계를 넘는다. */
-  --text-eyebrow: 0.625rem; /* 10px — 모노 대문자 (STACK·RESULT·01). 9·10px 흡수 */
+  --text-eyebrow: 0.6875rem; /* 11px — 모노 대문자 (STACK·RESULT·01) */
   --text-eyebrow--line-height: 1.2;
-  --text-meta: 0.6875rem; /* 11px — 모노 메타 (기간·카운트) */
+  --text-meta: 0.75rem; /* 12px — 모노 메타 (기간·카운트) */
   --text-meta--line-height: 1.4;
-  --text-label: 0.8125rem; /* 13px — 칩·내비·보조 라벨. 12·12.5·13px 흡수 */
+  --text-label: 0.875rem; /* 14px — 칩·내비·보조 라벨 */
   --text-label--line-height: 1.5;
-  --text-body: 0.875rem; /* 14px — 카드 요약·리스트. 13.5·14px 흡수 */
+  --text-body: 0.9375rem; /* 15px — 카드 요약·단문 값 */
   --text-body--line-height: 1.7;
-  --text-read: 0.9375rem; /* 15px — 긴 본문. 14.5·15·15.5px 흡수 */
-  --text-read--line-height: 1.8;
-  --text-lead: 1.0625rem; /* 17px — 카드 제목·소제목 */
-  --text-lead--line-height: 1.45;
-  --text-title: 1.3125rem; /* 21px — 섹션 내 제목. 19·20·21px 흡수 */
-  --text-title--line-height: 1.35;
+  --text-read: 1rem; /* 16px — 긴 본문. 웹 본문 기준값 */
+  --text-read--line-height: 1.8; /* 한글 장문 권장 1.7~1.8의 상한 — 더 올리지 않는다 */
+  --text-lead: 1.1875rem; /* 19px — 카드 제목·소제목 */
+  --text-lead--line-height: 1.35; /* 제목이 2줄이 될 때 1.45는 느슨하다 */
+  --text-title: 1.5rem; /* 24px — 섹션 내 제목 */
+  --text-title--line-height: 1.25; /* 제목용. 이 값이라야 호출부가 leading을 덮어쓰지 않는다 */
 
   /* 디스플레이 티어 — 반응형이라 clamp 프리셋으로 둔다 */
   --text-h1: clamp(3.25rem, 11vw, 9.25rem); /* 히어로 52→148px */
@@ -50,8 +50,6 @@
   --text-h1-sub--line-height: 1.08;
   --text-h2: clamp(1.875rem, 4vw, 2.875rem); /* 섹션 h2 30→46px */
   --text-h2--line-height: 1.05;
-  --text-stat: clamp(1.5rem, 3vw, 2.125rem); /* 지표 숫자 24→34px */
-  --text-stat--line-height: 1;
   --text-quote: clamp(1.25rem, 2.4vw, 1.75rem); /* 히어로 리드 20→28px */
   --text-quote--line-height: 1.45;
 
@@ -80,8 +78,13 @@
   --breakpoint-nav: 880px;
   --breakpoint-wrap: 760px;
   /* Journey 가로 바가 성립하는 하한 — 노드당 폭이 166px 아래로 떨어지면
-     역할 한 줄이 3~4줄로 접힌다. 이 아래로는 세로 타임라인으로 전환한다. */
-  --breakpoint-journey: 1040px;
+     역할 한 줄이 3~4줄로 접힌다. 이 아래로는 세로 타임라인으로 전환한다.
+
+     ⚠️ 이 값은 노드 수에 딸려 있다. 노드 6개면 1fr = (1240 - 56) / 7.4 ≈ 160px 라
+     최대폭에서도 166px에 살짝 못 미치고, 1040px에서는 133px까지 떨어져 바가 깨졌다.
+     그래서 전환 폭을 컨테이너 최대폭까지 올렸다 — 노드가 더 늘면 세로로 보내거나
+     --container-page 를 넓혀야 한다. */
+  --breakpoint-journey: 1240px;
 }
 
 /* ──────────────────────────────────────────────────────────
@@ -113,8 +116,8 @@
   --card-foreground: #14181d;
   --popover: #ffffff;
   --popover-foreground: #14181d;
-  --primary: #c6f24e; /* 라임. 채움 전용 */
-  --primary-foreground: #101410; /* 라임 채움 위 텍스트 — 15.4:1 */
+  --primary: #2c4a1e; /* 짙은 녹색 = primary-strong과 같은 값. 라이트에서는 형광 라임을 쓰지 않는다 */
+  --primary-foreground: #f5f4f0; /* 짙은 녹색 채움 위 텍스트 — 8.6:1. 검정(#101410)은 1.5:1로 죽는다 */
   --secondary: #ecece6; /* 칩·중첩 강조 블록·이미지 매트 */
   --secondary-foreground: #14181d;
   --muted: #ecece6; /* = secondary. shadcn에서 muted는 "면"이다 */
@@ -130,7 +133,9 @@
   /* ── TRACK 고유 — shadcn 슬롯이 없어 직접 든다 ── */
   --primary-strong: #2c4a1e; /* 액센트 "텍스트" 자리 — 배경 대비 8.6:1 */
   --background-fade: rgba(245, 244, 240, 0.82); /* sticky 헤더 backdrop-blur 뒤 */
-  --hl-band: var(--primary); /* 형광펜 밴드 — 라이트는 라임 원색 */
+  /* 형광펜 밴드 — 원색을 깔면 그 위 본문(#14181d)이 죽으므로 틴트로 눕힌다.
+     다크가 26% 틴트를 쓰는 것과 같은 수법이다 */
+  --hl-band: color-mix(in srgb, var(--primary) 18%, transparent);
   --shadow-tint: rgba(20, 24, 29, 0.4); /* 카드 hover 리프트·플로팅 버튼 */
 }
 
@@ -269,9 +274,9 @@
    전환 폭은 --breakpoint-journey와 같은 값을 쓴다. */
 .journey-track {
   display: grid;
-  grid-template-columns: 1.4fr repeat(var(--journey-nodes, 5), 1fr);
+  grid-template-columns: 1.4fr repeat(var(--journey-nodes, 6), 1fr);
 }
-@media not all and (min-width: 1040px) {
+@media not all and (min-width: 1240px) {
   .journey-track {
     grid-template-columns: 1fr;
   }
@@ -340,6 +345,40 @@
   animation: riseIn 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
+/* 홈 히어로 전용 — "From Idea"는 왼쪽에서, "to Production."은 오른쪽에서.
+   문장의 뜻(아이디어 → 출시)을 좌우 이동으로 옮긴 것이라 장식이 아니다.
+   상세 페이지 h1도 .rise-line 을 쓰므로 기존 클래스는 건드리지 않고 따로 만든다.
+   이동 거리를 em 으로 두는 이유 — text-h1 이 clamp(52px…148px) 라 px 고정값은
+   모바일에서 과하고 데스크톱에서 밋밋해진다. */
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-0.4em);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(0.4em);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+.rise-line-left {
+  display: block;
+  animation: slideInLeft 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.rise-line-right {
+  display: block;
+  animation: slideInRight 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
 /* 인라인 style로 animation을 주면 prefers-reduced-motion에서 !important 없이는
    끌 수 없다. 모션은 전부 클래스로만 건다. */
 .fade-in {
@@ -366,6 +405,189 @@
   transform: translateY(0);
 }
 
+/* Spotlight Frames (app/components/Projects.tsx) — 홈 프로젝트 스트립.
+   패널 폭을 flex-grow로 전이한다. 트랙 폭은 flex가 나누므로 px 상수도,
+   시안이 쓰던 ResizeObserver + scale 보정도 필요 없다 — 정적 export에서
+   측정을 기다리지 않고 첫 페인트부터 정답 레이아웃이 나온다.
+   쉬는 상태에서는 아무것도 펼치지 않는다 — 1240px에서 8장이 144px씩 균등하게
+   선다. 하나를 잡으면 유닛 = (트랙 − gap합) / (접힘 7 + 펼침 6)으로 96px / 482px가
+   되어 시안의 80:400 = 1:5 비율을 그대로 재현하고, 프로젝트가 늘면 분모만
+   커져 자동으로 좁아진다. */
+@property --open {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+
+.spotlight-strip {
+  display: flex;
+  align-items: stretch;
+  gap: 4px;
+  /* SectionHead 헤어라인(mb-10)과 스트립 사이의 숨 쉴 틈 */
+  padding-block: 22px;
+}
+
+.spotlight-frame {
+  position: relative;
+  flex: 1 1 0;
+  flex-grow: calc(1 + var(--open, 0) * 5);
+  min-width: 0;
+  height: clamp(360px, 34vw, 440px);
+  transition: flex-grow 520ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.spotlight-frame:hover,
+.spotlight-frame:focus-within {
+  --open: 1;
+}
+
+.spotlight-frame-in {
+  position: relative;
+  display: block;
+  height: 100%;
+  overflow: hidden;
+  border-radius: var(--radius-media);
+  /* 히어로의 "to Production."과 같은 토큰(primary-strong)이다. 두께가 항상
+     2px이라 펼칠 때 레이아웃이 밀리지 않는다 — 1px 하프라인은 스크린샷 위에서
+     라이트 모드의 #2c4a1e가 그냥 검은 선으로 읽혀 액센트로 안 보였다 */
+  border: 2px solid
+    color-mix(in srgb, var(--color-primary-strong) calc(var(--open, 0) * 100%), transparent);
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 720ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 720ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 320ms ease;
+}
+[data-revealed] .spotlight-frame-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 딤 — 시안의 filter: brightness()는 여기서 못 쓴다. 다크에서 어두운 스크린샷에
+   걸면 검은 사각형이 되고 라이트에선 회색이 된다. "흐려진다"를 "페이지 배경 쪽으로
+   물러난다"로 옮기면 두 테마에서 같은 의미가 된다 */
+.spotlight-frame-in::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: var(--color-background);
+  opacity: calc(0.72 - var(--open, 0) * 0.72);
+  transition: opacity 520ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* 접힘 슬리버의 세로 제목. 96px 폭에서 크롭된 스크린샷은 UI 조각으로만 보여
+   식별이 안 된다 — 8개 중 하나를 고르게 하려면 이름이 읽혀야 한다.
+   transform 회전이 아니라 writing-mode인 이유는 진짜 텍스트로 두기 위함 */
+.spotlight-spine {
+  position: absolute;
+  /* 아래 정렬 — 이름 길이가 제각각이라 위에서 매달면 8장의 끝이 들쭉날쭉해진다.
+     바닥에 맞추면 굽의 번호가 같은 높이에 한 줄로 늘어선다 */
+  inset: auto 0 18px 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  opacity: calc(1 - var(--open, 0));
+  transition: opacity 380ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+/* 가로쓰기. 세로쓰기는 한글(다정해·도봉라이프 어드민)까지 눕혀 오히려 어색했다.
+   자간을 빼는 것이 성립 조건이다 — tracking 0.1em이면 GlobalNomad가 85px로 넘치지만,
+   자간 없는 11px에서는 72.6px라 접힘 폭(89px) 안에 들어간다. */
+.spotlight-spine-title {
+  /* 폭을 고정하는 이유 — 100%로 두면 패널이 144px(쉴 때) ↔ 89px(다른 패널 hover)로
+     변할 때 긴 이름이 1줄↔2줄로 다시 줄바꿈되며 전이 중에 튄다. 좁은 쪽 배치로
+     묶어두면 폭이 변해도 줄 구성이 그대로다 */
+  max-width: 76px;
+  text-align: center;
+  overflow-wrap: break-word;
+}
+
+/* 스파인이 앉는 자리만 배경을 깔아준다. 딤만으로는 스크린샷의 밝은 영역
+   위에서 인덱스와 제목이 묻힌다 — 본문 스크림과 같은 수법을 위쪽에 쓴다.
+   spine이 z-index:2로 쌓임 맥락을 만들므로 -1이면 글자 뒤·이미지 앞에 놓인다 */
+.spotlight-spine::before {
+  content: '';
+  position: absolute;
+  /* 스파인이 아래 정렬이라 오버행이 위에 있다 — 꼬리도 위로 간다 */
+  inset: -28px -6px -18px -6px;
+  z-index: -1;
+  /* 본체(세로 제목 + 굽의 번호)는 단색으로 채우고 위 28px 꼬리에서만 사라진다.
+     스파인 높이가 프로젝트명 길이에 딸려 있어 퍼센트 정지점을 쓸 수 없다 —
+     레이어 둘을 px로 쌓아 "본체는 불투명, 꼬리만 페이드"를 만든다 */
+  background-image:
+    linear-gradient(to bottom, transparent, var(--color-background)),
+    linear-gradient(var(--color-background), var(--color-background));
+  background-size:
+    100% 28px,
+    100% calc(100% - 28px);
+  background-position:
+    top left,
+    bottom left;
+  background-repeat: no-repeat;
+}
+
+.spotlight-body {
+  position: absolute;
+  inset: auto 0 0 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  /* 폭이 아니라 하한을 주는 이유 — 고정 폭으로 두면 스크림이 본문 상자만큼만
+     깔려 패널 오른쪽에 이미지가 그대로 드러나는 세로 경계선이 생긴다.
+     하한만 두면 전이 대부분 구간에서 줄바꿈이 고정되고, 접힘 상태에서는
+     패널 밖으로 넘쳐 앵커의 overflow:hidden에 잘린다 */
+  min-width: clamp(240px, 30vw, 430px);
+  padding: 18px;
+  opacity: var(--open, 0);
+  transition: opacity 420ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* 본문 스크림 — 패널 퍼센트가 아니라 본문 상자 자신에 건다.
+   글자가 앉는 띠는 완전히 불투명해야 토큰 대비가 그대로 산다(muted-foreground
+   5.5:1을 반투명 위에 얹으면 4.6:1로 떨어져 AA 미달). 퍼센트로 잡으면 제목이
+   두 줄이 되거나 패널 높이가 clamp로 달라질 때 다시 어긋나므로 기준을 글자
+   상자로 옮긴다 — 스파인과 같은 구조다. 위 44px에서만 페이드해 경계를 끊지 않는다 */
+.spotlight-body::before {
+  content: '';
+  position: absolute;
+  inset: -44px 0 0 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(to bottom, transparent, var(--color-background)),
+    linear-gradient(var(--color-background), var(--color-background));
+  background-size:
+    100% 44px,
+    100% calc(100% - 44px);
+  background-position:
+    top left,
+    bottom left;
+  background-repeat: no-repeat;
+}
+
+/* 펼친 패널이 380px를 밑돌면 태그라인 3줄이 안 선다. 굵은 포인터에는 hover가
+   아예 없으므로 같은 모드로 보낸다 — Tilt와 같은 판정 방식(JS 포인터 감지 대신 CSS).
+   전부 펼친 채로 두므로 "먼저 탭해서 펼친다"는 단계가 생기지 않는다 */
+@media (max-width: 999.98px), (hover: none) {
+  .spotlight-strip {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+  .spotlight-strip::-webkit-scrollbar {
+    display: none;
+  }
+  .spotlight-frame {
+    --open: 1;
+    flex: 0 0 clamp(240px, 62vw, 300px);
+    height: clamp(320px, 78vw, 380px);
+    scroll-snap-align: start;
+  }
+}
+
 /* Tilt (app/components/Tilt.tsx) — 포인터가 있는 기기에서만.
    터치에서는 mousemove가 안 오거나 탭 시 한 번 튀므로 아예 끈다 */
 @media (hover: none), (pointer: coarse) {
@@ -386,6 +608,8 @@
     transform: none;
   }
   .rise-line,
+  .rise-line-left,
+  .rise-line-right,
   .fade-in,
   .fade-in-slow,
   .pulse-dot {
@@ -395,6 +619,19 @@
   [data-tilt] {
     transform: none !important;
     transition: none !important;
+  }
+  /* Spotlight Frames — 펼침은 "상태"라 남기고 "움직임"만 끈다.
+     flex-grow가 즉시 바뀌므로 기능은 그대로고 전이만 사라진다 */
+  .spotlight-frame,
+  .spotlight-frame-in,
+  .spotlight-frame-in::before,
+  .spotlight-spine,
+  .spotlight-body {
+    transition: none !important;
+  }
+  .spotlight-frame-in {
+    opacity: 1;
+    transform: none;
   }
   /* tw-animate-css는 prefers-reduced-motion을 스스로 존중하지 않는다(가드 0개).
      Radix Accordion·Collapsible의 높이 애니메이션을 여기서 끈다. */

@@ -111,6 +111,20 @@ export type Project = {
   card?: {
     tagline: string;
     picks?: [string, string];
+    /**
+     * 홈 스포트라이트 패널의 크롭(public 기준). image(OG 전용)·gallery(상세)와 따로 두는 이유 —
+     * 원본이 1920px 가로이거나 640×1387 세로라 어느 쪽도 패널 비율(7:6)에 맞지 않고,
+     * 홈에서 8장이 동시에 내려가므로 CSS로 자르면 원본 바이트를 그대로 물어야 한다.
+     * scripts/optimize-project-images.mjs 가 만드는 *-panel.webp 를 적는다.
+     * 없으면 패널은 이미지 없이 제목·태그라인만 세운다.
+     */
+    shot?: string;
+    /**
+     * 접힘 슬리버(가로 89px)의 줄 나눔. 없으면 이름을 공백으로 쪼개 한 줄씩 쌓는다.
+     * 공백 수와 원하는 줄 수가 다를 때만 적는다 — 예: 'UMUST R&D ERP'는 공백이
+     * 둘이라 기본값이 세 줄이 되므로 여기서 두 줄로 묶는다.
+     */
+    spine?: string[];
   };
   /** 핵심 경험 및 성과 — 평문 배열. resume(동결)이 상위 3개를 쓴다 */
   highlights: string[];
@@ -124,23 +138,18 @@ export type Project = {
   resumeStack?: string[];
   /** 외부 링크 (배포/저장소 등). URL 미확보 시 빈 배열 */
   links: ProjectLink[];
-  /** 목록 카드 썸네일 라벨 (image 없을 때 placeholder에 표시) */
-  thumbnail: string;
-  /** 대표 이미지 경로(public 기준). 있으면 placeholder 대신 실제 이미지 렌더 */
+  /**
+   * OG(공유 카드) 이미지 경로(public 기준). 화면에는 렌더되지 않는다 —
+   * 홈 카드는 텍스트 전용이고 상세는 gallery를 쓴다. 없으면 gallery[0]으로 폴백한다.
+   */
   image?: string;
-  /** 이미지 맞춤 방식. 세로형(모바일 스크린샷)은 "contain" 권장. 기본 "cover" */
-  imageFit?: 'cover' | 'contain';
-  /** 대표 이미지 테두리 제거 (기본은 border 표시) */
-  imageNoBorder?: boolean;
-  /** 상세 페이지 갤러리(여러 장). 있으면 단일 hero 대신 갤러리 섹션을 렌더 */
+  /** 상세 페이지 갤러리(여러 장) */
   gallery?: Shot[];
-  /** 갤러리를 한 줄에 같은 높이로 N열 배치. 미지정 시 기본(2열 + 나머지 전체폭) */
-  galleryCols?: 2 | 3;
-  /** 정량 지표 — 있으면 "Key results" 섹션(카드 그리드) 렌더 */
+  /** 정량 지표 — 있으면 히어로 아래 지표 줄(뱃지 그리드) 렌더 */
   metrics?: Metric[];
   /** 인사이트 — 있으면 "Insights" 섹션 렌더 */
   insights?: Insight[];
-  /** 트러블슈팅 — 있으면 "Troubleshooting" 섹션 렌더 */
+  /** 트러블슈팅 — 있으면 "Trouble-Shooting" 섹션 렌더 */
   troubleshooting?: Trouble[];
 };
 
@@ -162,6 +171,7 @@ export const projects: Project[] = [
     card: {
       tagline: '모임 날짜와 장소를 투표로 정하고, 마감이 지나면 아무도 앱을 켜지 않아도 결과가 확정되는 약속 잡기 앱입니다.',
       picks: ['판정을 DB로', '실시간 유출 차단'],
+      shot: '/projects/dajeonghae-panel.webp',
     },
     highlights: [
       '승자 판정 세 갈래(최다득표 / 좋아요가 0표면 싫어요 최소 / 동점이면 방장 선택)를 PostgreSQL 함수 한 곳에 모으고 pg_cron으로 매분 실행해, 앱이 꺼져 있어도 마감 시각에 약속이 확정되는 구조를 설계.',
@@ -228,7 +238,6 @@ export const projects: Project[] = [
     ],
     resumeStack: ['React Native', 'Expo', 'TypeScript', 'Supabase', 'PostgreSQL'],
     links: [{ label: 'App Store', href: 'https://apps.apple.com/kr/app/id6806991676' }],
-    thumbnail: 'dajeonghae.jpg',
     gallery: [
       {
         src: '/projects/dajeonghae-1.webp',
@@ -580,6 +589,7 @@ export const projects: Project[] = [
     card: {
       tagline: 'Claude Code 토큰 사용량을 메뉴바에 상주 표시해, rate limit에 걸리기 전에 알아챌 수 있게 만든 macOS 위젯 앱입니다.',
       picks: ['전체 대신 추가분만', '한 겹으로는 못 막는다'],
+      shot: '/projects/claude-log-panel.webp',
     },
     highlights: [
       '매번 /usage나 웹으로 확인하던 사용량을 메뉴바에 %로 상주 표시하고, 클릭 시 그래프·히트맵 상세를 자동 갱신해 작업 흐름을 끊지 않도록 개선.',
@@ -641,7 +651,6 @@ export const projects: Project[] = [
         href: 'https://github.com/seong5/claude-log/releases/tag/v1.0.8',
       },
     ],
-    thumbnail: 'claude-log.jpg',
     image: '/projects/claude-log-1-card.webp',
     gallery: [
       { src: '/projects/claude-log-1.webp', w: 920, h: 1162 },
@@ -768,6 +777,8 @@ export const projects: Project[] = [
     card: {
       tagline: '재고·자원 관리와 임상시험 수탁(CRO) 절차 추적을 한곳에 모은 사내 ERP입니다.',
       picks: ['캐시 키는 서버 기준으로', '제약을 구현했다가 걷어냄'],
+      shot: '/projects/umust-erp-panel.webp',
+      spine: ['UMUST R&D', 'ERP'],
     },
     highlights: [
       '서비스 전반의 ERD를 설계하고 DB·스키마 데이터 모델링부터 FE 전반 구현·배포까지 풀사이클을 직접 주도.',
@@ -814,7 +825,6 @@ export const projects: Project[] = [
     ],
     resumeStack: ['React', 'TypeScript', 'Tanstack Query', 'Zod', 'MSW'],
     links: [],
-    thumbnail: 'umust-erp.jpg',
     image: '/projects/umust-erp.webp',
     gallery: [{ src: '/projects/umust-erp.webp', w: 1280, h: 647 }],
     metrics: [
@@ -988,6 +998,7 @@ export const projects: Project[] = [
     card: {
       tagline: '지역 생활 플랫폼 앱의 데이터와 통계를 관리자와 사업자가 각자의 범위에서 다루는 웹 백오피스입니다.',
       picks: ['끄고 켜서 확인한 원인', '390줄을 세 층으로'],
+      shot: '/projects/dobong-admin-panel.webp',
     },
     highlights: [
       'Next.js proxy.ts(구 middleware) 단일 진입점에서 JWT의 role을 읽어 /admin·/business 접근을 서버 단계에서 분기·차단하는 RBAC 가드를 구현하고, 페이지마다 흩어지던 권한 체크를 제거.',
@@ -1035,7 +1046,6 @@ export const projects: Project[] = [
     ],
     resumeStack: ['Next.js', 'TypeScript', 'Tanstack Query', 'Zod', 'Recharts'],
     links: [],
-    thumbnail: 'dobong-admin.jpg',
     image: '/projects/dobong-admin.webp',
     gallery: [{ src: '/projects/dobong-admin.webp', w: 1280, h: 600 }],
     metrics: [
@@ -1205,6 +1215,7 @@ export const projects: Project[] = [
     card: {
       tagline: '미팅 회의록을 분석해 사업제안서 초안을 자동으로 만드는 B2B SaaS입니다.',
       picks: ['AI에 전부 맡기지 않기', '응답이 깨져도 덱은 나오게'],
+      shot: '/projects/deckly-panel.webp',
     },
     highlights: [
       'Langchain으로 미팅 회의록 기반 AI 제안서 자동 생성 플로우를 설계해, 수기 작성 대비 초안 생성 시간을 2~3분 내로 단축.',
@@ -1256,7 +1267,6 @@ export const projects: Project[] = [
     ],
     resumeStack: ['Next.js', 'TypeScript', 'Supabase', 'Tanstack Query', 'Langchain'],
     links: [],
-    thumbnail: 'deckly.jpg',
     image: '/projects/deckly.webp',
     gallery: [{ src: '/projects/deckly.webp', w: 1920, h: 990 }],
     metrics: [
@@ -1364,6 +1374,7 @@ export const projects: Project[] = [
       '기존에 쓰던 앱의 높은 피로도와 불필요한 기능을 덜어내고, 실제 팀원이 원하는 기능에 집중해 만든 팀 전용 매니지먼트 서비스입니다. 팀원 피드백을 주기적으로 수집해 개선사항을 반영하고 있습니다.',
     card: {
       tagline: '기존 팀 관리 앱의 피로도를 덜어내고, 팀원이 실제로 쓰는 기능만 남긴 팀 전용 매니지먼트 서비스입니다.',
+      shot: '/projects/sub-fc-panel.webp',
     },
     highlights: [
       'Supabase 기반으로 직접 SQL DB 스키마 설계·데이터 모델링부터 FE·BE·배포까지 1인 풀사이클로 진행.',
@@ -1425,15 +1436,12 @@ export const projects: Project[] = [
       { label: 'GitHub', href: 'https://github.com/seong5/SUB_FC' },
       { label: 'Deploy', href: 'https://sub-fc-21fv.vercel.app/' },
     ],
-    thumbnail: 'sub-fc.jpg',
     image: '/projects/sub-fc.webp',
-    imageFit: 'contain',
     gallery: [
       { src: '/projects/sub-fc-3.webp', w: 826, h: 1202 },
       { src: '/projects/sub-fc-1.webp', w: 832, h: 1224 },
       { src: '/projects/sub-fc-2.webp', w: 842, h: 1226 },
     ],
-    galleryCols: 3,
     metrics: [
       { value: '71→99', label: '서버 컴포넌트로 성능 개선', target: { kind: 'insight', index: 1 } },
       { value: '20명', label: '실사용자 확보' },
@@ -1570,6 +1578,7 @@ export const projects: Project[] = [
     card: {
       tagline: '누구나 체험의 공급자이자 수요자가 되는, 지도와 예약 기반의 액티비티 마켓플레이스입니다.',
       picks: ['기기마다 다른 화면', '같은 응답을 네 번 받지 않기'],
+      shot: '/projects/globalnomad-panel.webp',
     },
     highlights: [
       '체험 예약 입력의 복잡도를 낮추기 위해 디바이스별 단계(Step)형 입력 폼을 설계해 이탈률을 줄이는 사용자 경험을 제공.',
@@ -1625,7 +1634,6 @@ export const projects: Project[] = [
       { label: 'GitHub', href: 'https://github.com/Act-It-FE/global-nomad' },
       { label: 'Deploy', href: 'https://global-nomad-omega.vercel.app/' },
     ],
-    thumbnail: 'globalnomad.jpg',
     image: '/projects/globalnomad.webp',
     gallery: [{ src: '/projects/globalnomad.webp', w: 1920, h: 990 }],
     insights: [
@@ -1690,6 +1698,7 @@ export const projects: Project[] = [
     card: {
       tagline: '와인을 검색·필터링하고 직접 리뷰를 남기는 리뷰 기반 플랫폼입니다.',
       picks: ['두 손잡이를 겹쳐서', '요청이 두 번 나가던 자리'],
+      shot: '/projects/whyne-panel.webp',
     },
     highlights: [
       'UI 라이브러리 없이 캐러셀을 직접 구현해 번들 크기를 최적화하고, 평점 4.2점 이상 상위 와인 8종을 랜덤 추천하는 메인 인터페이스를 제공.',
@@ -1739,10 +1748,8 @@ export const projects: Project[] = [
       { label: 'GitHub', href: 'https://github.com/codeit-part3-team5/whyne' },
       { label: 'Deploy', href: 'https://whyne-navy.vercel.app/' },
     ],
-    thumbnail: 'whyne.jpg',
     image: '/projects/whyne.webp',
     gallery: [{ src: '/projects/whyne.webp', w: 1920, h: 981 }],
-    imageNoBorder: true,
     insights: [
       {
         title: '컨테이너-프리젠테이션 패턴',
@@ -1809,6 +1816,10 @@ export const projects: Project[] = [
     ],
   },
 ];
+
+/** 패널 크롭의 고정 치수 — 8장이 전부 같은 규격이라 프로젝트마다 적지 않는다.
+    scripts/optimize-project-images.mjs 의 width/height 와 짝이다. */
+export const PANEL_SHOT = { w: 700, h: 600 } as const;
 
 /** 홈 카드의 판단 요약 줄. work 리드인을 참조만 하므로, 리드인이 바뀌면 빌드가 여기서 멈춘다. */
 export function cardPicks(p: Project): string[] {

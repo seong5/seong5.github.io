@@ -34,8 +34,8 @@ export const dynamic = 'force-static';
 const size = { width: 1200, height: 630 };
 
 /* globals.css :root 라이트 모드 값 */
-const LIME = '#c6f24e'; // --primary — 채움 전용
-const ON_LIME = '#101410'; // --primary-foreground
+const LIME = '#2c4a1e'; // --primary(라이트) — 짙은 녹색 채움
+const ON_LIME = '#f5f4f0'; // --primary-foreground — 짙은 녹색 위 8.6:1
 const SIDEBAR = '#0c0f12'; // 다크 --background
 const SIDEBAR_DIM = '#8a939d'; // 다크 --muted-foreground
 
@@ -69,11 +69,11 @@ export async function GET() {
             style={{
               fontFamily: 'Space Grotesk',
               fontSize: 13,
-              letterSpacing: '0.16em',
+              letterSpacing: '0.06em',
               color: SIDEBAR_DIM,
             }}
           >
-            PORTFOLIO 2026
+            Portfolio 2026
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', marginTop: 28 }}>
@@ -82,21 +82,19 @@ export async function GET() {
               style={{
                 fontFamily: 'Space Grotesk',
                 fontSize: 13,
-                letterSpacing: '0.1em',
+                letterSpacing: '0.04em',
                 color: SIDEBAR_DIM,
                 marginTop: 4,
               }}
             >
-              {PROFILE.nameEn.toUpperCase()}
+              {PROFILE.nameEn}
             </div>
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 14, marginTop: 52 }}>
-            {NAV.map((label, i) => (
-              <div key={label} style={{ display: 'flex', alignItems: 'baseline', gap: 12 }}>
-                <span style={{ fontFamily: 'Space Grotesk', fontSize: 12, color: SIDEBAR_DIM }}>
-                  {String(i + 1).padStart(2, '0')}
-                </span>
+            {/* 번호를 붙이지 않는다 — 내비게이션은 순서가 아니다 */}
+            {NAV.map((label) => (
+              <div key={label} style={{ display: 'flex', alignItems: 'baseline' }}>
                 <span style={{ fontFamily: 'Space Grotesk', fontSize: 16 }}>{label}</span>
               </div>
             ))}
@@ -141,19 +139,19 @@ export async function GET() {
                 letterSpacing: '-0.045em',
               }}
             >
-              <span>{HEADLINE.line1.toUpperCase()}</span>
-              <span>{HEADLINE.line2.toUpperCase()}</span>
+              <span>{HEADLINE.line1}</span>
+              <span>{HEADLINE.line2}</span>
             </div>
 
             <div
               style={{
                 fontFamily: 'Space Grotesk',
                 fontSize: 14,
-                letterSpacing: '0.18em',
+                letterSpacing: '0.06em',
                 marginTop: 22,
               }}
             >
-              {PROFILE.role.toUpperCase()}
+              {PROFILE.role}
             </div>
 
             {/* Satori는 자식이 둘 이상인 div에 display를 명시해야 한다 */}
