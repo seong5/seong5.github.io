@@ -1,8 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { Badge } from './ui/badge';
+import { Badge, badgeVariants } from './ui/badge';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from './ui/collapsible';
+import { cn } from './ui/cn';
 
 const CHIP_ROW = 'flex flex-wrap items-center gap-[7px]';
 
@@ -24,16 +25,16 @@ export default function StackChips({ core, rest }: { core: string[]; rest: strin
             {s}
           </Badge>
         ))}
+        {/* asChild로 Badge를 넣으면 Badge가 span을 렌더해 role·tabindex 없는 트리거가 된다
+            (키보드로 도달 불가). 트리거가 자기 button을 렌더하게 두고 칩 모양만 클래스로 준다. */}
         {rest.length > 0 ? (
-          <CollapsibleTrigger asChild>
-            {/* 모양이 칩이라 Button이 아니라 Badge다 — Button base의 굵기·gap을 전부 되돌려야 한다 */}
-            <Badge
-              variant="dashed"
-              size="md"
-              className="cursor-pointer font-mono text-meta text-muted-foreground hover:bg-muted"
-            >
-              {open ? '접기' : `+${rest.length} more`}
-            </Badge>
+          <CollapsibleTrigger
+            className={cn(
+              badgeVariants({ variant: 'dashed', size: 'md' }),
+              'cursor-pointer font-mono text-label text-muted-foreground hover:bg-muted',
+            )}
+          >
+            {open ? '접기' : `+${rest.length} more`}
           </CollapsibleTrigger>
         ) : null}
       </div>

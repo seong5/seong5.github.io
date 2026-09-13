@@ -16,7 +16,8 @@ function Switch({
       data-slot="switch"
       data-size={size}
       className={cn(
-        "peer group/switch inline-flex shrink-0 cursor-pointer items-center rounded-full border transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-[1.15rem] data-[size=default]:w-8 data-[size=sm]:h-3.5 data-[size=sm]:w-6 data-[size=lg]:h-[26px] data-[size=lg]:w-[44px] border-border data-[state=checked]:bg-primary data-[state=unchecked]:bg-muted",
+        // 포커스 표시는 globals.css의 전역 :focus-visible 아웃라인 하나로 통일한다 (button/badge와 같은 이유)
+        "peer group/switch inline-flex shrink-0 cursor-pointer items-center rounded-full border transition-all disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-[1.15rem] data-[size=default]:w-8 data-[size=sm]:h-3.5 data-[size=sm]:w-6 data-[size=lg]:h-[26px] data-[size=lg]:w-[44px] border-border data-[state=checked]:bg-primary data-[state=unchecked]:bg-muted",
         className
       )}
       {...props}

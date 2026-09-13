@@ -1,6 +1,6 @@
 # OG 이미지 전용 폰트
 
-`app/opengraph-image.tsx`(satori)가 `readFile`로 직접 읽는 폰트다. **웹 페이지로는
+`app/og.png/route.tsx`(satori)가 `readFile`로 직접 읽는 폰트다. **웹 페이지로는
 나가지 않는다** — 사이트 본문 폰트는 `app/layout.tsx`의 `next/font/google`과
 `pretendard` 패키지가 담당한다.
 

@@ -69,7 +69,8 @@ export default function RootLayout({
       <body className={`${spaceGrotesk.variable} ${jetBrainsMono.variable} antialiased`}>
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded-chip focus:bg-primary focus:px-4 focus:py-2 focus:text-label focus:font-semibold focus:text-primary-foreground"
+          /* z는 sticky 헤더(z-80)보다 위여야 한다 — 아래면 포커스된 스킵 링크가 헤더에 가린다 */
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-90 focus:rounded-chip focus:bg-primary focus:px-4 focus:py-2 focus:text-label focus:font-semibold focus:text-primary-foreground"
         >
           본문으로 건너뛰기
         </a>

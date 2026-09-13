@@ -44,12 +44,15 @@ export default function TroubleCard({ t, index }: { t: Trouble; index: number })
               outline-none을 걸면 globals.css의 전역 :focus-visible 아웃라인이 죽으므로 쓰지 않고,
               Panel의 overflow-hidden에 잘리지 않도록 offset만 음수로 덮어쓴다. */}
           <CollapsibleTrigger className="group/tc flex flex-1 cursor-pointer items-start gap-3.5 p-7 text-left focus-visible:-outline-offset-2">
-            <span className="flex-none pt-1 font-mono text-eyebrow text-muted-foreground">
+            {/* 순번과 RESULT는 장식 라벨이다 — 이름에 들어가면 "01RESULT실시간…"으로 붙어 읽힌다 */}
+            <span aria-hidden className="flex-none pt-1 font-mono text-eyebrow text-muted-foreground">
               {num}
             </span>
             <span className="flex flex-1 flex-col gap-2.5">
-              <Eyebrow className="text-primary-strong">RESULT</Eyebrow>
-              <span className="text-[clamp(1.125rem,2.2vw,1.4375rem)] leading-[1.4] font-bold tracking-[-0.025em] text-pretty break-keep">
+              <Eyebrow aria-hidden className="text-primary-strong">
+                RESULT
+              </Eyebrow>
+              <span className="text-lead font-bold tracking-[-0.025em] text-pretty break-keep">
                 {t.conclusion}
               </span>
             </span>
@@ -70,18 +73,20 @@ export default function TroubleCard({ t, index }: { t: Trouble; index: number })
           <div className="flex flex-col gap-[18px] px-7 pb-7">
             <div className="flex flex-col gap-2 rounded-inset bg-muted px-5 py-[18px]">
               <Eyebrow>CAUSE</Eyebrow>
-              <p className="text-body text-pretty break-keep">{t.cause}</p>
+              <p className="max-w-[44em] text-read text-pretty break-keep">{t.cause}</p>
             </div>
 
             {t.compare ? (
               <div className="grid grid-cols-[repeat(auto-fit,minmax(230px,1fr))] gap-3">
                 {t.compare.map((c) => (
                   <figure key={c.label} className="m-0 flex flex-col gap-2">
-                    <Eyebrow>{c.label}</Eyebrow>
+                    {/* 라벨을 figcaption으로 두어 그림과 묶는다. 같은 문자열을 alt에도 넣으면
+                        보이는 라벨과 대체텍스트가 두 번 읽힌다 — 그림은 장식으로 비운다. */}
+                    <Eyebrow as="figcaption">{c.label}</Eyebrow>
                     <div className="overflow-hidden rounded-inset border border-border bg-muted">
                       <Image
                         src={c.src}
-                        alt={c.label}
+                        alt=""
                         width={c.w}
                         height={c.h}
                         className="w-full"
@@ -106,14 +111,16 @@ export default function TroubleCard({ t, index }: { t: Trouble; index: number })
 
             <div className="flex flex-col gap-2">
               <Eyebrow>PROBLEM</Eyebrow>
-              <p className="text-body text-muted-foreground text-pretty break-keep">{t.problem}</p>
+              <p className="max-w-[44em] text-read text-muted-foreground text-pretty break-keep">
+                {t.problem}
+              </p>
             </div>
 
             <div className="flex flex-col gap-2.5">
               <Eyebrow>ACTION</Eyebrow>
               <ul className="m-0 flex list-disc flex-col gap-2.5 pl-5">
                 {t.actions.map((a) => (
-                  <li key={a} className="text-body text-pretty break-keep">
+                  <li key={a} className="max-w-[44em] text-read text-pretty break-keep">
                     {a}
                   </li>
                 ))}
@@ -122,7 +129,7 @@ export default function TroubleCard({ t, index }: { t: Trouble; index: number })
 
             <div className="flex flex-col gap-2 border-t border-border pt-4">
               <Eyebrow>LEARNED</Eyebrow>
-              <p className="text-body font-medium text-pretty break-keep">{t.lesson}</p>
+              <p className="max-w-[44em] text-read font-medium text-pretty break-keep">{t.lesson}</p>
             </div>
           </div>
         </CollapsibleContent>

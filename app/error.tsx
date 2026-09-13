@@ -19,7 +19,7 @@ export default function Error({
     <div className="flex min-h-screen flex-col items-center justify-center gap-6 bg-background px-8 text-center">
       <span className="font-display text-[clamp(3rem,10vw,6rem)] leading-none text-primary">!</span>
       <div className="flex flex-col gap-2">
-        <h1 className="text-title font-bold text-foreground">문제가 발생했습니다</h1>
+        <h1 className="font-display text-h2 font-bold text-foreground">문제가 발생했습니다</h1>
         <p className="text-body text-muted-foreground">
           페이지를 표시하는 중 오류가 발생했습니다. 다시 시도해 주세요.
         </p>

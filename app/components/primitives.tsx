@@ -11,6 +11,7 @@
    (globals.css 상단 규칙)
    ────────────────────────────────────────────────────────── */
 import type { ReactNode } from 'react';
+import type * as React from 'react';
 
 /* ── Eyebrow ──
    두 시안 합쳐 30회 이상 나오는 마이크로 라벨. STACK · RESULT · CAUSE ·
@@ -19,13 +20,15 @@ export function Eyebrow({
   children,
   className = '',
   as: Tag = 'span',
+  ...rest
 }: {
   children: ReactNode;
   className?: string;
-  as?: 'span' | 'div' | 'dt';
-}) {
+  as?: 'span' | 'div' | 'dt' | 'figcaption';
+} & Omit<React.HTMLAttributes<HTMLElement>, 'className' | 'children'>) {
   return (
     <Tag
+      {...rest}
       className={`font-mono text-eyebrow font-medium uppercase tracking-[0.16em] text-muted-foreground ${className}`.trim()}
     >
       {children}

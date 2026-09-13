@@ -36,7 +36,10 @@ export default function ProjectToc({ sections }: { sections: TocSection[] }) {
     e.preventDefault();
     const el = document.getElementById(id);
     if (!el) return;
-    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // behavior를 넘기지 않는다 — 기본값 'auto'는 CSS scroll-behavior를 따르므로
+    // globals.css의 smooth와 prefers-reduced-motion 해제가 그대로 적용된다.
+    // 'smooth'를 명시하면 CSS를 덮어써 "동작 줄이기" 설정이 무시된다.
+    el.scrollIntoView({ block: 'start' });
     setActive(id);
   };
 
@@ -45,7 +48,10 @@ export default function ProjectToc({ sections }: { sections: TocSection[] }) {
       <span className="mb-2.5 hidden font-mono text-eyebrow tracking-[0.18em] text-muted-foreground nav:block">
         CONTENTS
       </span>
-      <nav className="flex gap-1 overflow-x-auto pb-2 nav:flex-col nav:overflow-visible nav:pb-0 [&::-webkit-scrollbar]:hidden">
+      <nav
+        aria-label="이 페이지 목차"
+        className="flex gap-1 overflow-x-auto pb-2 nav:flex-col nav:overflow-visible nav:pb-0 [&::-webkit-scrollbar]:hidden"
+      >
         {sections.map((s, i) => {
           const on = active === s.id;
           return (
@@ -53,7 +59,7 @@ export default function ProjectToc({ sections }: { sections: TocSection[] }) {
               key={s.id}
               href={`#${s.id}`}
               onClick={(e) => handleClick(e, s.id)}
-              aria-current={on ? 'true' : undefined}
+              aria-current={on ? 'location' : undefined}
               className={`flex flex-none items-baseline gap-2.5 rounded-[8px] px-2.5 py-[7px] text-label font-semibold whitespace-nowrap transition-colors nav:border-l-2 nav:rounded-none ${
                 on
                   ? 'bg-muted text-foreground nav:bg-transparent nav:border-primary'

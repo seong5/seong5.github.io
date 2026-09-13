@@ -1,6 +1,6 @@
 import { RevealGroup, RevealItem } from './Reveal';
 import SectionHead from './SectionHead';
-import { Panel } from './primitives';
+import { Eyebrow, Panel } from './primitives';
 import { Badge } from './ui/badge';
 
 const SKILLS = [
@@ -19,19 +19,23 @@ export default function Skills() {
       <RevealGroup className="grid grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-3.5">
         {SKILLS.map((g) => (
           <RevealItem key={g.label}>
-            <Panel className="flex h-full flex-col gap-3.5 p-6">
-              <span className="font-mono text-eyebrow tracking-[0.16em] text-muted-foreground">{g.label}</span>
-              <div className="flex flex-wrap gap-[7px]">
-                {g.items.map((i) => (
-                  <Badge
-                    key={i}
-                    size="md"
-                    className="text-label font-semibold text-foreground hover:bg-primary hover:text-primary-foreground"
-                  >
-                    {i}
-                  </Badge>
-                ))}
-              </div>
+            {/* 라벨/값 쌍이라 dl로 묶는다 — span이면 칩이 어느 그룹인지 프로그램적으로
+                연결되지 않는다. 라벨은 Eyebrow를 써서 자간(0.16em)을 손으로 다시 쓰지 않는다. */}
+            <Panel className="h-full p-6">
+              <dl className="m-0 flex h-full flex-col gap-3.5">
+                <Eyebrow as="dt">{g.label}</Eyebrow>
+                <dd className="m-0 flex flex-wrap gap-[7px]">
+                  {g.items.map((i) => (
+                    <Badge
+                      key={i}
+                      size="md"
+                      className="text-label font-semibold text-foreground hover:bg-primary hover:text-primary-foreground"
+                    >
+                      {i}
+                    </Badge>
+                  ))}
+                </dd>
+              </dl>
             </Panel>
           </RevealItem>
         ))}

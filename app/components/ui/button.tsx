@@ -15,36 +15,26 @@ import { cn } from "./cn"
 import { Slot } from "radix-ui"
 
 const buttonVariants = cva(
-  "inline-flex shrink-0 cursor-pointer items-center justify-center gap-2.5 font-semibold whitespace-nowrap transition-all duration-200 outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  // 포커스 표시는 globals.css의 전역 :focus-visible 아웃라인 하나로 통일한다 —
+  // shadcn 기본 ring을 함께 두면 아웃라인과 링이 이중으로 그려진다.
+  "inline-flex shrink-0 cursor-pointer items-center justify-center gap-2.5 font-semibold whitespace-nowrap transition-all duration-200 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       variant: {
         default: "bg-primary text-primary-foreground hover:-translate-y-0.5",
-        destructive:
-          "bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:bg-destructive/60 dark:focus-visible:ring-destructive/40",
         outline: "border border-border text-foreground hover:bg-muted",
         // 점선은 "아직 내용이 없는 자리"를 뜻하는 이 사이트 고유 어휘다
         dashed:
           "border border-dashed border-border text-foreground hover:border-solid hover:bg-muted",
-        secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost:
-          "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
-        link: "text-primary underline-offset-4 hover:underline",
       },
       size: {
-        default: "h-9 rounded-chip px-4 py-2 text-sm has-[>svg]:px-3",
-        xs: "h-6 gap-1 rounded-md px-2 text-xs has-[>svg]:px-1.5 [&_svg:not([class*='size-'])]:size-3",
-        sm: "h-8 gap-1.5 rounded-md px-3 text-sm has-[>svg]:px-2.5",
-        lg: "h-10 rounded-md px-6 text-sm has-[>svg]:px-4",
-        icon: "size-9 rounded-chip text-sm",
+        // cva의 defaultVariants가 가리키는 값이라 호출부가 없어도 남겨 둔다
+        // text-sm(Tailwind 기본)을 쓰면 @theme 스케일을 안 따라가 혼자 작게 남는다
+        default: "h-9 rounded-chip px-4 py-2 text-body has-[>svg]:px-3",
         // TRACK 스케일 — h-*로 높이를 고정하지 않고 패딩으로 잡는다
         track: "h-auto rounded-chip px-[22px] py-3.5 text-body",
-        "track-sm": "h-auto rounded-chip px-4 py-2.5 text-label",
         // 카드 폭을 꽉 채우는 블록 버튼 (프로젝트 더보기)
         panel: "h-auto w-full rounded-panel p-[18px] text-label",
-        "icon-xs": "size-6 rounded-md [&_svg:not([class*='size-'])]:size-3",
-        "icon-sm": "size-8 rounded-chip",
         "icon-lg": "size-10 rounded-chip",
       },
     },

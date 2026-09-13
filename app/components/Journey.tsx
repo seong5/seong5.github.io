@@ -8,25 +8,30 @@ import { RevealGroup, RevealItem } from './Reveal';
 import SectionHead from './SectionHead';
 
 /**
- * Journey — 홈 최상단의 가로 연대기.
+ * Journey — 히어로 바로 아래 첫 섹션의 가로 연대기.
  *
  * 상세가 아니라 지도다. 기간·소속·역할 한 줄·프로젝트 링크까지만 싣고,
- * 나머지는 /resume과 프로젝트 상세로 넘긴다. 높이를 200px 안에서 끝내야
- * 바로 아래 Projects 카드가 첫 화면에서 밀려나지 않는다.
+ * 나머지는 /resume과 프로젝트 상세로 넘긴다. 높이를 200px 안에서 끝내
+ * 아래 Projects 카드가 한 스크롤 안에 들어오게 한다.
  *
  * 전환 이전 6년(호주·JFounders)은 좌측 한 구간으로 압축했다. 노드로 펼치면
- * 개발 경력 5건이 오른쪽 끝에 몰려 정작 중요한 구간이 읽히지 않는다.
+ * 개발 경력 6건이 오른쪽 끝에 몰려 정작 중요한 구간이 읽히지 않는다.
  * 압축 구간은 점선 + 점 없음 — 사건이 아니라 기간이라는 표시다.
  *
- * 1040px(--breakpoint-journey) 아래로는 세로 타임라인으로 전환한다.
+ * 1240px(--breakpoint-journey) 아래로는 세로 타임라인으로 전환한다.
  * 그 아래에서는 노드 폭이 166px를 밑돌아 역할 한 줄이 3~4줄로 접힌다.
+ * 노드 수(JOURNEY.length)가 바뀌면 그 폭도 함께 바뀐다 — globals.css 의
+ * --breakpoint-journey 주석에 계산식을 적어 뒀다.
  */
 
 /** 각 컬럼의 위쪽 절반 — 기간 라벨 + 바 세그먼트. 세그먼트가 이어져 한 줄이 된다. */
 function Track({ period, dashed = false }: { period: string; dashed?: boolean }) {
   return (
     <>
-      <span className="pr-6 font-mono text-eyebrow tracking-[0.12em] text-muted-foreground max-journey:pr-0">
+      {/* 자간이 곧 폭이다 — 노드 가용폭 136px에 17자 기간이 들어가야 한다.
+          0.12em이면 11px에서 134.6px로 여유가 1.4px뿐이라 2줄이 되고, 그러면 아래 바
+          세그먼트가 컬럼마다 다른 높이에서 시작해 가로 바가 어긋난다. */}
+      <span className="pr-6 font-mono text-eyebrow tracking-[0.04em] text-muted-foreground max-journey:pr-0">
         {period}
       </span>
       {dashed ? (
@@ -59,14 +64,14 @@ export default function Journey() {
         <RevealItem className="flex flex-col gap-2.5 max-journey:border-l-2 max-journey:border-dashed max-journey:border-border max-journey:pb-7 max-journey:pl-5">
           <Track period={JOURNEY_PROLOGUE.span} dashed />
           <div className="flex flex-col gap-2.5 pt-3 pr-6 max-journey:pr-0">
-            <span className="text-label font-bold tracking-[-0.01em] break-keep">
+            <h3 className="m-0 text-label font-bold tracking-[-0.01em] break-keep">
               {JOURNEY_PROLOGUE.label}
-            </span>
+            </h3>
             <div className="flex flex-col gap-2">
               {JOURNEY_PROLOGUE.items.map((it) => (
                 <div key={it.org} className="flex flex-col">
-                  <span className="text-meta font-medium break-keep">{it.org}</span>
-                  <span className="text-meta leading-[1.5] text-muted-foreground break-keep">{it.role}</span>
+                  <span className="text-label font-medium break-keep">{it.org}</span>
+                  <span className="text-label text-muted-foreground break-keep">{it.role}</span>
                 </div>
               ))}
             </div>
@@ -88,9 +93,10 @@ export default function Journey() {
             >
               <Track period={n.period} />
               <div className="flex flex-col gap-1.5 pt-3 pr-6 max-journey:pr-0">
-                <span className="text-label font-bold tracking-[-0.01em] break-keep">{n.org}</span>
-                <span className="text-meta leading-[1.5] text-muted-foreground break-keep">{n.role}</span>
-                {/* 뱃지는 세로로 쌓는다 — 노드 폭이 166px라 두 개가 가로로 붙으면
+                {/* 연대기 항목의 제목 — span이면 이 섹션에 heading이 하나도 없게 된다 */}
+                <h3 className="m-0 text-label font-bold tracking-[-0.01em] break-keep">{n.org}</h3>
+                <span className="text-label text-muted-foreground break-keep">{n.role}</span>
+                {/* 뱃지는 세로로 쌓는다 — 노드 폭이 160px 남짓이라 두 개가 가로로 붙으면
                     컬럼마다 줄 수가 달라져 바 아래 정렬이 흐트러진다.
                     items-start가 없으면 뱃지가 컬럼 폭만큼 늘어난다. */}
                 {chips.length ? (

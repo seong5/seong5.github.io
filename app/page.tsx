@@ -22,6 +22,12 @@ export default function Home() {
         <Skills />
         <Contact />
       </main>
+      {/* contentinfo 랜드마크 — main 안에 있으면 랜드마크로 잡히지 않는다 */}
+      <footer className="mx-auto max-w-page px-7 pt-14 pb-16">
+        <p className="m-0 font-mono text-meta text-muted-foreground">
+          © 2026 신성오 (Shin Seong-oh) — All rights reserved.
+        </p>
+      </footer>
     </div>
   );
 }

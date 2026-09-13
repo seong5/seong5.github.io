@@ -27,7 +27,6 @@ export const cn = createCn({
             'h1',
             'h1-sub',
             'h2',
-            'stat',
             'quote',
           ],
         },

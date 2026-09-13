@@ -27,7 +27,7 @@ export default function MetricBadges({ items }: { items: Metric[] }) {
         // 라벨이 한글 문장이라 eyebrow(10px)는 가독 한계 아래다. 13px로 올리고
         // 모노는 유지한다 — 한글은 Pretendard로 폴백되고 숫자·영문에만 모노가 걸린다.
         const label = (
-          <span className="font-mono text-label leading-[1.5] tracking-[0.01em] text-muted-foreground break-keep">
+          <span className="font-mono text-label tracking-[0.01em] text-muted-foreground break-keep">
             {m.label}
           </span>
         );
