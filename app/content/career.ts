@@ -41,8 +41,8 @@ export const JOURNEY_PROLOGUE: {
   items: [
     // 기간 미확인 — 확인되면 period를 채우고, 2018.11 이전이면 위 span도 앞당길 것
     { org: '전통과자 생산 · 와플 판촉행사', role: 'F&B 현장직' },
-    { period: '2023.01 — 2025.01', org: 'JFounders', role: 'F&B 사업부 · 지점장' },
     { period: '2018.11 — 2019.06', org: '호주 워킹홀리데이', role: 'Sydney, AU' },
+    { period: '2023.01 — 2025.01', org: 'JFounders', role: 'F&B 사업부 · 지점장' },
   ],
 };
 
