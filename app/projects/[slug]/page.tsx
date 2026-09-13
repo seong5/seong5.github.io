@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import BackToTop from '../../components/BackToTop';
 import InsightAccordion from '../../components/InsightAccordion';
+import MetricBadges from '../../components/MetricBadges';
 import ProjectToc, { type TocSection } from '../../components/ProjectToc';
 import { RevealGroup, RevealItem } from '../../components/Reveal';
 import ScrollProgressBar from '../../components/ScrollProgressBar';
@@ -52,7 +53,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
 /** 상세 본문 섹션 제목 — 히어로 h1과 경쟁하지 않도록 작고 굵게, 헤어라인으로만 구분 */
 function H2({ children }: { children: string }) {
   return (
-    <h2 className="border-b border-border pb-4 font-display text-read font-bold tracking-[0.02em]">
+    <h2 className="border-b border-border pb-4 font-display text-title font-bold tracking-[-0.03em]">
       {children}
     </h2>
   );
@@ -132,17 +133,18 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
         {/* ── 히어로 ── */}
         <section className="pt-20" id="top">
           <div className="fade-in-slow flex flex-wrap items-center gap-3 font-mono text-meta tracking-[0.1em] text-muted-foreground">
-            <Badge>{project.org}</Badge>
+            {/* org를 자르지 않고 통째로 넣는 자리다(홈은 첫 토막만 쓴다). Badge base가
+                whitespace-nowrap이라 좁은 화면에서 잘리므로 여기서만 줄바꿈을 허용한다. */}
+            <Badge className="whitespace-normal">{project.org}</Badge>
             <span>{project.period}</span>
             {project.active ? (
-              <span className="inline-flex items-center gap-1.5 text-primary-strong">
-                <span aria-hidden className="h-1.5 w-1.5 rounded-chip bg-primary" />
+              <span className="text-primary-strong">
                 {project.status ?? `진행 중${project.currentTask ? ` · ${project.currentTask}` : ''}`}
               </span>
             ) : null}
           </div>
 
-          <h1 className="mt-[26px] max-w-[18em] text-h1-sub font-bold tracking-[-0.04em] text-balance break-keep">
+          <h1 className="mt-[26px] max-w-[18em] font-display text-h1-sub font-bold tracking-[-0.04em] text-balance break-keep">
             <span className="rise-mask">
               <span className="rise-line">{project.title}</span>
             </span>
@@ -170,6 +172,13 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
             {project.detail ?? project.summary}
           </p>
         </section>
+
+        {/* 지표 줄 — 히어로와 목차 사이. target이 있는 지표는 그 숫자를 설명하는 카드로 가는 앵커다 */}
+        {project.metrics?.length ? (
+          <div className="pt-12">
+            <MetricBadges items={project.metrics} />
+          </div>
+        ) : null}
 
         {/* ── 좌측 목차 + 본문 ── */}
         <div className="flex flex-wrap items-start gap-12 pt-16">
@@ -209,7 +218,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                           />
                         </div>
                         {m.caption ? (
-                          <figcaption className="text-label leading-[1.55] text-muted-foreground break-keep">
+                          <figcaption className="text-label text-muted-foreground break-keep">
                             {m.caption}
                           </figcaption>
                         ) : null}
@@ -240,7 +249,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                           return (
                             <li
                               key={i}
-                              className="max-w-[44em] text-read leading-[1.75] text-pretty break-keep"
+                              className="max-w-[44em] text-read text-pretty break-keep"
                             >
                               {at === -1 ? (
                                 marked(i)
@@ -262,7 +271,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
               ) : (
                 <ul className="m-0 flex list-disc flex-col gap-3.5 pl-5 marker:text-primary-strong">
                   {project.highlights.map((h) => (
-                    <li key={h} className="text-read leading-[1.75] text-pretty break-keep">
+                    <li key={h} className="text-read text-pretty break-keep">
                       {h}
                     </li>
                   ))}
@@ -318,9 +327,11 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
           ) : null}
         </nav>
 
-        <p className="m-0 py-10 pb-18 font-mono text-meta text-muted-foreground">
-          © 2026 신성오 (Shin Seong-oh) — All rights reserved.
-        </p>
+        <footer>
+          <p className="m-0 py-10 pb-18 font-mono text-meta text-muted-foreground">
+            © 2026 신성오 (Shin Seong-oh) — All rights reserved.
+          </p>
+        </footer>
       </div>
 
       {/* 본문을 다 지난 뒤 탭 순서 마지막에 닿도록 여기 둔다 */}

@@ -5,22 +5,21 @@ import { Button } from './ui/button';
 export default function Hero() {
   return (
     <section id="top" className="mx-auto max-w-page px-7 pt-[92px] pb-20">
-      {/* 상태 표시 — 라임 점이 깜빡이며 "지금 구직 중"을 첫 줄에서 알린다 */}
-      <div className="fade-in-slow mb-10 flex items-center gap-2.5">
-        <span aria-hidden className="pulse-dot h-[7px] w-[7px] rounded-chip bg-primary" />
+      <div className="fade-in-slow mb-10">
         <span className="font-mono text-meta tracking-[0.14em] text-muted-foreground">
           {KICKER}
         </span>
       </div>
 
-      {/* 2행 라이즈업 — 각 행이 overflow 마스크 안에서 올라온다.
-          타자기 방식과 달리 첫 프레임부터 글자 폭이 확정돼 레이아웃이 흔들리지 않는다. */}
+      {/* 좌우 분리 등장 — 1행은 왼쪽에서, 2행은 오른쪽에서 들어온다.
+          120ms 시차를 두는 이유: 동시에 들어오면 좌우가 충돌로 보이고,
+          시차가 있어야 아이디어에서 출시로 "이어지는" 움직임으로 읽힌다. */}
       <h1 className="font-display text-h1 font-bold tracking-[-0.045em] text-balance">
         <span className="rise-mask">
-          <span className="rise-line">{HEADLINE.line1}</span>
+          <span className="rise-line-left">{HEADLINE.line1}</span>
         </span>
         <span className="rise-mask">
-          <span className="rise-line text-primary-strong" style={{ animationDelay: '120ms' }}>
+          <span className="rise-line-right text-primary-strong" style={{ animationDelay: '120ms' }}>
             {HEADLINE.line2}
           </span>
         </span>
