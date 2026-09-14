@@ -133,9 +133,8 @@
   /* ── TRACK 고유 — shadcn 슬롯이 없어 직접 든다 ── */
   --primary-strong: #2c4a1e; /* 액센트 "텍스트" 자리 — 배경 대비 8.6:1 */
   --background-fade: rgba(245, 244, 240, 0.82); /* sticky 헤더 backdrop-blur 뒤 */
-  /* 형광펜 밴드 — 원색을 깔면 그 위 본문(#14181d)이 죽으므로 틴트로 눕힌다.
-     다크가 26% 틴트를 쓰는 것과 같은 수법이다 */
-  --hl-band: color-mix(in srgb, var(--primary) 18%, transparent);
+  /* 형광펜 밴드 — 히어로 "to Production."과 같은 색 그대로. 글자 반전은 .hl-marker 참고 */
+  --hl-band: var(--primary-strong);
   --shadow-tint: rgba(20, 24, 29, 0.4); /* 카드 hover 리프트·플로팅 버튼 */
 }
 
@@ -167,9 +166,8 @@
 
   --primary-strong: #c6f24e; /* 다크에선 라임이 그대로 텍스트 가능 (12:1) */
   --background-fade: rgba(12, 15, 18, 0.82);
-  /* 라임 원색 밴드 위 #edeff1 텍스트는 1.3:1로 죽는다.
-     26% 틴트를 card(#14181c)에 깔면 합성색 ≈ #425129, 흰 텍스트 대비 7.4:1 */
-  --hl-band: color-mix(in srgb, var(--primary) 26%, transparent);
+  /* 라임 원색 그대로 — 그 위 글자는 .hl-marker가 --primary-foreground(#101410)로 반전한다 */
+  --hl-band: var(--primary-strong);
   --shadow-tint: rgba(0, 0, 0, 0.8);
 }
 
@@ -198,7 +196,7 @@
 
     --primary-strong: #c6f24e;
     --background-fade: rgba(12, 15, 18, 0.82);
-    --hl-band: color-mix(in srgb, var(--primary) 26%, transparent);
+    --hl-band: var(--primary-strong);
     --shadow-tint: rgba(0, 0, 0, 0.8);
   }
 }
@@ -390,22 +388,19 @@
 }
 
 /* ── 형광펜 ──
-   인사이트 step 제목의 핵심어를 마커로 그은 것처럼 강조한다.
-   라임은 채움 전용이라 글자색은 건드리지 않고 밴드만 글자 하단 55%에 깐다.
-   줄바꿈이 생기면 줄마다 밴드가 따라붙도록 box-decoration-break: clone.
-   좌우 0.12em 여유는 margin으로 상쇄해 레이아웃을 밀지 않는다. */
+   인사이트 step 제목의 핵심어·About 본문·프로젝트 work의 '==구절=='을 강조한다.
+   색은 히어로 "to Production."과 같은 원색(--primary-strong)을 틴트 없이 그대로 깐다.
+   원색 위에서는 기존 글자색이 죽으므로(라이트 짙은 녹색 위 본문 ≈ 2:1) 버튼과 같은
+   --primary-foreground로 반전한다 — 라이트 #f5f4f0 on #2c4a1e 8.6:1, 다크 #101410 on 라임.
+   반전한 글자가 밴드 밖으로 삐져나오면 배경 위에서 사라지므로 하단 절반 밴드가 아니라
+   글자 높이 전체를 칠한다. 줄바꿈 시 줄마다 밴드가 따라붙도록 box-decoration-break: clone. */
 .hl-marker {
-  background-image: linear-gradient(
-    to bottom,
-    transparent 45%,
-    var(--color-hl-band) 45%,
-    var(--color-hl-band) 96%,
-    transparent 96%
-  );
+  background-color: var(--color-hl-band);
+  color: var(--primary-foreground);
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
-  padding-inline: 0.12em;
-  margin-inline: -0.12em;
+  padding-inline: 0.2em;
+  border-radius: 0.2em;
 }
 
 /* ── Motion ──
