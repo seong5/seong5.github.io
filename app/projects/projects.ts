@@ -213,6 +213,8 @@ export const projects: Project[] = [
       },
     ],
     metrics: [
+      // 결과 지표를 맨 앞에. 날짜가 지나면 숫자와 기준일을 함께 갱신할 것
+      { value: '18명', label: '가입자 · 2026.09.14 기준' },
       { value: '3 → 1', label: '화면이 여는 실시간 구독', target: { kind: 'trouble', index: 1 } },
       { value: '35곳 → 1곳', label: '토큰 재시도를 넣은 자리', target: { kind: 'insight', index: 4 } },
       {
