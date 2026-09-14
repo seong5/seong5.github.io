@@ -1,6 +1,8 @@
 export type ProjectLink = {
   label: string;
   href: string;
+  /** 운영을 멈춘 배포처럼 지금은 열리지 않는 링크 — 버튼은 남기되 누를 수 없게 그린다 */
+  disabled?: boolean;
 };
 
 /** 지표 뱃지가 가리키는 상세 카드 — 종류 + 배열상 1-based 순번 */
@@ -1302,14 +1304,15 @@ export const projects: Project[] = [
     org: '개인 프로젝트',
     period: '2025.08.25 — current',
     active: true,
-    currentTask: 'UI/UX 전체 개선',
+    // 운영 중단 상태. active를 끄면 라벨이 사라지고 동결된 resume 태그(개인 · Current)까지 바뀌어 status로만 덮는다
+    status: '일시 중지',
     role: 'Frontend · Full-cycle',
     type: 'Side Project',
     scale: '1인 개발',
     summary:
       'SUB-FC의 경기 일정·결과·선수단 정보를 확인하는 팀 매니지먼트 서비스. 기획부터 배포까지 End-to-End로 진행하며 실사용자 피드백을 반영해 고도화 중.',
     detail:
-      '기존에 쓰던 앱의 높은 피로도와 불필요한 기능을 덜어내고, 실제 팀원이 원하는 기능에 집중해 만든 팀 전용 매니지먼트 서비스입니다. 팀원 피드백을 주기적으로 수집해 개선사항을 반영하고 있습니다.',
+      '기존에 쓰던 앱의 높은 피로도와 불필요한 기능을 덜어내고, 실제 팀원이 원하는 기능에 집중해 만든 팀 전용 매니지먼트 서비스입니다. 팀원 피드백을 주기적으로 수집해 개선사항을 반영했습니다.\n현재는 팀 운영 상황에 따라 일시 중지되었습니다.',
     card: {
       tagline: '기존 팀 관리 앱의 피로도를 덜어내고, 팀원이 실제로 쓰는 기능만 남긴 팀 전용 매니지먼트 서비스입니다.',
       shot: '/projects/sub-fc-panel.webp',
@@ -1372,7 +1375,7 @@ export const projects: Project[] = [
     resumeStack: ['Next.js', 'TypeScript', 'Tanstack Query', 'Zod', 'Supabase'],
     links: [
       { label: 'GitHub', href: 'https://github.com/seong5/SUB_FC' },
-      { label: 'Deploy', href: 'https://sub-fc-21fv.vercel.app/' },
+      { label: 'Deploy', href: 'https://sub-fc-21fv.vercel.app/', disabled: true },
     ],
     image: '/projects/sub-fc.webp',
     gallery: [

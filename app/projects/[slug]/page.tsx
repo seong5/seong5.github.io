@@ -133,16 +133,23 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
           </h1>
 
           <div className="mt-[30px] flex flex-wrap gap-2.5">
-            {project.links.map((l) => (
-              <Button key={l.label} asChild size="track" className="px-[18px] py-2.5">
-                <a href={l.href} target="_blank" rel="noreferrer">
+            {project.links.map((l) =>
+              // 비활성 링크는 <a>를 만들지 않는다 — href가 살아 있으면 흐리게 보여도 키보드·중클릭으로 열린다
+              l.disabled ? (
+                <Button key={l.label} size="track" disabled className="px-[18px] py-2.5">
                   {l.label}
-                  <span aria-hidden className="font-mono">
-                    ↗
-                  </span>
-                </a>
-              </Button>
-            ))}
+                </Button>
+              ) : (
+                <Button key={l.label} asChild size="track" className="px-[18px] py-2.5">
+                  <a href={l.href} target="_blank" rel="noreferrer">
+                    {l.label}
+                    <span aria-hidden className="font-mono">
+                      ↗
+                    </span>
+                  </a>
+                </Button>
+              ),
+            )}
             {isPrivate ? (
               <Badge variant="dashed" size="lg" className="text-label font-semibold text-muted-foreground">
                 사내 서비스 · 코드 비공개
@@ -150,7 +157,8 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
             ) : null}
           </div>
 
-          <p className="mt-[34px] max-w-[44em] text-[clamp(1rem,1.7vw,1.1875rem)] leading-[1.78] text-muted-foreground text-pretty break-keep">
+          {/* whitespace-pre-line — detail 안의 \n을 줄바꿈으로 살린다(SUB-FC 일시 중지 안내). 연속 공백은 그대로 접힌다 */}
+          <p className="mt-[34px] max-w-[44em] whitespace-pre-line text-[clamp(1rem,1.7vw,1.1875rem)] leading-[1.78] text-muted-foreground text-pretty break-keep">
             {project.detail ?? project.summary}
           </p>
         </section>
