@@ -4,7 +4,8 @@ import { Eyebrow, Panel } from './primitives';
 import { Badge } from './ui/badge';
 
 const SKILLS = [
-  { label: 'FRAMEWORK', items: ['React', 'Next.js (App Router)'] },
+  // 순서가 곧 무게다 — 주력인 웹을 앞에, 넓혀가는 영역(앱: 다정해·Claude Log)을 뒤에 둔다
+  { label: 'FRAMEWORK', items: ['React', 'Next.js (App Router)', 'React Native', 'Expo', 'Electron'] },
   { label: 'LANGUAGE', items: ['JavaScript (ES6+)', 'TypeScript'] },
   { label: 'STATE', items: ['Zustand', 'Tanstack Query', 'React Hook Form'] },
   { label: 'STYLING', items: ['Tailwind CSS', 'Styled-components'] },
