@@ -282,6 +282,113 @@
   }
 }
 
+/* ── Journey 등장 모션 — 선이 그어진다 ──
+   세그먼트 한 칸의 그리기 시간 = 다음 칸의 지연 간격(--journey-step)이라,
+   컬럼별 조각이 끊김 없이 한 번의 스윕으로 이어진다. 점은 선이 자기 칸에
+   닿는 순간 찍히고, 텍스트는 그 직후 떠오른다. 순서는 컬럼의 --i(Journey.tsx).
+   점선(프롤로그)은 scaleX로 늘리면 점 간격까지 벌어지므로 전부 clip-path로 드러낸다.
+   점의 등장은 transform, hover 확대는 scale 속성 — 둘이 합성되어 서로를 덮지 않는다
+   (Tailwind v4의 -translate-y-1/2도 translate 속성이라 충돌 없음). */
+@keyframes journeyDraw {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+@keyframes journeyDrawDown {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+@keyframes journeyPop {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+@keyframes journeyRise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.journey-track {
+  --journey-step: 120ms;
+}
+.journey-seg {
+  clip-path: inset(0 100% 0 0);
+}
+.journey-dot {
+  transform: scale(0);
+  transition: scale 180ms ease;
+}
+.journey-fade {
+  opacity: 0;
+}
+.journey-period {
+  transition: color 180ms ease;
+}
+[data-revealed] .journey-seg {
+  animation: journeyDraw var(--journey-step) linear calc(var(--i) * var(--journey-step)) both;
+}
+/* 마지막 칸은 "지금"으로 뻗는 구간 — 뚝 끊기지 않고 감속하며 멈춘다 */
+[data-revealed] .journey-node:last-child .journey-seg {
+  animation-duration: 520ms;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+[data-revealed] .journey-dot {
+  animation: journeyPop 420ms cubic-bezier(0.34, 1.56, 0.64, 1) calc(var(--i) * var(--journey-step)) both;
+}
+[data-revealed] .journey-fade {
+  animation: journeyRise 720ms cubic-bezier(0.16, 1, 0.3, 1)
+    calc(var(--i) * var(--journey-step) + 60ms) both;
+}
+.journey-node:is(:hover, :focus-within) .journey-dot {
+  scale: 1.3;
+}
+.journey-node:is(:hover, :focus-within) .journey-period {
+  color: var(--foreground);
+}
+
+/* 세로 타임라인 — 가로 바가 숨으므로 컬럼 왼쪽 선을 ::before로 위→아래 그린다.
+   border-l을 컬럼에 직접 걸면 clip-path가 텍스트까지 잘라낸다.
+   선이 흐름에서 빠지므로 패딩에 선 두께 2px를 더해 기존 pl-5 + border-l-2 위치를 지킨다.
+   컬럼이 세로로 길어 스텝을 늘린다 — 텍스트 지연도 같은 변수를 따라간다. */
+@media not all and (min-width: 1240px) {
+  .journey-track {
+    --journey-step: 200ms;
+  }
+  .journey-node {
+    position: relative;
+    padding-left: calc(1.25rem + 2px);
+  }
+  .journey-node::before {
+    content: '';
+    position: absolute;
+    inset: 0 auto 0 0;
+    border-left: 2px solid var(--border);
+    clip-path: inset(0 0 100% 0);
+  }
+  .journey-node-dashed::before {
+    border-left-style: dashed;
+  }
+  [data-revealed] .journey-node::before {
+    animation: journeyDrawDown var(--journey-step) linear calc(var(--i) * var(--journey-step)) both;
+  }
+}
+
 /* ── 형광펜 ──
    인사이트 step 제목의 핵심어를 마커로 그은 것처럼 강조한다.
    라임은 채움 전용이라 글자색은 건드리지 않고 밴드만 글자 하단 55%에 깐다.
@@ -615,6 +722,20 @@
   .pulse-dot {
     animation: none !important;
     opacity: 1 !important;
+  }
+  /* Journey — 선·점·텍스트 모두 최종 상태로. hover 확대도 전이 없이 즉시 */
+  .journey-seg,
+  .journey-dot,
+  .journey-fade,
+  .journey-period,
+  .journey-node::before {
+    animation: none !important;
+    transition: none !important;
+    clip-path: none;
+    opacity: 1;
+  }
+  .journey-dot {
+    transform: none;
   }
   [data-tilt] {
     transform: none !important;
