@@ -9,7 +9,7 @@ const SKILLS = [
   { label: 'FRAMEWORK', items: ['React', 'Next.js (App Router)', 'React Native', 'Expo', 'Electron'] },
   { label: 'LANGUAGE', items: ['JavaScript (ES6+)', 'TypeScript'] },
   { label: 'STATE', items: ['Zustand', 'Tanstack Query', 'React Hook Form'] },
-  { label: 'STYLING', items: ['Tailwind CSS', 'Styled-components'] },
+  { label: 'STYLING', items: ['Tailwind CSS'] },
   { label: 'QUALITY / TEST', items: ['Zod', 'Jest', 'Playwright', 'Storybook'] },
   { label: 'DEPLOY / INFRA', items: ['Vercel', 'GitHub Actions', 'AWS', 'Supabase', 'Docker'] },
 ];

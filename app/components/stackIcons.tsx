@@ -18,6 +18,7 @@ import {
   siReact,
   siReacthookform,
   siReactquery,
+  siSass,
   siStorybook,
   siStyledcomponents,
   siSupabase,
@@ -49,6 +50,9 @@ const ICONS: Record<string, Icon> = {
   javascript: siJavascript,
   typescript: siTypescript,
   'styled-components': siStyledcomponents,
+  // SCSS는 Sass의 문법이라 공식 로고도 Sass 로고를 쓴다
+  scss: siSass,
+  sass: siSass,
   storybook: siStorybook,
   docker: siDocker,
   // TanStack 로고의 공식 색(#ECE8D1 크림)은 밝아서 걸러진다 — 제품(Query) 색인 React Query 빨강을 쓴다

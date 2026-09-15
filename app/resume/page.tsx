@@ -2,13 +2,14 @@ import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { StackIcon } from '../components/stackIcons';
 import { projects, type Project } from '../projects/projects';
 import PrintButton from './PrintButton';
 import './print.css';
 
 export const metadata: Metadata = {
-  title: '입사지원서 — 신성오 (Shin Seong-oh)',
-  description: '신성오 (Shin Seong-oh) — 프론트엔드 개발자 입사지원서 (2026).',
+  title: '입사지원서 — 신성오 (SHIN SEONG-OH)',
+  description: '신성오 (SHIN SEONG-OH) — 프론트엔드 개발자 입사지원서 (2026).',
 };
 
 const PORTFOLIO_PROJECTS_URL = 'https://seong5.github.io/#projects';
@@ -17,26 +18,26 @@ const PORTFOLIO_PROJECTS_URL = 'https://seong5.github.io/#projects';
 
 const STRENGTHS = [
   {
-    tag: '주도성',
-    title: '맡은 범위를 스스로 넓혀 문제를 해결합니다',
-    body: '프론트엔드이지만 배포 장애 해결을 위해 백엔드 코드를 직접 확인하여 CORS·라우팅 설정을 분석하고 백엔드에게 개선안을 제시하여 리소스를 줄이고, 경계에 머무르지 않고 문제 해결을 위해 끝까지 파고듭니다.',
-  },
-  {
-    tag: '호기심',
-    title: '새로운 지식을 호기심으로 파고들어 내 것으로 만듭니다',
-    body: '평소 새로운 지식이나 정보에 대한 습득을 즐기는 성향으로  낯선 도메인과 기술들을 공식 문서와 AI를 활용하여 동작 원리를 파고들어 이해하는 과정 자체에서 성장의 동력을 얻습니다.',
+    tag: '소통',
+    title: '상대의 맥락을 이해하며 함께 일합니다',
+    body: "사업부 IT팀 인턴으로 기획·디자인 담당자와 협업하며 배포까지 풀사이클로 참여했습니다. 백엔드와 CORS 문제를 풀 때도 막연히 '안 된다'고 전하기보다, 백엔드 코드에서 원인이 된 설정을 찾아 근거와 함께 공유했습니다.\n호주 워킹홀리데이에서 다국적 환경에 섞여 일하며 경험한, 서로의 입장을 먼저 이해하려는 태도가 바탕이 되었습니다.",
   },
   {
     tag: '책임감',
-    title: '목표를 끝까지 완수해 성과로 증명합니다',
-    body: '하프 마라톤·워킹홀리데이·학위 등 장기 목표를 달성해온 근성을, 복잡한 난제도 임시방편 없이 근본까지 해결하는 인내심과 책임감으로 이어갑니다.',
+    title: '믿고 맡길 수 있는 사람이 되고자 합니다',
+    body: '2년간 카페·샐러드 매장의 지점장으로 인사·재정·발주까지 운영을 총괄하며, 맡은 매장의 결과를 스스로 책임지는 법을 배웠습니다. 개발자로서도 같은 태도로 일해, 2개월 계약으로 시작한 인턴십이 연장되어 총 3개월간 근무했습니다.\n하프 마라톤 완주처럼 오래 걸리는 목표도 계획을 세워 꾸준히 해내는 편입니다.',
+  },
+  {
+    tag: '도전',
+    title: '익숙한 자리를 벗어나 새로운 영역에 뛰어듭니다',
+    body: '서비스업 현장에서 6년을 보낸 뒤, 2025년 프론트엔드 개발자로 직무를 전환했습니다. 전환 후에도 웹에만 머무르지 않고 Docker·React Native·Java/Spring을 공부하며 앱과 백엔드까지 시야를 넓히고 있습니다.\n익숙함보다 새로 부딪혀 보는 쪽을 택해 온 선택들이 지금의 저를 만들었습니다.',
   },
 ];
 
 const SKILLS = [
   { label: 'FRAMEWORK', items: ['React', 'Next.js (App Router)'] },
   { label: 'LANGUAGE', items: ['JavaScript (ES6+)', 'TypeScript'] },
-  { label: 'STYLING', items: ['Tailwind CSS', 'Styled-components'] },
+  { label: 'STYLING', items: ['Tailwind CSS', 'SCSS'] },
   { label: 'STATE', items: ['Zustand', 'Tanstack Query'] },
   { label: 'QUALITY / TEST', items: ['Zod', 'Jest', 'Playwright'] },
   { label: 'DEPLOY', items: ['Vercel', 'GitHub Actions', 'AWS', 'Supabase'] },
@@ -271,7 +272,7 @@ export default function ResumePage() {
             <div>
               <div className="text-[0.6875rem] tracking-[.1em] text-mute">입사지원서</div>
               <h1 className="mt-[10px] text-[1.75rem] font-semibold leading-[1.15] tracking-[-.01em] text-ink">
-                신성오 <span className="text-[1.25rem] font-normal text-mute">Shin Seong-oh</span>
+                신성오 <span className="text-[1.25rem] font-normal text-mute">SHIN SEONG-OH</span>
               </h1>
               <div className="mt-[6px] text-[0.78125rem] tracking-[.04em] text-ink">
                 FRONTEND DEVELOPER
@@ -344,9 +345,9 @@ export default function ResumePage() {
         <div className="mt-[26px]">
           <SectionTitle no="01" en="Strengths" ko="핵심역량" />
           <p className="mb-[18px] text-[0.875rem] font-normal leading-[1.6] text-charcoal">
-            탄탄한 기술력뿐만 아니라 협업 시의 소통능력과 책임감 같은 소프트 스킬의 조화가 좋은
-            서비스를 만든다고 믿습니다. <br /> 맡은 범위에 한계를 두지 않고 시작한 일을 끝까지
-            책임지며 팀과 함께 성과를 만들며 성장하는 것을 지향합니다.
+            좋은 서비스는 탄탄한 기술력 위에 소통과 책임감 같은 소프트 스킬이 더해질 때 완성된다고
+            믿습니다. <br /> 서비스업 현장과 두 번의 인턴을 거치며 다져온 태도로, 팀과 함께 성과를
+            만들며 성장하는 개발자를 지향합니다.
           </p>
           <div className="flex flex-col gap-[15px]">
             {STRENGTHS.map((s) => (
@@ -356,7 +357,7 @@ export default function ResumePage() {
                   <h3 className="text-[0.96875rem] font-semibold tracking-[-.01em] text-ink">
                     {s.title}
                   </h3>
-                  <p className="mt-[5px] text-[0.8125rem] font-normal leading-[1.6] text-charcoal">
+                  <p className="mt-[5px] whitespace-pre-line text-[0.8125rem] font-normal leading-[1.6] text-charcoal">
                     {s.body}
                   </p>
                 </div>
@@ -367,9 +368,11 @@ export default function ResumePage() {
 
         <div className="mt-[30px]">
           <SectionTitle no="02" en="Skills" ko="기술 스택" />
-          <div className="grid grid-cols-2 gap-x-10 gap-y-[14px]">
+          {/* 라벨·뱃지 4트랙을 한 그리드로 두고 행은 subgrid로 공유한다 —
+              같은 열의 라벨 폭이 맞춰져 뱃지가 한 세로선에서 시작한다 */}
+          <div className="grid grid-cols-[auto_1fr_auto_1fr] gap-x-4 gap-y-[14px]">
             {SKILLS.map((s) => (
-              <div key={s.label} className="grid grid-cols-[auto_1fr] items-start gap-x-3">
+              <div key={s.label} className="col-span-2 grid grid-cols-subgrid items-start gap-x-3">
                 <div className="pt-[3px] text-[0.6875rem] uppercase tracking-[.06em] text-mute whitespace-nowrap">
                   {s.label}
                 </div>
@@ -377,8 +380,9 @@ export default function ResumePage() {
                   {s.items.map((i) => (
                     <span
                       key={i}
-                      className="rounded-full border border-hairline bg-white px-[9px] py-[3px] text-[0.75rem] text-ink"
+                      className="inline-flex items-center gap-[5px] rounded-full border border-hairline bg-white px-[9px] py-[3px] text-[0.75rem] text-ink [&>svg]:size-3 [&>svg]:shrink-0"
                     >
+                      <StackIcon name={i} />
                       {i}
                     </span>
                   ))}
