@@ -400,13 +400,15 @@ export default function ResumePage() {
           en="Projects"
           ko="프로젝트"
           action={
-            <Link
+            <a
               href={PORTFOLIO_PROJECTS_URL}
+              target="_blank"
+              rel="noreferrer"
               className="portfolio-link inline-flex shrink-0 items-center gap-2 rounded-[5px] border border-ink/15 bg-ink/5 px-4 py-2 text-[0.75rem] text-charcoal"
             >
               포트폴리오에서 자세히 보기
               <span className="text-ink">→</span>
-            </Link>
+            </a>
           }
         />
         <div className="flex flex-col gap-[22px]">
