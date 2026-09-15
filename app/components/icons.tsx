@@ -23,8 +23,9 @@ export function MailIcon() {
 }
 
 /**
- * 복사 완료 — 강조색으로 채운 원 + 반전색 체크. 이모지(✅)는 OS마다 모양·색이 달라 쓰지 않는다.
- * 원은 currentColor라 호출부가 text-primary-strong을 주면 라이트 녹색·다크 라임을 따른다.
+ * 복사 완료 — 채운 원 + 흰 체크. 이모지(✅)는 OS마다 모양이 달라 SVG로 그리되 색감은 ✅처럼 밝게 간다.
+ * 원은 currentColor라 색은 호출부가 정한다. 체크는 테마와 무관하게 흰색 — 밝은 녹색 위에서
+ * 다크 모드의 --primary-foreground(거의 검정)로 반전하면 ✅와 딴판이 된다.
  */
 export function CheckIcon({ className }: { className?: string }) {
   return (
@@ -33,7 +34,7 @@ export function CheckIcon({ className }: { className?: string }) {
       <path
         d="m7.5 12.5 3 3 6-6.5"
         fill="none"
-        stroke="var(--primary-foreground)"
+        stroke="#ffffff"
         strokeWidth={2.25}
         strokeLinecap="round"
         strokeLinejoin="round"

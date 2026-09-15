@@ -71,7 +71,16 @@ export default function CopyEmail({
       >
         클릭하여 복사!
       </span>
-      {icon ? status === 'copied' ? <CheckIcon className="text-primary-strong" /> : <MailIcon /> : null}
+      {/* 체크는 "복사했습니다"와 한 덩어리로 읽히게 4px 당긴다(간격 10px → 6px).
+          원 색은 사이트 강조색이 아니라 ✅ 이모지에 가까운 밝은 녹색(#34c759) — 순간 뜨는 완료 신호라 눈에 띄는 쪽을 택했다.
+          gap을 줄이면 버튼 폭이 흔들리므로 레이아웃에 영향 없는 transform으로 옮긴다 */}
+      {icon ? (
+        status === 'copied' ? (
+          <CheckIcon className="translate-x-1 text-[#34c759]" />
+        ) : (
+          <MailIcon />
+        )
+      ) : null}
       {label}
       {/* 알림 문구를 주소와 같은 칸에 겹친다 — 주소는 invisible로 자리만 지켜서
           문구가 바뀌어도 버튼 폭과 줄바꿈이 흔들리지 않는다 */}
