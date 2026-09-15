@@ -368,9 +368,11 @@ export default function ResumePage() {
 
         <div className="mt-[30px]">
           <SectionTitle no="02" en="Skills" ko="기술 스택" />
-          <div className="grid grid-cols-2 gap-x-10 gap-y-[14px]">
+          {/* 라벨·뱃지 4트랙을 한 그리드로 두고 행은 subgrid로 공유한다 —
+              같은 열의 라벨 폭이 맞춰져 뱃지가 한 세로선에서 시작한다 */}
+          <div className="grid grid-cols-[auto_1fr_auto_1fr] gap-x-4 gap-y-[14px]">
             {SKILLS.map((s) => (
-              <div key={s.label} className="grid grid-cols-[auto_1fr] items-start gap-x-3">
+              <div key={s.label} className="col-span-2 grid grid-cols-subgrid items-start gap-x-3">
                 <div className="pt-[3px] text-[0.6875rem] uppercase tracking-[.06em] text-mute whitespace-nowrap">
                   {s.label}
                 </div>
