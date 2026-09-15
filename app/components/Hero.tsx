@@ -1,6 +1,8 @@
 import { HEADLINE, INTRO, KICKER, LEAD } from '../content/copy';
 import { PROFILE } from '../content/profile';
-import { Button } from './ui/button';
+import CopyEmail from './CopyEmail';
+import { ArrowUpRightIcon, ARROW_NUDGE, GithubIcon } from './icons';
+import { Button, buttonVariants } from './ui/button';
 
 export default function Hero() {
   return (
@@ -50,12 +52,13 @@ export default function Hero() {
             </span>
           </a>
         </Button>
+        <CopyEmail className={buttonVariants({ variant: 'outline', size: 'track' })} icon />
         <Button asChild variant="outline" size="track">
-          <a href={`mailto:${PROFILE.email}`}>{PROFILE.email}</a>
-        </Button>
-        <Button asChild variant="outline" size="track">
-          <a href={PROFILE.github} target="_blank" rel="noreferrer">
+          <a href={PROFILE.github} target="_blank" rel="noreferrer" className="group">
+            <GithubIcon />
             github.com/seong5
+            <span className="sr-only">(새 탭에서 열림)</span>
+            <ArrowUpRightIcon className={ARROW_NUDGE} />
           </a>
         </Button>
       </div>
