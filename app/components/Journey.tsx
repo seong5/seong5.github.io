@@ -134,7 +134,19 @@ export default function Journey() {
                 </Badge>
                 {/* 연대기 항목의 제목 — span이면 이 섹션에 heading이 하나도 없게 된다 */}
                 <h3 className="m-0 text-label font-bold tracking-[-0.01em] break-keep">{n.org}</h3>
-                <span className="text-label text-muted-foreground break-keep">{n.role}</span>
+                {/* 불릿은 글자 대신 4px 점 — "·"나 "-"는 폰트마다 굵기·높이가 달라 줄 첫 글자와 어긋난다.
+                    내어쓰기(pl-3 + 절대위치 점)라 긴 항목이 접혀도 둘째 줄이 글자 시작선에 맞는다.
+                    점 높이 0.6em ≈ text-label(14px·1.5) 첫 줄 가운데. */}
+                <ul className="m-0 flex list-none flex-col gap-0.5 p-0">
+                  {n.role.map((r) => (
+                    <li
+                      key={r}
+                      className="relative pl-3 text-label text-muted-foreground break-keep before:absolute before:top-[0.6em] before:left-0 before:size-1 before:rounded-full before:bg-muted-foreground/60"
+                    >
+                      {r}
+                    </li>
+                  ))}
+                </ul>
                 {/* 뱃지는 세로로 쌓는다 — 노드 폭이 160px 남짓이라 두 개가 가로로 붙으면
                     컬럼마다 줄 수가 달라져 바 아래 정렬이 흐트러진다.
                     items-start가 없으면 뱃지가 컬럼 폭만큼 늘어난다. */}

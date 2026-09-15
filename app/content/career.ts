@@ -18,7 +18,7 @@
  */
 export const JOURNEY_INTRO = [
   '서비스업 현장에서 6년을 보내고 2025년 개발자로 직무를 전환했습니다.',
-  '실무 교육과 두 번의 인턴에서 쌓은 경험을 살려, 지금은 새로운 기술까지 영역을 넓혀가고 있습니다.',
+  '프론트엔드 교육 수료와 두 번의 인턴 경험을 바탕으로, 지금은 새로운 기술까지 영역을 넓혀가고 있습니다.',
 ];
 
 export type JourneyKind = 'education' | 'work' | 'project';
@@ -37,8 +37,11 @@ export type JourneyNode = {
   id: string;
   period: string;
   org: string;
-  /** 유형(kind) 라벨과 겹치는 말은 빼고 쓴다 — 뱃지와 한 줄 안에서 같은 말이 두 번 나온다 */
-  role: string;
+  /**
+   * 한 항목이 한 줄 — 노드 폭이 160px 남짓이라 문장으로 이으면 줄이 제멋대로 접힌다. 항목당 12자 안팎.
+   * 유형(kind) 라벨과 겹치는 말은 빼고 쓴다 — 뱃지 바로 아래에서 같은 말이 두 번 나온다.
+   */
+  role: string[];
   kind: JourneyKind;
   /** 이 시기에 나온 프로젝트. projects.ts의 slug와 일치해야 한다 */
   projectSlugs?: string[];
@@ -75,7 +78,7 @@ export const JOURNEY: JourneyNode[] = [
     id: 'codeit',
     period: '2025.02 — 2025.08',
     org: '코드잇 스프린트',
-    role: '프론트엔드 15기',
+    role: ['프론트엔드 15기', '기술 스택 학습', '팀 프로젝트 진행'],
     kind: 'education',
     projectSlugs: ['whyne', 'globalnomad'],
   },
@@ -83,7 +86,7 @@ export const JOURNEY: JourneyNode[] = [
     id: 'sub-fc',
     period: '2025.08 — 현재',
     org: 'SUB-FC',
-    role: '기획·개발·배포',
+    role: ['팀 매니지먼트 서비스', '기획·개발·배포', '실사용자 20명 확보'],
     kind: 'project',
     projectSlugs: ['sub-fc'],
   },
@@ -91,7 +94,7 @@ export const JOURNEY: JourneyNode[] = [
     id: 'ddd',
     period: '2025.12 — 2026.01',
     org: '똑똑한개발자',
-    role: '프론트엔드 · TF팀',
+    role: ['프론트엔드 · TF팀', '사업제안서 생성 자동화', '디자인 시스템 구축'],
     kind: 'work',
     projectSlugs: ['deckly'],
   },
@@ -99,7 +102,7 @@ export const JOURNEY: JourneyNode[] = [
     id: 'umust',
     period: '2026.03 — 2026.06',
     org: 'UMUST R&D',
-    role: '프론트엔드 · 사업부 IT팀',
+    role: ['프론트엔드 · IT팀', '어드민 시스템 개발', 'ERP·CRO 서비스 구축'],
     kind: 'work',
     projectSlugs: ['dobong-admin', 'umust-erp'],
   },
@@ -107,7 +110,8 @@ export const JOURNEY: JourneyNode[] = [
     id: 'claude-log',
     period: '2026.04 — 현재',
     org: 'Claude Log',
-    role: '1인 개발',
+    // AI 활용 — 설계 대안 비교를 Claude Code로 검증하고 리뷰용 sub-agent를 구성했다(projects.ts claude-log highlights)
+    role: ['1인 개발', 'macOS 메뉴바 앱', 'AI 활용 개발'],
     kind: 'project',
     projectSlugs: ['claude-log'],
   },
@@ -115,7 +119,8 @@ export const JOURNEY: JourneyNode[] = [
     id: 'dajeonghae',
     period: '2026.08 — 현재',
     org: '다정해',
-    role: '1인 개발',
+    // 심사 — 첫 제출이 지침 2.1로 반려된 뒤 신고·차단을 구현해 통과했다(projects.ts dajeonghae work OPERATION)
+    role: ['1인 개발', 'iOS 앱 개발', 'App Store 출시 완료', '심사·배포 과정 경험'],
     kind: 'project',
     projectSlugs: ['dajeonghae'],
   },
