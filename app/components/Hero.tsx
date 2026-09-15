@@ -1,33 +1,67 @@
-import TypewriterText from './TypewriterText';
+import { HEADLINE, INTRO, KICKER, LEAD } from '../content/copy';
+import { PROFILE } from '../content/profile';
+import CopyEmail from './CopyEmail';
+import { ArrowUpRightIcon, ARROW_NUDGE, GithubIcon } from './icons';
+import { Button, buttonVariants } from './ui/button';
 
 export default function Hero() {
   return (
-    /* 다크 반전 인트로 — 바깥은 우측 컬럼 full-bleed 다크 배경, 안쪽은 1080px 정렬 */
-    <header className="w-full bg-ink text-canvas">
-      <div className="mx-auto max-w-[1080px] px-[72px] pb-[84px] pt-[64px] max-nav:px-[22px] max-nav:pb-[52px] max-nav:pt-[44px]">
-        <h1 className="font-display uppercase leading-[0.9] tracking-[-0.01em] text-canvas text-[clamp(2.25rem,7vw,4.75rem)]">
-          <TypewriterText text="Ready to Learn," />
-          <br />
-          <TypewriterText text="Ready to Run" startDelayMs={975} caretOnDone />
-        </h1>
-
-        <p className="mt-4 text-[0.8125rem] font-medium uppercase tracking-[0.1em] text-canvas/70">
-          Frontend Developer
-        </p>
-
-        <p className="mt-[34px] max-w-[36ch] text-[clamp(1.375rem,3vw,2rem)] font-medium leading-[1.25] tracking-[-0.01em] text-canvas break-keep">
-          빠르게 배우고 적용하며 끝까지 파고들어
-          <br />
-          문제를 확실한 성과로 만듭니다.
-        </p>
-
-        <p className="mt-6 max-w-[80ch] text-[1rem] font-normal leading-[1.8] text-canvas/80 break-keep">
-          개발하며 마주한 불편함과 문제점을 그냥 넘기지 않고 하나의 서비스나 기능으로 풀어내며
-          성취감을 느끼는 개발자입니다. <br /> 매사에 두려움보다는 호기심과 도전으로 접근하여 빠르게
-          경험하고 학습해 나가는 것을 좋아합니다. <br /> 사용자 피드백과 문제 지점을 파고들어 눈에
-          보이는 성과로 전환하여 사용할수록 더욱 나아지는 서비스를 만드는 데 집중합니다.
-        </p>
+    <section id="top" className="mx-auto max-w-page px-7 pt-[92px] pb-20">
+      <div className="fade-in-slow mb-10">
+        <span className="font-mono text-meta tracking-[0.14em] text-muted-foreground">
+          {KICKER}
+        </span>
       </div>
-    </header>
+
+      {/* 좌우 분리 등장 — 1행은 왼쪽에서, 2행은 오른쪽에서 들어온다.
+          120ms 시차를 두는 이유: 동시에 들어오면 좌우가 충돌로 보이고,
+          시차가 있어야 아이디어에서 출시로 "이어지는" 움직임으로 읽힌다. */}
+      <h1 className="font-display text-h1 font-bold tracking-[-0.045em] text-balance">
+        <span className="rise-mask">
+          <span className="rise-line-left">{HEADLINE.line1}</span>
+        </span>
+        <span className="rise-mask">
+          <span className="rise-line-right text-primary-strong" style={{ animationDelay: '120ms' }}>
+            {HEADLINE.line2}
+          </span>
+        </span>
+      </h1>
+
+      {/* 리드 / 본문 2열 — auto-fit이라 좁아지면 알아서 한 줄로 쌓인다.
+          본문 세 문장은 각각 독립 <p>다. <br />로 고정하면 뷰포트마다 조각 줄이 생긴다. */}
+      <div className="mt-14 grid grid-cols-[repeat(auto-fit,minmax(310px,1fr))] items-start gap-11">
+        {/* 리드만 두 행으로 끊는다 — 아래 본문 세 문장과 달리 문장이 하나뿐이라
+            행이 밀리지 않는다. 좁은 폭에서는 각 행이 자연스럽게 한 번 더 접힌다. */}
+        <p className="text-quote font-semibold tracking-[-0.02em] text-pretty break-keep">
+          <span className="block">{LEAD.line1}</span>
+          <span className="block">{LEAD.line2}</span>
+        </p>
+        <div className="flex flex-col gap-[18px] text-read text-muted-foreground text-pretty break-keep">
+          {INTRO.map((t) => (
+            <p key={t}>{t}</p>
+          ))}
+        </div>
+      </div>
+
+      <div className="mt-13 flex flex-wrap gap-2.5">
+        <Button asChild size="track">
+          <a href="#projects">
+            프로젝트 보기
+            <span aria-hidden className="font-mono">
+              ↓
+            </span>
+          </a>
+        </Button>
+        <CopyEmail className={buttonVariants({ variant: 'outline', size: 'track' })} icon />
+        <Button asChild variant="outline" size="track">
+          <a href={PROFILE.github} target="_blank" rel="noreferrer" className="group">
+            <GithubIcon />
+            github.com/seong5
+            <span className="sr-only">(새 탭에서 열림)</span>
+            <ArrowUpRightIcon className={ARROW_NUDGE} />
+          </a>
+        </Button>
+      </div>
+    </section>
   );
 }

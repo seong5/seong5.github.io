@@ -1,54 +1,83 @@
 import { RevealGroup, RevealItem } from './Reveal';
 import SectionHead from './SectionHead';
+import { marked } from './marked';
 
+// 순서는 히어로 리드(app/content/copy.ts LEAD)를 따른다 —
+// 배우고(LEARN) 적용하며(BUILD) 끝까지 파고들어(OWN) 성과로 만듭니다(SOLVE). LEAD가 바뀌면 함께 볼 것.
 const ABOUT = [
   {
     tag: 'LEARN',
-    kw: '학습력',
+    label: '학습력',
     title: '새로운 기술도 빠르게 흡수해 실무에 적용합니다',
-    body: '처음 마주하는 기술이라도 사용법을 외우기보다 핵심 동작 원리부터 파악합니다. 공식 문서와 작은 예제로 직접 확인하며 빠르게 습득하고, “왜 이렇게 동작하는가”를 파악해 실제 문제에 맞게 응용할 수 있도록 적용합니다.',
+    body: [
+      '처음 마주하는 기술이라도 사용법을 외우기보다 ==핵심 동작 원리부터 파악==합니다.',
+      '공식 문서와 작은 예제로 직접 확인하며 빠르게 습득하고,',
+      '“왜 이렇게 동작하는가”를 파악해 실제 문제에 맞게 응용할 수 있도록 적용합니다.',
+    ],
   },
   {
     tag: 'BUILD',
-    kw: '실행력',
+    label: '실행력',
     title: '직접 겪은 불편을 더 나은 사용자 경험으로 개선합니다',
-    body: '떠오른 아이디어를 구상에서 멈추지 않고, 기획·설계·개발·배포까지 직접 끌고 가 하나의 완성된 결과물로 만듭니다. 취미인 러닝에서 단련된 완주할 때까지 포기하지 않는 근성으로, 막히는 구간이 생겨도 끝까지 책임지고 마무리하며 사용자의 반응을 다음 개선방향으로 설정해 결과물을 꾸준히 키워나갑니다.',
+    body: [
+      '떠오른 아이디어를 구상에서 멈추지 않고, 기획·설계·개발·배포까지 직접 끌고 가 ==하나의 완성된 결과물로 만듭니다==.',
+      '막히는 구간이 생겨도 책임지고 마무리하며, 사용자의 반응을 다음 개선 방향으로 삼아 결과물을 꾸준히 키워나갑니다.',
+    ],
+  },
+  {
+    tag: 'OWN',
+    label: '주도성',
+    title: '맡은 파트를 넘어 문제의 원인까지 찾아갑니다',
+    body: [
+      '==제 담당 영역에서 선을 긋지 않습니다==.',
+      '문제가 생기면 프론트엔드 경계에서 멈추지 않고, 데이터베이스 권한이나 서버 설정처럼',
+      '다른 파트의 영역까지 직접 확인하며 원인을 좁힙니다.',
+    ],
   },
   {
     tag: 'SOLVE',
-    kw: '문제해결력',
+    label: '문제해결력',
     title: '마주한 문제를 눈에 보이는 성과로 만듭니다',
-    body: '문제가 생기면 임시방편을 두지 않고 원인을 끝까지 추적해 근본부터 해결합니다. 추측 대신 직접 측정한 데이터로 문제점을 진단하고, 개선 전후를 수치로 비교해 성과를 명확히 검증하는 방식으로 일하는 것을 지향합니다.',
+    body: [
+      '임시방편으로 덮지 않고 ==원인을 끝까지 추적해 근본부터 해결합니다==.',
+      '추측 대신 직접 측정한 데이터로 문제점을 진단하고, 개선 전후를 수치로 비교해',
+      '성과를 명확히 검증하는 방식으로 일하는 것을 지향합니다.',
+    ],
   },
 ];
 
 export default function About() {
   return (
-    <section
-      className="max-w-[1080px] px-[72px] py-[80px] max-nav:px-[22px] max-nav:py-[52px]"
-      id="about"
-    >
-      <SectionHead idx="02" title="About" />
-      {/* 카드 없는 에디토리얼 행 — 좌측 라벨 / 우측 제목·본문, hairline 구분 */}
+    <section id="about" className="mx-auto max-w-page scroll-mt-20 px-7 pt-[68px] pb-10">
+      <SectionHead idx="03" title="About" className="mb-3" />
       <RevealGroup className="flex flex-col">
         {ABOUT.map((a) => (
           <RevealItem
             key={a.tag}
-            className="grid grid-cols-[120px_1fr] gap-x-6 border-t border-hairline py-8 first:border-t-0 first:pt-0 max-nav:grid-cols-1 max-nav:gap-y-3"
+            className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] items-baseline gap-8 border-b border-border py-10"
           >
-            <div className="pt-1 text-[0.75rem] font-medium uppercase tracking-[0.1em] text-accent">
-              {a.tag}
-            </div>
-            <div>
-              <h3 className="text-[1.3125rem] font-medium leading-[1.3] tracking-[-0.01em] text-paper break-keep">
-                {a.kw}
-                <span className="text-mute"> / </span>
+            <div className="flex flex-col gap-3">
+              {/* 태그와 한글 라벨을 같은 급(11px·13px)으로 한 줄에 두고 볼드는 아래 제목에만 남긴다.
+                  한 줄 안에서 크기가 뛰지 않아 세 조각의 베이스라인이 맞는다. */}
+              <div className="flex items-baseline gap-2 text-label font-medium text-muted-foreground">
+                <span className="font-mono text-meta tracking-[0.2em]">{a.tag}</span>
+                <span aria-hidden>·</span>
+                <span>{a.label}</span>
+              </div>
+              <h3 className="text-title font-bold tracking-[-0.03em] text-balance break-keep">
                 {a.title}
               </h3>
-              <p className="mt-3 max-w-[68ch] text-[1rem] font-normal leading-[1.8] text-charcoal break-keep">
-                {a.body}
-              </p>
             </div>
+            {/* 본문은 줄 단위 배열 — 넓은 화면(lg)에서만 줄마다 끊는다. 좁은 화면에서 강제로 끊으면
+                자연 줄바꿈과 겹쳐 한두 글자짜리 조각 줄이 생기므로 이어 흘린다. */}
+            <p className="col-span-2 text-read text-muted-foreground text-pretty break-keep">
+              {a.body.map((line, i) => (
+                <span key={i} className="lg:block">
+                  {i > 0 ? ' ' : null}
+                  {marked(line)}
+                </span>
+              ))}
+            </p>
           </RevealItem>
         ))}
       </RevealGroup>

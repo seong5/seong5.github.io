@@ -44,13 +44,7 @@ export function RevealGroup({
   );
 }
 
-export function RevealItem({
-  children,
-  className,
-}: {
-  children: ReactNode;
-  className?: string;
-}) {
+export function RevealItem({ children, className }: { children: ReactNode; className?: string }) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -63,32 +57,12 @@ export function RevealItem({
       index += 1;
       sibling = sibling.previousElementSibling;
     }
-    el.style.transitionDelay = `${index * 120}ms`;
+    // 시안 값 — 40ms 간격, 200ms 상한. 항목이 많아도 마지막이 늦게 오지 않는다
+    el.style.transitionDelay = `${Math.min(index * 40, 200)}ms`;
   }, []);
 
   return (
     <div ref={ref} data-reveal-item className={className}>
-      {children}
-    </div>
-  );
-}
-
-/**
- * 자기 자신을 감지해 개별적으로 등장하는 리빌 카드.
- * 뷰포트보다 긴 카드에서도 도달 즉시 반응하도록 비율(threshold)이 아닌
- * 위치(rootMargin) 기반으로 감지한다.
- */
-export function RevealSelf({
-  children,
-  className,
-}: {
-  children: ReactNode;
-  className?: string;
-}) {
-  const { ref, inView } = useInView<HTMLDivElement>(0, '0px 0px -10% 0px');
-
-  return (
-    <div ref={ref} data-reveal-self data-revealed={inView || undefined} className={className}>
       {children}
     </div>
   );

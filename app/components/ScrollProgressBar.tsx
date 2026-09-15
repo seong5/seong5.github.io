@@ -1,14 +1,35 @@
 'use client';
 
-import { motion, useScroll } from 'motion/react';
+import { useEffect, useRef } from 'react';
 
+/**
+ * 상단 2px 읽기 진행바. 상세페이지 전용 — 메인은 섹션을 골라 이동하는 페이지라 SiteNav가 현재 섹션을 표시한다.
+ *
+ * motion 대신 passive 스크롤 리스너로 width만 직접 쓴다 — 레이아웃을 유발하지 않는
+ * 속성이고, 라이브러리 하나를 통째로 들이지 않아도 되는 수준의 일이다.
+ */
 export default function ScrollProgressBar() {
-  const { scrollYProgress } = useScroll();
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const onScroll = () => {
+      const el = document.scrollingElement || document.documentElement;
+      const max = el.scrollHeight - el.clientHeight;
+      if (ref.current) {
+        ref.current.style.width = `${max > 0 ? (el.scrollTop / max) * 100 : 0}%`;
+      }
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   return (
-    <motion.div
-      className="absolute inset-x-0 bottom-0 h-[2px] origin-left bg-accent"
-      style={{ scaleX: scrollYProgress }}
+    <div
+      aria-hidden
+      ref={ref}
+      className="fixed inset-x-0 top-0 z-90 h-0.5 w-0 bg-primary"
+      style={{ width: 0 }}
     />
   );
 }

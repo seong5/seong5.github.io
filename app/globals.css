@@ -1,131 +1,802 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+/* 색은 토큰 스왑으로 해결하므로 dark: 변형이 거의 필요 없다.
+   테마 토글 아이콘처럼 "표시/숨김"이 갈리는 자리에만 쓴다. */
+@custom-variant dark (&:where([data-theme="dark"] *, [data-theme="dark"]));
 
 @theme {
-  /* ──────────────────────────────────────────────────────────
-     Mint Dark 디자인 시스템 토큰
-     Graphite(#25272C) 다크 배경 위에 두 계열의 밝은 텍스트를 쓴다:
-     제목·네비게이션 크롬·액센트(CTA·active·hover)는 Sky Mint(#B8F7E4),
-     본문·리스트 등 나머지 콘텐츠 텍스트는 Paper(화이트 계열, #F2F6F4).
-     회색 스케일은 새 색을 더하지 않고 각 베이스를 캔버스 위에 합성해서
-     파생 — 대비 AA 이상. resume(app/resume/**)은 .resume-shell 스코프에서
-     예전 Warm Editorial 값으로 복원되어 이 팔레트의 영향을 받지 않는다.
-     ────────────────────────────────────────────────────────── */
+  /* 색 토큰은 이 블록에 없다 — shadcn 규약을 따라 아래 :root(원시값) +
+     @theme inline(Tailwind 매핑)으로 분리했다. 여기 남은 것은 색이 아닌 토큰과
+     resume 동결 라우트 전용 legacy 색뿐이다. */
 
-  /* Brand & surface → bg-ink, bg-canvas, bg-cloud … */
-  --color-ink: #b8f7e4; /* Sky Mint — 제목·네비 크롬·CTA */
-  --color-canvas: #25272c; /* Graphite — 페이지 배경(다크) */
-  --color-cloud: #2e3337; /* 배경보다 한 단계 밝은 그래파이트 — 카드 스테이지·secondary pill */
-  --color-surface: #2e3337; /* recessed 콘텐츠 카드 면 (Troubleshooting·Insights 컨테이너) */
-  --color-surface-deep: #44464a; /* 카드 위 강조 블록 (Result 등) — paper 15% on graphite */
-  --color-on-primary: #25272c; /* ink(밝은 민트) 위 반전 텍스트 = 캔버스 */
+  /* ── legacy — app/resume/** 전용 ──
+     이력서 라우트는 동결(명시 요청 전까지 수정 금지)이고
+     .resume-shell 이 이 5개를 Warm Editorial 값으로 덮어쓴다.
+     resume이 실제로 쓰는 클래스: text-ink(16) text-mute(13) text-charcoal(8)
+     border-hairline(6) bg-ink(4) border-ink(3) text-on-primary(1).
+     새 페이지는 이 이름을 쓰지 않는다. */
+  --color-ink: #1a1a1a;
+  --color-charcoal: #343432;
+  --color-mute: #6d6b65;
+  --color-hairline: #d2cdc0;
+  --color-on-primary: #f5efe0;
 
-  /* Paper — 본문 콘텐츠 텍스트 베이스(흰색 계열), 제목/네비의 ink와 구분 */
-  --color-paper: #f2f6f4; /* 프로젝트 카드·리스트·라벨 등 콘텐츠 텍스트 */
+  /* ── Typography ──
+     시안에는 9·10·11·12·12.5·13·13.5·14·14.5·15·15.5px가 섞여 있다.
+     0.5px 차이는 지각 한계 아래라 위계가 아니라 노이즈이므로 7단계로 정규화했다.
+     Tailwind 기본 --text-sm 등과 충돌하지 않도록 시맨틱 이름을 쓴다.
+     시안의 9px 모노 라벨은 10px로 올렸다 — 대문자 + 0.16em 자간 + muted가
+     겹치면 9px는 가독 한계를 넘는다. */
+  --text-eyebrow: 0.6875rem; /* 11px — 모노 대문자 (STACK·RESULT·01) */
+  --text-eyebrow--line-height: 1.2;
+  --text-meta: 0.75rem; /* 12px — 모노 메타 (기간·카운트) */
+  --text-meta--line-height: 1.4;
+  --text-label: 0.875rem; /* 14px — 칩·내비·보조 라벨 */
+  --text-label--line-height: 1.5;
+  --text-body: 0.9375rem; /* 15px — 카드 요약·단문 값 */
+  --text-body--line-height: 1.7;
+  --text-read: 1rem; /* 16px — 긴 본문. 웹 본문 기준값 */
+  --text-read--line-height: 1.8; /* 한글 장문 권장 1.7~1.8의 상한 — 더 올리지 않는다 */
+  --text-lead: 1.1875rem; /* 19px — 카드 제목·소제목 */
+  --text-lead--line-height: 1.35; /* 제목이 2줄이 될 때 1.45는 느슨하다 */
+  --text-title: 1.5rem; /* 24px — 섹션 내 제목 */
+  --text-title--line-height: 1.25; /* 제목용. 이 값이라야 호출부가 leading을 덮어쓰지 않는다 */
 
-  /* Text scale (dark surface) — paper를 그래파이트 위 합성한 중립 그레이(본문용) */
-  --color-charcoal: #d9dddc; /* paper 88% — 약간 가벼운 본문 */
-  --color-ash: #b9bcbc; /* paper 72% */
-  --color-mute: #a4a7a8; /* paper 62% — 서브타이틀·메타·링크 */
-  --color-stone: #7b7e80; /* paper 42% — 보조 텍스트 */
-
-  /* Ink-mute/-stone — 네비 크롬 전용 저강도(SiteNav·ProjectToc·SectionHead idx·
-     프로젝트 상세 상단 sticky nav). 위 mute/stone이 paper 베이스로 바뀌면서
-     민트를 유지해야 하는 자리를 위해 예전 민트 파생값을 이름 바꿔 보존 */
-  --color-ink-mute: #80a89e; /* 민트 62% on graphite */
-  --color-ink-stone: #637e79; /* 민트 42% on graphite */
-
-  /* Hairline (유일한 구분선·"섀도") — 중립 톤 */
-  --color-hairline: #3d4849; /* 잉크 16% — 1px 디바이더 */
-  --color-hairline-soft: #323a3d; /* 잉크 9% — sticky bar inset 라인 */
-
-  /* Accent — Sky Mint (개발자 포트폴리오 액센트, ink와 동일 값으로 텍스트+CTA 겸임) */
-  --color-accent: #b8f7e4; /* Sky Mint — CTA·active state·hover 인터랙티브 액센트 */
-  --color-accent-soft: #3f4c4d; /* Sky Mint를 캔버스 위 18% — 액센트 hover/active "glow" 배경 */
-  --color-on-accent: #25272c; /* 밝은 accent 배경 위 어두운 텍스트 */
-
-  /* Semantic (retail chrome에서 유일하게 허용되는 컬러) */
-  --color-sale: #d30005;
-  --color-sale-deep: #780700;
-  --color-success: #007d48;
-  --color-success-bright: #1eaa52;
-  --color-info: #1151ff;
-  --color-info-deep: #0034e3;
-
-  /* ── Radius — pill geometry (none/sm/md/lg/full) ── */
-  --radius-card: 10px; /* 콘텐츠 카드·프레임 미세 라운드 (직각 시그니처는 유지) */
-  --radius-sm: 18px; /* 아바타/아이콘 컨테이너 */
-  --radius-md: 24px; /* search pill, filter input */
-  --radius-lg: 30px; /* 모든 CTA pill */
+  /* 디스플레이 티어 — 반응형이라 clamp 프리셋으로 둔다 */
+  --text-h1: clamp(3.25rem, 11vw, 9.25rem); /* 히어로 52→148px */
+  --text-h1--line-height: 0.92;
+  --text-h1-sub: clamp(2.125rem, 5.4vw, 4.25rem); /* 상세 h1 34→68px */
+  --text-h1-sub--line-height: 1.08;
+  --text-h2: clamp(1.875rem, 4vw, 2.875rem); /* 섹션 h2 30→46px */
+  --text-h2--line-height: 1.05;
+  --text-quote: clamp(1.25rem, 2.4vw, 1.75rem); /* 히어로 리드 20→28px */
+  --text-quote--line-height: 1.45;
 
   /* ── Fonts ──
-     디스플레이 티어(영문 대문자)는 Bebas Neue,
-     UI/본문은 Inter(라틴) → Pretendard(한글) 폴백 체인. */
-  --font-display: var(--font-bebas), "Bebas Neue", "Anton", Impact, sans-serif;
-  --font-sans: var(--font-inter), "Pretendard Variable", "Pretendard",
-    -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+     모노가 이 디자인의 시그니처다. 모든 마이크로 라벨(01·STACK·RESULT·
+     CONTENTS·기간·카운트)이 JetBrains Mono다. 여기가 무너지면 시안 느낌이 안 난다. */
+  --font-display: var(--font-space-grotesk), 'Space Grotesk', sans-serif;
+  --font-mono: var(--font-jetbrains-mono), 'JetBrains Mono', ui-monospace, monospace;
+  --font-sans:
+    'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
 
-  /* 커스텀 breakpoint → nav: / max-nav: , wrap: / max-wrap: 변형 생성 */
+  /* ── Radius ── */
+  --radius-chip: 999px; /* pill — 칩·버튼·뱃지 */
+  --radius-card: 20px; /* 프로젝트 카드·트러블 카드·지표 그리드 */
+  --radius-panel: 18px; /* 스킬 카드·인사이트 */
+  --radius-media: 14px; /* 이미지 프레임 */
+  --radius-inset: 12px; /* 카드 안 중첩 블록 */
+
+  /* ── Container → max-w-page / max-w-detail ── */
+  --container-page: 1240px;
+  --container-detail: 1280px; /* 좌측 TOC 208px + 본문을 위해 더 넓게 */
+
+  /* ── Breakpoint → nav: / max-nav: , wrap: / max-wrap: ──
+     시안이 대부분 auto-fit minmax()와 flex-wrap을 쓰므로 하드 브레이크포인트
+     의존이 크게 줄었다. --breakpoint-toc(1340px)은 TOC가 좌측으로 가면서 삭제. */
   --breakpoint-nav: 880px;
   --breakpoint-wrap: 760px;
-  /* 우측 세로 목차 노출 기준 → toc: / max-toc: */
-  --breakpoint-toc: 1340px;
+  /* Journey 가로 바가 성립하는 하한 — 노드당 폭이 166px 아래로 떨어지면
+     역할 한 줄이 3~4줄로 접힌다. 이 아래로는 세로 타임라인으로 전환한다.
+
+     ⚠️ 이 값은 노드 수에 딸려 있다. 노드 6개면 1fr = (1240 - 56) / 7.4 ≈ 160px 라
+     최대폭에서도 166px에 살짝 못 미치고, 1040px에서는 133px까지 떨어져 바가 깨졌다.
+     그래서 전환 폭을 컨테이너 최대폭까지 올렸다 — 노드가 더 늘면 세로로 보내거나
+     --container-page 를 넓혀야 한다. */
+  --breakpoint-journey: 1240px;
+}
+
+/* ──────────────────────────────────────────────────────────
+   TRACK — 잉크 + 라임. 러닝의 속도감.
+     #14181D 잉크 · #F5F4F0 본 화이트 · #C6F24E 라임
+
+   시안: Claude Design "프로젝트 UI/UX 개선"(11725b3e)
+     Portfolio Redesign.dc.html · Project Detail Redesign.dc.html
+   시안에는 4팔레트(track·clay·signal·dusk)가 있으나 제품은 track 단일.
+   나머지 3개 값은 이 파일 맨 아래 주석에 보존해 교체 비용을 낮춘다.
+
+   ⚠️ 라임(#C6F24E)은 라이트 배경 위 "텍스트"로 쓰면 1.4:1로 완전히 죽는다.
+   라이트에서 primary는 채움(버튼 배경·보더·좌측 라인)에만 쓰고,
+   액센트 텍스트 자리는 primary-strong(녹색 #336B1C, 바탕 5.9:1·회색 면 5.4:1)이 맡는다.
+   다크에서는 라임이 #0C0F12 위에서 12:1이라 primary-strong === primary로 합쳐진다.
+
+   ⚠️ shadcn 규약에서 --muted 와 --accent 는 "면(배경)"이고 그 위 글자는
+   --muted-foreground / --accent-foreground 다. 이 저장소가 예전에 쓰던
+   text-muted(글자색)는 이제 text-muted-foreground 다. 헷갈리지 말 것.
+
+   토큰 구조: 원시값은 :root 와 테마 스왑 블록에, Tailwind 유틸리티 매핑은
+   맨 아래 @theme inline 에. shadcn CLI가 생성하는 형태와 같으므로
+   npx shadcn add 가 손질 없이 동작한다.
+   ────────────────────────────────────────────────────────── */
+:root {
+  --background: #f5f4f0; /* 페이지 바탕 (본 화이트) */
+  --foreground: #14181d; /* 대비 15.8:1 */
+  --card: #ffffff; /* 카드 면 — 바탕보다 한 단계 위 */
+  --card-foreground: #14181d;
+  --popover: #ffffff;
+  --popover-foreground: #14181d;
+  --primary: #336b1c; /* 녹색 = primary-strong과 같은 값. 라이트에서는 형광 라임을 쓰지 않는다.
+                         예전 #2c4a1e는 본문 검정과 1.8:1 차이뿐이라 검정으로 읽혀 명도를 올렸다(2.8:1) */
+  --primary-foreground: #f5f4f0; /* 녹색 채움 위 텍스트 — 5.9:1. 검정(#101410)은 대비가 죽는다 */
+  --secondary: #ecece6; /* 칩·중첩 강조 블록·이미지 매트 */
+  --secondary-foreground: #14181d;
+  --muted: #ecece6; /* = secondary. shadcn에서 muted는 "면"이다 */
+  --muted-foreground: #666e79; /* 배경 대비 5.5:1 — 메타·보조 본문 */
+  --accent: #ecece6; /* shadcn의 accent는 hover 면. 라임이 아니다 */
+  --accent-foreground: #14181d;
+  --destructive: #b3261e; /* 아직 쓰는 곳 없음 — shadcn 컴포넌트가 요구 */
+  --border: #e2e0d8; /* 유일한 구분선. 이 시스템에 그림자 경계는 없다 */
+  --input: #e2e0d8;
+  --ring: #336b1c; /* 포커스 링 — 라이트에서 라임은 링으로도 안 보인다 */
+  --radius: 0.625rem;
+
+  /* ── TRACK 고유 — shadcn 슬롯이 없어 직접 든다 ── */
+  --primary-strong: #336b1c; /* 액센트 "텍스트" 자리 — 바탕 5.9:1, 회색 면(#ecece6) 5.4:1 */
+  --background-fade: rgba(245, 244, 240, 0.82); /* sticky 헤더 backdrop-blur 뒤 */
+  /* 형광펜 밴드 — 히어로 "to Production."과 같은 색 그대로. 글자 반전은 .hl-marker 참고 */
+  --hl-band: var(--primary-strong);
+  --shadow-tint: rgba(20, 24, 29, 0.4); /* 카드 hover 리프트·플로팅 버튼 */
+}
+
+/* ── Dark ──
+   유틸리티가 var(--*)를 참조하므로 원시값만 갈아끼우면 같은 클래스가
+   테마에 따라 다른 값으로 해석된다. dark: 변형은 표시/숨김에만 쓴다.
+
+   legacy 토큰(ink·charcoal·mute·hairline·on-primary)은 여기서 건드리지 않는다.
+   이력서는 인쇄 문서라 항상 라이트로 남아야 한다. */
+:root[data-theme='dark'] {
+  --background: #0c0f12;
+  --foreground: #edeff1;
+  --card: #14181c;
+  --card-foreground: #edeff1;
+  --popover: #14181c;
+  --popover-foreground: #edeff1;
+  --primary: #c6f24e;
+  --primary-foreground: #101410;
+  --secondary: #1e242a;
+  --secondary-foreground: #edeff1;
+  --muted: #1e242a;
+  --muted-foreground: #8a939d; /* 배경 대비 7.0:1 */
+  --accent: #1e242a;
+  --accent-foreground: #edeff1;
+  --destructive: #f2b8b5;
+  --border: #252d35;
+  --input: #252d35;
+  --ring: #c6f24e;
+
+  --primary-strong: #c6f24e; /* 다크에선 라임이 그대로 텍스트 가능 (12:1) */
+  --background-fade: rgba(12, 15, 18, 0.82);
+  /* 라임 원색 그대로 — 그 위 글자는 .hl-marker가 --primary-foreground(#101410)로 반전한다 */
+  --hl-band: var(--primary-strong);
+  --shadow-tint: rgba(0, 0, 0, 0.8);
+}
+
+/* JS가 꺼져 layout.tsx의 인라인 스크립트가 data-theme을 못 세운 경우의 폴백.
+   사용자의 명시적 선택([data-theme="light"])이 항상 이긴다. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --background: #0c0f12;
+    --foreground: #edeff1;
+    --card: #14181c;
+    --card-foreground: #edeff1;
+    --popover: #14181c;
+    --popover-foreground: #edeff1;
+    --primary: #c6f24e;
+    --primary-foreground: #101410;
+    --secondary: #1e242a;
+    --secondary-foreground: #edeff1;
+    --muted: #1e242a;
+    --muted-foreground: #8a939d;
+    --accent: #1e242a;
+    --accent-foreground: #edeff1;
+    --destructive: #f2b8b5;
+    --border: #252d35;
+    --input: #252d35;
+    --ring: #c6f24e;
+
+    --primary-strong: #c6f24e;
+    --background-fade: rgba(12, 15, 18, 0.82);
+    --hl-band: var(--primary-strong);
+    --shadow-tint: rgba(0, 0, 0, 0.8);
+  }
+}
+
+/* ── Tailwind 매핑 ──
+   inline이라 유틸리티가 var(--*)를 그대로 물고 나가 테마 스왑을 따라간다. */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-primary-strong: var(--primary-strong);
+  --color-background-fade: var(--background-fade);
+  --color-hl-band: var(--hl-band);
+  --color-shadow: var(--shadow-tint);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
+    background: var(--color-background);
   }
   body {
-    @apply bg-canvas text-ink font-sans antialiased font-normal leading-[1.6];
+    @apply bg-background text-foreground font-sans antialiased font-normal;
+    line-height: 1.6;
+    transition:
+      background-color 420ms ease,
+      color 420ms ease;
   }
 }
 
-/* 키보드 포커스만 표시 — 마우스 클릭 시엔 뜨지 않도록 :focus 대신 :focus-visible */
+/* 키보드 포커스만 표시 — 마우스 클릭 시엔 뜨지 않도록 :focus 대신 :focus-visible.
+   라임은 라이트 배경에서 링으로도 안 보이므로 primary-strong(= --ring)을 쓴다
+   (다크에서는 토큰이 라임으로 스왑되어 자동으로 밝아진다) */
 :focus-visible {
-  outline: 2px solid var(--color-accent);
+  outline: 2px solid var(--color-ring);
   outline-offset: 3px;
 }
 
-/* prefers-reduced-motion: JS 훅 대신 CSS로 처리 — SSR/CSR 판단 시점 차이로 인한
-   하이드레이션 불일치를 피하기 위함 (app/components/Reveal.tsx) */
-@media (prefers-reduced-motion: reduce) {
-  [data-reveal-item] {
-    opacity: 1 !important;
+/* 라임 채움 위에 얹힌 포커스 링은 반전 */
+.bg-primary :focus-visible {
+  outline-color: var(--color-primary-foreground);
+}
+
+::selection {
+  background: var(--color-primary);
+  color: var(--color-primary-foreground);
+}
+
+/* ── Journey 가로 바 ──
+   컬럼 수가 데이터(JOURNEY.length)에서 온다. Tailwind는 동적 클래스를 만들 수 없고,
+   숫자를 하드코딩하면 노드가 늘어날 때 조용히 어긋난다. 그래서 변수로 받는다.
+   전환 폭은 --breakpoint-journey와 같은 값을 쓴다. */
+.journey-track {
+  display: grid;
+  grid-template-columns: 1.4fr repeat(var(--journey-nodes, 6), 1fr);
+}
+@media not all and (min-width: 1240px) {
+  .journey-track {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Journey 등장 모션 — 선이 그어진다 ──
+   세그먼트 한 칸의 그리기 시간 = 다음 칸의 지연 간격(--journey-step)이라,
+   컬럼별 조각이 끊김 없이 한 번의 스윕으로 이어진다. 점은 선이 자기 칸에
+   닿는 순간 찍히고, 텍스트는 그 직후 떠오른다. 순서는 컬럼의 --i(Journey.tsx).
+   점선(프롤로그)은 scaleX로 늘리면 점 간격까지 벌어지므로 전부 clip-path로 드러낸다.
+   점의 등장은 transform, hover 확대는 scale 속성 — 둘이 합성되어 서로를 덮지 않는다
+   (Tailwind v4의 -translate-y-1/2도 translate 속성이라 충돌 없음). */
+@keyframes journeyDraw {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+@keyframes journeyDrawDown {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+@keyframes journeyPop {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+@keyframes journeyRise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.journey-track {
+  --journey-step: 120ms;
+}
+.journey-seg {
+  clip-path: inset(0 100% 0 0);
+}
+.journey-dot {
+  transform: scale(0);
+}
+.journey-fade {
+  opacity: 0;
+}
+.journey-period {
+  transition: color 180ms ease;
+}
+[data-revealed] .journey-seg {
+  animation: journeyDraw var(--journey-step) linear calc(var(--i) * var(--journey-step)) both;
+}
+/* 마지막 칸은 "지금"으로 뻗는 구간 — 뚝 끊기지 않고 감속하며 멈춘다 */
+[data-revealed] .journey-node:last-child .journey-seg {
+  animation-duration: 520ms;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+[data-revealed] .journey-dot {
+  animation: journeyPop 420ms cubic-bezier(0.34, 1.56, 0.64, 1) calc(var(--i) * var(--journey-step)) both;
+}
+[data-revealed] .journey-fade {
+  animation: journeyRise 720ms cubic-bezier(0.16, 1, 0.3, 1)
+    calc(var(--i) * var(--journey-step) + 60ms) both;
+}
+/* ── Journey hover — 그 구간의 선이 켜지고, 나머지는 한 발 물러난다 ──
+   점만 커지고 기간이 조금 진해지던 것으로는 어느 기간을 보는지 드러나지 않았다.
+   연대기의 주어는 "기간"이므로 그 칸의 바 세그먼트를 강조색으로 켠다.
+   두께는 바꾸지 않는다(칸마다 세그먼트가 이어져야 한다). 기간 라벨도 굵기는 두고
+   색만 바꾼다 — 136px 폭에 여유가 1.4px라 굵어지면 2줄로 접혀 바가 어긋난다(Journey.tsx Track). */
+.journey-node {
+  transition: opacity 180ms ease;
+}
+.journey-seg {
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease;
+}
+.journey-dot {
+  transition:
+    scale 180ms ease,
+    box-shadow 180ms ease;
+}
+.journey-node:is(:hover, :focus-within) .journey-seg {
+  background-color: var(--primary);
+  border-color: var(--primary); /* 프롤로그 점선 */
+}
+.journey-node:is(:hover, :focus-within) .journey-dot {
+  scale: 1.3;
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--primary) 25%, transparent);
+}
+.journey-node:is(:hover, :focus-within) .journey-period {
+  color: var(--primary-strong);
+}
+/* 나머지 흐리기는 마우스 전용 — 터치에서는 hover가 달라붙어 흐린 채 남고,
+   키보드 Tab 이동 중에는 칸마다 전체가 깜빡인다. 그 둘은 위의 색 강조만 받는다. */
+@media (hover: hover) {
+  .journey-track:has(.journey-node:hover) .journey-node:not(:hover) {
+    opacity: 0.45;
+  }
+}
+
+/* 세로 타임라인 — 가로 바가 숨으므로 컬럼 왼쪽 선을 ::before로 위→아래 그린다.
+   border-l을 컬럼에 직접 걸면 clip-path가 텍스트까지 잘라낸다.
+   선이 흐름에서 빠지므로 패딩에 선 두께 2px를 더해 기존 pl-5 + border-l-2 위치를 지킨다.
+   컬럼이 세로로 길어 스텝을 늘린다 — 텍스트 지연도 같은 변수를 따라간다. */
+@media not all and (min-width: 1240px) {
+  .journey-track {
+    --journey-step: 200ms;
+  }
+  .journey-node {
+    position: relative;
+    padding-left: calc(1.25rem + 2px);
+  }
+  .journey-node::before {
+    content: '';
+    position: absolute;
+    inset: 0 auto 0 0;
+    border-left: 2px solid var(--border);
+    clip-path: inset(0 0 100% 0);
+    transition: border-color 180ms ease;
+  }
+  /* 세로에서는 가로 바가 숨으므로 이 선이 hover 강조를 대신 받는다 */
+  .journey-node:is(:hover, :focus-within)::before {
+    border-color: var(--primary);
+  }
+  .journey-node-dashed::before {
+    border-left-style: dashed;
+  }
+  [data-revealed] .journey-node::before {
+    animation: journeyDrawDown var(--journey-step) linear calc(var(--i) * var(--journey-step)) both;
+  }
+}
+
+/* ── 형광펜 ──
+   인사이트 step 제목의 핵심어·About 본문·프로젝트 work의 '==구절=='을 강조한다.
+   색은 히어로 "to Production."과 같은 원색(--primary-strong)을 틴트 없이 그대로 깐다.
+   원색 위에서는 기존 글자색이 죽으므로(라이트 짙은 녹색 위 본문 ≈ 2:1) 버튼과 같은
+   --primary-foreground로 반전한다 — 라이트 #f5f4f0 on #336b1c 5.9:1, 다크 #101410 on 라임.
+   반전한 글자가 밴드 밖으로 삐져나오면 배경 위에서 사라지므로 하단 절반 밴드가 아니라
+   글자 높이 전체를 칠한다. 줄바꿈 시 줄마다 밴드가 따라붙도록 box-decoration-break: clone. */
+.hl-marker {
+  background-color: var(--color-hl-band);
+  color: var(--primary-foreground);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  padding-inline: 0.2em;
+  border-radius: 0.2em;
+}
+
+/* ── Motion ──
+   시안의 riseIn/fadeIn/blink. 전부 CSS로 처리해 motion 의존성을 쓰지 않는다. */
+@keyframes riseIn {
+  from {
+    opacity: 0;
+    transform: translateY(1.1em);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes blink {
+  0%,
+  60% {
+    opacity: 1;
+  }
+  61%,
+  100% {
+    opacity: 0.15;
+  }
+}
+
+/* h1 2행 라이즈업 — overflow 마스크 안에서 올라온다.
+   padding/margin 상쇄는 디센더(g·y)가 마스크에 잘리지 않게 하기 위함 */
+.rise-mask {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.24em;
+  margin-bottom: -0.24em;
+}
+.rise-line {
+  display: block;
+  animation: riseIn 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* 홈 히어로 전용 — "From Idea"는 왼쪽에서, "to Production."은 오른쪽에서.
+   문장의 뜻(아이디어 → 출시)을 좌우 이동으로 옮긴 것이라 장식이 아니다.
+   상세 페이지 h1도 .rise-line 을 쓰므로 기존 클래스는 건드리지 않고 따로 만든다.
+   이동 거리를 em 으로 두는 이유 — text-h1 이 clamp(52px…148px) 라 px 고정값은
+   모바일에서 과하고 데스크톱에서 밋밋해진다. */
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-0.4em);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(0.4em);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+.rise-line-left {
+  display: block;
+  animation: slideInLeft 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.rise-line-right {
+  display: block;
+  animation: slideInRight 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* 인라인 style로 animation을 주면 prefers-reduced-motion에서 !important 없이는
+   끌 수 없다. 모션은 전부 클래스로만 건다. */
+.fade-in {
+  animation: fadeIn 320ms ease both;
+}
+.fade-in-slow {
+  animation: fadeIn 650ms ease both;
+}
+.pulse-dot {
+  animation: blink 2.4s infinite;
+}
+
+/* Reveal (app/components/Reveal.tsx) — IntersectionObserver + 순수 CSS.
+   타이밍은 시안에 맞춰 720ms / cubic-bezier(0.16,1,0.3,1) */
+[data-reveal-item] {
+  opacity: 0;
+  transform: translateY(26px);
+  transition:
+    opacity 720ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 720ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+[data-revealed] [data-reveal-item] {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Spotlight Frames (app/components/Projects.tsx) — 홈 프로젝트 스트립.
+   패널 폭을 flex-grow로 전이한다. 트랙 폭은 flex가 나누므로 px 상수도,
+   시안이 쓰던 ResizeObserver + scale 보정도 필요 없다 — 정적 export에서
+   측정을 기다리지 않고 첫 페인트부터 정답 레이아웃이 나온다.
+   쉬는 상태에서는 아무것도 펼치지 않는다 — 1240px에서 8장이 144px씩 균등하게
+   선다. 하나를 잡으면 유닛 = (트랙 − gap합) / (접힘 7 + 펼침 6)으로 96px / 482px가
+   되어 시안의 80:400 = 1:5 비율을 그대로 재현하고, 프로젝트가 늘면 분모만
+   커져 자동으로 좁아진다. */
+@property --open {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+
+.spotlight-strip {
+  display: flex;
+  align-items: stretch;
+  gap: 4px;
+  /* SectionHead 헤어라인(mb-10)과 스트립 사이의 숨 쉴 틈 */
+  padding-block: 22px;
+}
+
+.spotlight-frame {
+  position: relative;
+  flex: 1 1 0;
+  flex-grow: calc(1 + var(--open, 0) * 5);
+  min-width: 0;
+  height: clamp(360px, 34vw, 440px);
+  transition: flex-grow 520ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.spotlight-frame:hover,
+.spotlight-frame:focus-within {
+  --open: 1;
+}
+
+.spotlight-frame-in {
+  position: relative;
+  display: block;
+  height: 100%;
+  overflow: hidden;
+  border-radius: var(--radius-media);
+  /* 히어로의 "to Production."과 같은 토큰(primary-strong)이다. 두께가 항상
+     2px이라 펼칠 때 레이아웃이 밀리지 않는다 — 1px 하프라인은 스크린샷 위에서
+     라이트 모드의 녹색이 그냥 검은 선으로 읽혀 액센트로 안 보였다 */
+  border: 2px solid
+    color-mix(in srgb, var(--color-primary-strong) calc(var(--open, 0) * 100%), transparent);
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 720ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 720ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 320ms ease;
+}
+[data-revealed] .spotlight-frame-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 딤 — 시안의 filter: brightness()는 여기서 못 쓴다. 다크에서 어두운 스크린샷에
+   걸면 검은 사각형이 되고 라이트에선 회색이 된다. "흐려진다"를 "페이지 배경 쪽으로
+   물러난다"로 옮기면 두 테마에서 같은 의미가 된다 */
+.spotlight-frame-in::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: var(--color-background);
+  opacity: calc(0.72 - var(--open, 0) * 0.72);
+  transition: opacity 520ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* 접힘 슬리버의 세로 제목. 96px 폭에서 크롭된 스크린샷은 UI 조각으로만 보여
+   식별이 안 된다 — 8개 중 하나를 고르게 하려면 이름이 읽혀야 한다.
+   transform 회전이 아니라 writing-mode인 이유는 진짜 텍스트로 두기 위함 */
+.spotlight-spine {
+  position: absolute;
+  /* 아래 정렬 — 이름 길이가 제각각이라 위에서 매달면 8장의 끝이 들쭉날쭉해진다.
+     바닥에 맞추면 굽의 번호가 같은 높이에 한 줄로 늘어선다 */
+  inset: auto 0 18px 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  opacity: calc(1 - var(--open, 0));
+  transition: opacity 380ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+/* 가로쓰기. 세로쓰기는 한글(다정해·도봉라이프 어드민)까지 눕혀 오히려 어색했다.
+   자간을 빼는 것이 성립 조건이다 — tracking 0.1em이면 GlobalNomad가 85px로 넘치지만,
+   자간 없는 11px에서는 72.6px라 접힘 폭(89px) 안에 들어간다. */
+.spotlight-spine-title {
+  /* 폭을 고정하는 이유 — 100%로 두면 패널이 144px(쉴 때) ↔ 89px(다른 패널 hover)로
+     변할 때 긴 이름이 1줄↔2줄로 다시 줄바꿈되며 전이 중에 튄다. 좁은 쪽 배치로
+     묶어두면 폭이 변해도 줄 구성이 그대로다 */
+  max-width: 76px;
+  text-align: center;
+  overflow-wrap: break-word;
+}
+
+/* 스파인이 앉는 자리만 배경을 깔아준다. 딤만으로는 스크린샷의 밝은 영역
+   위에서 인덱스와 제목이 묻힌다 — 본문 스크림과 같은 수법을 위쪽에 쓴다.
+   spine이 z-index:2로 쌓임 맥락을 만들므로 -1이면 글자 뒤·이미지 앞에 놓인다 */
+.spotlight-spine::before {
+  content: '';
+  position: absolute;
+  /* 스파인이 아래 정렬이라 오버행이 위에 있다 — 꼬리도 위로 간다 */
+  inset: -28px -6px -18px -6px;
+  z-index: -1;
+  /* 본체(세로 제목 + 굽의 번호)는 단색으로 채우고 위 28px 꼬리에서만 사라진다.
+     스파인 높이가 프로젝트명 길이에 딸려 있어 퍼센트 정지점을 쓸 수 없다 —
+     레이어 둘을 px로 쌓아 "본체는 불투명, 꼬리만 페이드"를 만든다 */
+  background-image:
+    linear-gradient(to bottom, transparent, var(--color-background)),
+    linear-gradient(var(--color-background), var(--color-background));
+  background-size:
+    100% 28px,
+    100% calc(100% - 28px);
+  background-position:
+    top left,
+    bottom left;
+  background-repeat: no-repeat;
+}
+
+.spotlight-body {
+  position: absolute;
+  inset: auto 0 0 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  /* 폭이 아니라 하한을 주는 이유 — 고정 폭으로 두면 스크림이 본문 상자만큼만
+     깔려 패널 오른쪽에 이미지가 그대로 드러나는 세로 경계선이 생긴다.
+     하한만 두면 전이 대부분 구간에서 줄바꿈이 고정되고, 접힘 상태에서는
+     패널 밖으로 넘쳐 앵커의 overflow:hidden에 잘린다 */
+  min-width: clamp(240px, 30vw, 430px);
+  padding: 18px;
+  opacity: var(--open, 0);
+  transition: opacity 420ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* 본문 스크림 — 패널 퍼센트가 아니라 본문 상자 자신에 건다.
+   글자가 앉는 띠는 완전히 불투명해야 토큰 대비가 그대로 산다(muted-foreground
+   5.5:1을 반투명 위에 얹으면 4.6:1로 떨어져 AA 미달). 퍼센트로 잡으면 제목이
+   두 줄이 되거나 패널 높이가 clamp로 달라질 때 다시 어긋나므로 기준을 글자
+   상자로 옮긴다 — 스파인과 같은 구조다. 위 44px에서만 페이드해 경계를 끊지 않는다 */
+.spotlight-body::before {
+  content: '';
+  position: absolute;
+  inset: -44px 0 0 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(to bottom, transparent, var(--color-background)),
+    linear-gradient(var(--color-background), var(--color-background));
+  background-size:
+    100% 44px,
+    100% calc(100% - 44px);
+  background-position:
+    top left,
+    bottom left;
+  background-repeat: no-repeat;
+}
+
+/* 펼친 패널이 380px를 밑돌면 태그라인 3줄이 안 선다. 굵은 포인터에는 hover가
+   아예 없으므로 같은 모드로 보낸다 — Tilt와 같은 판정 방식(JS 포인터 감지 대신 CSS).
+   전부 펼친 채로 두므로 "먼저 탭해서 펼친다"는 단계가 생기지 않는다 */
+@media (max-width: 999.98px), (hover: none) {
+  .spotlight-strip {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+  .spotlight-strip::-webkit-scrollbar {
+    display: none;
+  }
+  .spotlight-frame {
+    --open: 1;
+    flex: 0 0 clamp(240px, 62vw, 300px);
+    height: clamp(320px, 78vw, 380px);
+    scroll-snap-align: start;
+  }
+}
+
+/* Tilt (app/components/Tilt.tsx) — 포인터가 있는 기기에서만.
+   터치에서는 mousemove가 안 오거나 탭 시 한 번 튀므로 아예 끈다 */
+@media (hover: none), (pointer: coarse) {
+  [data-tilt] {
     transform: none !important;
   }
-  [data-typewriter] {
+}
+
+/* prefers-reduced-motion: JS 훅 대신 CSS로 처리 — SSR/CSR 판단 시점 차이로 인한
+   하이드레이션 불일치를 피하기 위함 */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  [data-reveal-item] {
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+  .rise-line,
+  .rise-line-left,
+  .rise-line-right,
+  .fade-in,
+  .fade-in-slow,
+  .pulse-dot {
     animation: none !important;
-    width: calc(var(--tw-chars) * 1ch) !important;
-    border-color: transparent !important;
+    opacity: 1 !important;
+  }
+  /* Journey — 선·점·텍스트 모두 최종 상태로. hover 확대도 전이 없이 즉시 */
+  .journey-seg,
+  .journey-dot,
+  .journey-fade,
+  .journey-period,
+  .journey-node::before {
+    animation: none !important;
+    transition: none !important;
+    clip-path: none;
+    opacity: 1;
+  }
+  .journey-dot {
+    transform: none;
+  }
+  [data-tilt] {
+    transform: none !important;
+    transition: none !important;
+  }
+  /* Spotlight Frames — 펼침은 "상태"라 남기고 "움직임"만 끈다.
+     flex-grow가 즉시 바뀌므로 기능은 그대로고 전이만 사라진다 */
+  .spotlight-frame,
+  .spotlight-frame-in,
+  .spotlight-frame-in::before,
+  .spotlight-spine,
+  .spotlight-body {
+    transition: none !important;
+  }
+  .spotlight-frame-in {
+    opacity: 1;
+    transform: none;
+  }
+  /* tw-animate-css는 prefers-reduced-motion을 스스로 존중하지 않는다(가드 0개).
+     Radix Accordion·Collapsible의 높이 애니메이션을 여기서 끈다. */
+  [data-slot='accordion-content'],
+  [data-slot='collapsible-content'] {
+    animation: none !important;
+  }
+  body {
+    transition: none;
   }
 }
 
-/* Hero 타이틀 타자기 효과 (app/components/TypewriterText.tsx) */
-@keyframes typewriter-reveal {
-  from {
-    width: 0;
-  }
-  to {
-    width: calc(var(--tw-chars) * 1ch);
-  }
-}
-@keyframes typewriter-caret {
-  0%,
-  100% {
-    border-color: transparent;
-  }
-  50% {
-    border-color: currentColor;
-  }
-}
-@keyframes typewriter-caret-hide {
-  to {
-    border-color: transparent;
-  }
-}
-
-/* resume 전용: 사이트 베이스 팔레트가 몇 번을 바뀌어도(Cool Indigo → Mint Dark 등)
-   Warm Editorial 값으로 항상 복원 */
+/* resume 전용: 사이트 베이스 팔레트가 몇 번을 바뀌어도(Ink wash → TRACK 등)
+   Warm Editorial 값으로 항상 복원. app/resume/** 는 동결 라우트다. */
 .resume-shell {
   --color-ink: #1a1a1a;
   --color-charcoal: #343432;
@@ -134,41 +805,34 @@
   --color-on-primary: #f5efe0;
 }
 
-/* ── 특수 효과 유틸 (Phase 4에서 product-card/PDP 재작성 시 정리 예정) ── */
-@utility ph-frame {
-  /* 제품 placeholder — Nike는 solid soft-cloud 스테이지에 사진을 올린다 */
-  background: var(--color-cloud);
-}
+/* ──────────────────────────────────────────────────────────
+   보류 팔레트 — 시안의 나머지 3종. 교체하려면 위 @theme 의 색 블록과
+   :root[data-theme="dark"] / prefers-color-scheme 블록의 값만 갈아끼우면 된다.
 
-/* Reveal.tsx 스크롤 리빌 트랜지션 (motion 대신 순수 CSS + IntersectionObserver) */
-[data-reveal-item] {
-  opacity: 0;
-  transform: translateY(16px);
-  transition:
-    opacity 0.5s ease-out,
-    transform 0.5s ease-out;
-}
-[data-revealed] [data-reveal-item] {
-  opacity: 1;
-  transform: translateY(0);
-}
-/* RevealSelf — 카드가 자기 자신을 감지해 개별 등장 */
-[data-reveal-self] {
-  opacity: 0;
-  transform: translateY(16px);
-  transition:
-    opacity 0.5s ease-out,
-    transform 0.5s ease-out;
-}
-[data-reveal-self][data-revealed] {
-  opacity: 1;
-  transform: translateY(0);
-}
-@media (prefers-reduced-motion: reduce) {
-  [data-reveal-item],
-  [data-reveal-self] {
-    transition: none;
-    opacity: 1;
-    transform: none;
-  }
-}
+   CLAY (본 화이트 + 테라코타 — 따뜻한 신뢰감)
+     light bg#FAF6F0 fade(250,246,240,.84) surface#FFFFFF surface2#F1E9DE
+           border#E8DFD2 text#221C16 muted#6E6055
+           accent#C4552B accentInk#FFF8F2 accentDeep#A8431F
+     dark  bg#14100D fade(20,16,13,.84) surface#1C1712 surface2#271F18
+           border#2E2620 text#F2EAE0 muted#9A8B7C
+           accent#E4703F accentInk#1A0F08 accentDeep#E4703F
+
+   SIGNAL (그라파이트 + 코발트 — 정확한 엔지니어링)
+     light bg#F6F7F9 fade(246,247,249,.84) surface#FFFFFF surface2#EAEDF2
+           border#E1E5EA text#0E1420 muted#5A6472
+           accent#2B4BFF accentInk#FFFFFF accentDeep#1F38CC
+     dark  bg#0A0C11 fade(10,12,17,.84) surface#12161D surface2#1A2029
+           border#222A36 text#EAEEF4 muted#8792A3
+           accent#5C7BFF accentInk#060810 accentDeep#5C7BFF
+
+   DUSK (딥 슬레이트 + 앰버 — 차분하고 성숙한 톤)
+     light bg#F2F3F1 fade(242,243,241,.84) surface#FBFBFA surface2#E5E8E5
+           border#DADFDB text#1B2420 muted#5F6C66
+           accent#D98A1F accentInk#1B1305 accentDeep#1E4038
+     dark  bg#0B1110 fade(11,17,16,.84) surface#121A18 surface2#1A2422
+           border#20302C text#E9EFEC muted#849691
+           accent#EBA23C accentInk#1B1305 accentDeep#EBA23C
+
+   주의: CLAY·SIGNAL·DUSK는 accent가 라이트에서도 텍스트로 쓸 수 있을 만큼
+   어둡다(테라코타·코발트). TRACK의 라임만 채움 전용 제약이 있다.
+   ────────────────────────────────────────────────────────── */
