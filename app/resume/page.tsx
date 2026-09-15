@@ -68,11 +68,7 @@ function toResumeTag(p: Project): string | undefined {
   return p.scale || undefined;
 }
 
-// 다정해는 아직 이력서에 넣지 않는다. 넣으려면 페이지 분배(slice)와 toResumeTag
-// 분기를 함께 손봐야 하므로 별도 작업으로 미룬다 — 이 한 줄이 현행 출력을 보존한다.
-const PROJECTS = projects
-  .filter((p) => p.slug !== 'dajeonghae')
-  .map((p) => ({
+const PROJECTS = projects.map((p) => ({
   slug: p.slug,
   period: toResumePeriod(p.period),
   tag: toResumeTag(p),
@@ -83,8 +79,8 @@ const PROJECTS = projects
   stack: p.resumeStack ?? p.stack,
 }));
 
-const PROJECTS_PAGE_1 = PROJECTS.slice(0, 3);
-const PROJECTS_PAGE_2 = PROJECTS.slice(3);
+const PROJECTS_PAGE_1 = PROJECTS.slice(0, 4);
+const PROJECTS_PAGE_2 = PROJECTS.slice(4);
 
 const CAREER = [
   {
