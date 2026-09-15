@@ -34,8 +34,8 @@ export const dynamic = 'force-static';
 const size = { width: 1200, height: 630 };
 
 /* globals.css :root 라이트 모드 값 */
-const LIME = '#2c4a1e'; // --primary(라이트) — 짙은 녹색 채움
-const ON_LIME = '#f5f4f0'; // --primary-foreground — 짙은 녹색 위 8.6:1
+const LIME = '#336b1c'; // --primary(라이트) — 녹색 채움
+const ON_LIME = '#f5f4f0'; // --primary-foreground — 녹색 위 5.9:1
 const SIDEBAR = '#0c0f12'; // 다크 --background
 const SIDEBAR_DIM = '#8a939d'; // 다크 --muted-foreground
 
