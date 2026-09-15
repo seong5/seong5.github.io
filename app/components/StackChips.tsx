@@ -4,8 +4,11 @@ import { useState } from 'react';
 import { Badge, badgeVariants } from './ui/badge';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from './ui/collapsible';
 import { cn } from './ui/cn';
+import { StackIcon } from './stackIcons';
 
 const CHIP_ROW = 'flex flex-wrap items-center gap-[7px]';
+// Badge base의 [&>svg]:size-3은 text-label 옆에서 작아 보여 한 단계 키운다
+const CHIP_ICON = 'gap-1.5 [&>svg]:size-3.5';
 
 /**
  * 스택 칩 — 대표 3개는 항상 solid로, 나머지는 "+N more" 뒤에 접는다.
@@ -21,7 +24,8 @@ export default function StackChips({ core, rest }: { core: string[]; rest: strin
     <Collapsible open={open} onOpenChange={setOpen} className="flex flex-col gap-[7px]">
       <div className={CHIP_ROW}>
         {core.map((s) => (
-          <Badge key={s} size="md" className="text-label font-semibold text-foreground">
+          <Badge key={s} size="md" className={cn(CHIP_ICON, 'text-label font-semibold text-foreground')}>
+            <StackIcon name={s} />
             {s}
           </Badge>
         ))}
@@ -44,7 +48,13 @@ export default function StackChips({ core, rest }: { core: string[]; rest: strin
       <CollapsibleContent className="overflow-hidden data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">
         <div className={CHIP_ROW}>
           {rest.map((s) => (
-            <Badge key={s} variant="outline" size="md" className="text-label text-muted-foreground">
+            <Badge
+              key={s}
+              variant="outline"
+              size="md"
+              className={cn(CHIP_ICON, 'text-label text-muted-foreground')}
+            >
+              <StackIcon name={s} />
               {s}
             </Badge>
           ))}

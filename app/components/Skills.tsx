@@ -1,6 +1,7 @@
 import { RevealGroup, RevealItem } from './Reveal';
 import SectionHead from './SectionHead';
 import { Eyebrow, Panel } from './primitives';
+import { getStackBrand, StackIcon } from './stackIcons';
 import { Badge } from './ui/badge';
 
 const SKILLS = [
@@ -30,8 +31,12 @@ export default function Skills() {
                     <Badge
                       key={i}
                       size="md"
-                      className="text-label font-semibold text-foreground hover:bg-primary hover:text-primary-foreground"
+                      // hover 면을 강조색으로 채우면 그 위의 브랜드 색 대비가 들쭉날쭉해진다 —
+                      // 면은 두고 로고와 테두리만 브랜드 색으로 바꾼다. 매핑 없는 칩은 기본 구분선색.
+                      style={{ '--brand': getStackBrand(i) } as React.CSSProperties}
+                      className="gap-1.5 text-label font-semibold text-foreground hover:border-(--brand,var(--border)) [&>svg]:size-3.5 [&>svg]:transition-colors hover:[&>svg]:text-(--brand)"
                     >
+                      <StackIcon name={i} />
                       {i}
                     </Badge>
                   ))}
