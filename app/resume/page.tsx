@@ -7,8 +7,8 @@ import PrintButton from './PrintButton';
 import './print.css';
 
 export const metadata: Metadata = {
-  title: '입사지원서 — 신성오 (Shin Seong-oh)',
-  description: '신성오 (Shin Seong-oh) — 프론트엔드 개발자 입사지원서 (2026).',
+  title: '입사지원서 — 신성오 (SHIN SEONG-OH)',
+  description: '신성오 (SHIN SEONG-OH) — 프론트엔드 개발자 입사지원서 (2026).',
 };
 
 const PORTFOLIO_PROJECTS_URL = 'https://seong5.github.io/#projects';
@@ -271,7 +271,7 @@ export default function ResumePage() {
             <div>
               <div className="text-[0.6875rem] tracking-[.1em] text-mute">입사지원서</div>
               <h1 className="mt-[10px] text-[1.75rem] font-semibold leading-[1.15] tracking-[-.01em] text-ink">
-                신성오 <span className="text-[1.25rem] font-normal text-mute">Shin Seong-oh</span>
+                신성오 <span className="text-[1.25rem] font-normal text-mute">SHIN SEONG-OH</span>
               </h1>
               <div className="mt-[6px] text-[0.78125rem] tracking-[.04em] text-ink">
                 FRONTEND DEVELOPER
