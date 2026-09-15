@@ -60,7 +60,9 @@ function toResumeTag(p: Project): string | undefined {
     if (v === '1m') return p.org.includes('코드잇') ? '1개월 · 코드잇' : '1개월';
     if (v === '3w') return '3주 · 코드잇';
   }
-  if (p.active && p.org.includes('개인')) return '개인 · Current';
+  if (p.active && p.org.includes('개인')) {
+    return p.status === '일시 중지' ? '개인 · 일시 중지' : '개인 · Current';
+  }
   if (p.slug === 'deckly') return '1개월 · 인턴';
   if (p.slug === 'umust-erp' || p.slug === 'dobong-admin') return '인턴';
   if (p.scale === '1개월 협업') return '1개월 · 코드잇';
@@ -68,11 +70,7 @@ function toResumeTag(p: Project): string | undefined {
   return p.scale || undefined;
 }
 
-// 다정해는 아직 이력서에 넣지 않는다. 넣으려면 페이지 분배(slice)와 toResumeTag
-// 분기를 함께 손봐야 하므로 별도 작업으로 미룬다 — 이 한 줄이 현행 출력을 보존한다.
-const PROJECTS = projects
-  .filter((p) => p.slug !== 'dajeonghae')
-  .map((p) => ({
+const PROJECTS = projects.map((p) => ({
   slug: p.slug,
   period: toResumePeriod(p.period),
   tag: toResumeTag(p),
@@ -83,8 +81,8 @@ const PROJECTS = projects
   stack: p.resumeStack ?? p.stack,
 }));
 
-const PROJECTS_PAGE_1 = PROJECTS.slice(0, 3);
-const PROJECTS_PAGE_2 = PROJECTS.slice(3);
+const PROJECTS_PAGE_1 = PROJECTS.slice(0, 4);
+const PROJECTS_PAGE_2 = PROJECTS.slice(4);
 
 const CAREER = [
   {
@@ -402,13 +400,15 @@ export default function ResumePage() {
           en="Projects"
           ko="프로젝트"
           action={
-            <Link
+            <a
               href={PORTFOLIO_PROJECTS_URL}
+              target="_blank"
+              rel="noreferrer"
               className="portfolio-link inline-flex shrink-0 items-center gap-2 rounded-[5px] border border-ink/15 bg-ink/5 px-4 py-2 text-[0.75rem] text-charcoal"
             >
               포트폴리오에서 자세히 보기
               <span className="text-ink">→</span>
-            </Link>
+            </a>
           }
         />
         <div className="flex flex-col gap-[22px]">
