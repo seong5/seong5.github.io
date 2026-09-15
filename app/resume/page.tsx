@@ -37,7 +37,7 @@ const STRENGTHS = [
 const SKILLS = [
   { label: 'FRAMEWORK', items: ['React', 'Next.js (App Router)'] },
   { label: 'LANGUAGE', items: ['JavaScript (ES6+)', 'TypeScript'] },
-  { label: 'STYLING', items: ['Tailwind CSS', 'Styled-components'] },
+  { label: 'STYLING', items: ['Tailwind CSS', 'SCSS'] },
   { label: 'STATE', items: ['Zustand', 'Tanstack Query'] },
   { label: 'QUALITY / TEST', items: ['Zod', 'Jest', 'Playwright'] },
   { label: 'DEPLOY', items: ['Vercel', 'GitHub Actions', 'AWS', 'Supabase'] },
