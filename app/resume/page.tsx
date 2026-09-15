@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { StackIcon } from '../components/stackIcons';
 import { projects, type Project } from '../projects/projects';
 import PrintButton from './PrintButton';
 import './print.css';
@@ -377,8 +378,9 @@ export default function ResumePage() {
                   {s.items.map((i) => (
                     <span
                       key={i}
-                      className="rounded-full border border-hairline bg-white px-[9px] py-[3px] text-[0.75rem] text-ink"
+                      className="inline-flex items-center gap-[5px] rounded-full border border-hairline bg-white px-[9px] py-[3px] text-[0.75rem] text-ink [&>svg]:size-3 [&>svg]:shrink-0"
                     >
+                      <StackIcon name={i} />
                       {i}
                     </span>
                   ))}
