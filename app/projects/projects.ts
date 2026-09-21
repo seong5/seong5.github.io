@@ -184,7 +184,8 @@ export const projects: Project[] = [
     detail:
       '친구 모임·커플·소모임이 "언제 만날지", "어디서 뭘 먹을지"를 함께 정하는 약속 잡기 앱입니다. 단톡방에서 "아무거나", "다 좋아"만 오가다 흐지부지되던 약속을 끝까지 정하게 하려고 만들었습니다.\n초대코드로 모인 멤버가 날짜·장소·메뉴·할 일 후보를 올리고 좋아요·싫어요로 투표하면, 마감 시각에 결과가 확정돼 캘린더 일정으로 바뀝니다. 아무도 앱을 다시 켜지 않아도 약속이 정해지고, 동점일 때만 방장이 고릅니다.',
     card: {
-      tagline: '모임 날짜와 장소를 투표로 정하고, 마감이 지나면 아무도 앱을 켜지 않아도 결과가 확정되는 약속 잡기 앱입니다.',
+      tagline:
+        '모임 날짜와 장소를 투표로 정하고, 마감이 지나면 아무도 앱을 켜지 않아도 결과가 확정되는 약속 잡기 앱입니다.',
       picks: ['판정을 DB로', '실시간 유출 차단'],
       shot: '/projects/dajeonghae-panel.webp',
     },
@@ -228,7 +229,11 @@ export const projects: Project[] = [
       // 결과 지표를 맨 앞에. 날짜가 지나면 숫자와 기준일을 함께 갱신할 것
       { value: '18명', label: '가입자 · 2026.09.14 기준' },
       { value: '3 → 1', label: '화면이 여는 실시간 구독', target: { kind: 'trouble', index: 1 } },
-      { value: '35곳 → 1곳', label: '토큰 재시도를 넣은 자리', target: { kind: 'insight', index: 4 } },
+      {
+        value: '35곳 → 1곳',
+        label: '토큰 재시도를 넣은 자리',
+        target: { kind: 'insight', index: 4 },
+      },
       {
         value: '4건',
         label: '출시 전 점검에서 막은 권한 문제',
@@ -270,7 +275,8 @@ export const projects: Project[] = [
         w: 640,
         h: 1387,
         alt: '다정해 정하기 상세 화면',
-        caption: '정하기 — 후보마다 좋아요·싫어요만 누르면 되고, 마감까지 남은 시간이 헤더에 붙습니다.',
+        caption:
+          '정하기 — 후보마다 좋아요·싫어요만 누르면 되고, 마감까지 남은 시간이 헤더에 붙습니다.',
       },
       {
         src: '/projects/dajeonghae-3.webp',
@@ -465,7 +471,8 @@ export const projects: Project[] = [
         ],
       },
       {
-        title: '우회 경로를 셀 수 없으면 호출 지점이 아니라 공통 관문(API 클라이언트·DB 트리거)에 둔다',
+        title:
+          '우회 경로를 셀 수 없으면 호출 지점이 아니라 공통 관문(API 클라이언트·DB 트리거)에 둔다',
         steps: [
           {
             title: '판단 기준 — 이 규칙을 피해 가는 길을 전부 셀 수 있는가',
@@ -549,7 +556,8 @@ export const projects: Project[] = [
     detail:
       'Claude Code를 rate limit에 걸려 사용하지 못하는 상황을 방지하고 토큰 사용량을 추적·확인·관리하기 위해 개발한 macOS 전용 메뉴바 위젯 앱입니다. 메뉴바에 현재 사용률(%)을 상주 표시하고, 클릭하면 사용량 그래프·통계 히트맵 등 상세 화면을 자동 갱신해 보여줍니다.',
     card: {
-      tagline: 'Claude Code 토큰 사용량을 메뉴바에 상주 표시해, rate limit에 걸리기 전에 알아챌 수 있게 만든 macOS 위젯 앱입니다.',
+      tagline:
+        'Claude Code 토큰 사용량을 메뉴바에 상주 표시해, rate limit에 걸리기 전에 알아챌 수 있게 만든 macOS 위젯 앱입니다.',
       picks: ['전체 대신 추가분만', '한 겹으로는 못 막는다'],
       shot: '/projects/claude-log-panel.webp',
     },
@@ -799,8 +807,16 @@ export const projects: Project[] = [
         label: '배포 환경 CRO API 전면 실패 → 완전 해결',
         target: { kind: 'trouble', index: 1 },
       },
-      { value: '0회', label: 'status 탭 전환 시 네트워크 요청', target: { kind: 'insight', index: 1 } },
-      { value: '1곳 수렴', label: 'croApiPath()로 경로 생성 통합', target: { kind: 'trouble', index: 1 } },
+      {
+        value: '0회',
+        label: 'status 탭 전환 시 네트워크 요청',
+        target: { kind: 'insight', index: 1 },
+      },
+      {
+        value: '1곳 수렴',
+        label: 'croApiPath()로 경로 생성 통합',
+        target: { kind: 'trouble', index: 1 },
+      },
       { value: '풀사이클', label: 'ERD 설계 → FE 구현 → 배포' },
     ],
     insights: [
@@ -966,7 +982,8 @@ export const projects: Project[] = [
     detail:
       '서울 도봉구 기반 로컬 플랫폼 도봉라이프 애플리케이션의 웹 백오피스입니다. 앱의 데이터 관리·통계 필요에 따라 기획되었고, 관리자·사업자 두 ROLE로 분기처리해 각각 앱 전체와 사업장 단위 관리가 가능합니다. 활동 통계 대시보드와 사용자·승인·프로모션·코스·장소·리뷰·알림·문의 등 운영 도메인 전반을 관리하는 화면을 구축했습니다.',
     card: {
-      tagline: '지역 생활 플랫폼 앱의 데이터와 통계를 관리자와 사업자가 각자의 범위에서 다루는 웹 백오피스입니다.',
+      tagline:
+        '지역 생활 플랫폼 앱의 데이터와 통계를 관리자와 사업자가 각자의 범위에서 다루는 웹 백오피스입니다.',
       picks: ['끄고 켜서 확인한 원인', '390줄을 세 층으로'],
       shot: '/projects/dobong-admin-panel.webp',
     },
@@ -1019,8 +1036,16 @@ export const projects: Project[] = [
     image: '/projects/dobong-admin.webp',
     gallery: [{ src: '/projects/dobong-admin.webp', w: 1280, h: 600 }],
     metrics: [
-      { value: '백엔드 변경 0', label: '프록시 + 인터셉터로 CORS 해소', target: { kind: 'trouble', index: 1 } },
-      { value: '100 → 20', label: '리뷰 수집 스캔 상한 축소', target: { kind: 'trouble', index: 2 } },
+      {
+        value: '백엔드 변경 0',
+        label: '프록시 + 인터셉터로 CORS 해소',
+        target: { kind: 'trouble', index: 1 },
+      },
+      {
+        value: '100 → 20',
+        label: '리뷰 수집 스캔 상한 축소',
+        target: { kind: 'trouble', index: 2 },
+      },
       { value: '3계층', label: '위저드를 순수함수·훅·표현 계층으로 분리' },
       { value: '3 브라우저', label: 'Playwright E2E 선행 검증' },
     ],
@@ -1244,9 +1269,17 @@ export const projects: Project[] = [
     image: '/projects/deckly.webp',
     gallery: [{ src: '/projects/deckly.webp', w: 1920, h: 990 }],
     metrics: [
-      { value: '85%', label: '제안서 목록 API 응답 크기 감축', target: { kind: 'trouble', index: 2 } },
+      {
+        value: '85%',
+        label: '제안서 목록 API 응답 크기 감축',
+        target: { kind: 'trouble', index: 2 },
+      },
       { value: '50%', label: 'Mutation 네트워크 요청 절감', target: { kind: 'insight', index: 2 } },
-      { value: '0초', label: '낙관적 업데이트 체감 대기시간', target: { kind: 'insight', index: 2 } },
+      {
+        value: '0초',
+        label: '낙관적 업데이트 체감 대기시간',
+        target: { kind: 'insight', index: 2 },
+      },
       { value: '1인', label: '기획·UI/UX·FE·BE·배포 풀사이클' },
     ],
     insights: [
@@ -1352,7 +1385,8 @@ export const projects: Project[] = [
     detail:
       '기존에 쓰던 앱의 높은 피로도와 불필요한 기능을 덜어내고, 실제 팀원이 원하는 기능에 집중해 만든 팀 전용 매니지먼트 서비스입니다. 팀원 피드백을 주기적으로 수집해 개선사항을 반영했습니다.\n현재는 팀 운영 상황에 따라 일시 중지되었습니다.',
     card: {
-      tagline: '기존 팀 관리 앱의 피로도를 덜어내고, 팀원이 실제로 쓰는 기능만 남긴 팀 전용 매니지먼트 서비스입니다.',
+      tagline:
+        '기존 팀 관리 앱의 피로도를 덜어내고, 팀원이 실제로 쓰는 기능만 남긴 팀 전용 매니지먼트 서비스입니다.',
       shot: '/projects/sub-fc-panel.webp',
     },
     highlights: [
@@ -1425,7 +1459,11 @@ export const projects: Project[] = [
       { value: '71→99', label: '서버 컴포넌트로 성능 개선', target: { kind: 'insight', index: 1 } },
       { value: '20명', label: '실사용자 확보' },
       { value: 'Zod·Jest', label: '런타임 검증·TDD 도입', target: { kind: 'insight', index: 3 } },
-      { value: 'Broadcast', label: '실시간 알림 정확도 개선', target: { kind: 'trouble', index: 1 } },
+      {
+        value: 'Broadcast',
+        label: '실시간 알림 정확도 개선',
+        target: { kind: 'trouble', index: 1 },
+      },
     ],
     insights: [
       {
@@ -1560,7 +1598,8 @@ export const projects: Project[] = [
       // 담당 범위는 git 기록으로 확인 — [activityId] 페이지·하위 컴포넌트 전부와 Button·ButtonStyles 최초 작성자가 본인
       '사용자가 공급자와 수요자로 동시에 활동할 수 있는, 지도와 예약 기반의 양방향 액티비티 마켓플레이스 서비스입니다.\n코드잇 FE 심화프로젝트로서 체험상세페이지와 공통 버튼 컴포넌트를 담당하였습니다.',
     card: {
-      tagline: '누구나 체험의 공급자이자 수요자가 되는, 지도와 예약 기반의 액티비티 마켓플레이스입니다.',
+      tagline:
+        '누구나 체험의 공급자이자 수요자가 되는, 지도와 예약 기반의 액티비티 마켓플레이스입니다.',
       picks: ['기기마다 다른 화면', '같은 응답을 네 번 받지 않기'],
       shot: '/projects/globalnomad-panel.webp',
     },
