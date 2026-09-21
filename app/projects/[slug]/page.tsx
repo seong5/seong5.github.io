@@ -82,6 +82,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
     { id: 'work', label: '구현 과정' },
     ...(project.troubleshooting?.length ? [{ id: 'trouble', label: '트러블슈팅' }] : []),
     ...(project.insights?.length ? [{ id: 'insights', label: '인사이트' }] : []),
+    { id: 'retrospect', label: '회고' },
   ];
 
   return (
@@ -287,6 +288,23 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
               </section>
             ) : null}
 
+            {/* 페이지를 닫는 소회 — 카드를 씌우지 않는다. 앞 섹션이 전부 면(Panel)이라
+                마지막만 테두리 없는 산문으로 두면 본문이 끝났다는 신호가 된다. */}
+            {project.retrospect?.length ? (
+              <section id="retrospect" className="flex scroll-mt-24 flex-col gap-3">
+                <H2>회고</H2>
+                <div className="flex flex-col gap-[18px] pt-1">
+                  {project.retrospect.map((p) => (
+                    <p
+                      key={p}
+                      className="max-w-[44em] text-read text-muted-foreground text-pretty break-keep"
+                    >
+                      {p}
+                    </p>
+                  ))}
+                </div>
+              </section>
+            ) : null}
           </main>
         </div>
 
