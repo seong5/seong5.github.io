@@ -320,18 +320,32 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                 {prev.title.split(' - ')[0]}
               </span>
             </Link>
-          ) : null}
+          ) : (
+            /* 갈 곳이 없는 쪽도 칸을 채운다 — 카드 하나만 남으면 반대쪽 절반이 비어
+               레이아웃이 깨진 것처럼 보인다. <a>가 아니라 <div>인 이유는 href 없는
+               앵커가 탭 순서에 잡히고 누를 수 있는 것처럼 보이기 때문이다. */
+            <div className="flex flex-col justify-center bg-background px-[26px] py-[34px] text-label text-muted-foreground">
+              이전 프로젝트가 없습니다
+            </div>
+          )}
+          {/* NEXT만 바깥쪽 정렬 — 첫 프로젝트는 prev가 없어 auto-fit이 빈 트랙을 접고
+              이 카드가 전폭을 차지한다. 좌측 정렬이면 "다음"이 왼쪽에 붙어 보인다.
+              2열일 때도 →가 가리키는 방향과 글자 정렬이 맞는다. */}
           {next ? (
             <Link
               href={`/projects/${next.slug}`}
-              className="flex flex-col gap-2.5 bg-background px-[26px] py-[34px] text-foreground transition-colors hover:bg-muted"
+              className="flex flex-col items-end gap-2.5 bg-background px-[26px] py-[34px] text-right text-foreground transition-colors hover:bg-muted"
             >
               <Eyebrow>NEXT PROJECT →</Eyebrow>
               <span className="text-lead font-bold tracking-[-0.025em] break-keep">
                 {next.title.split(' - ')[0]}
               </span>
             </Link>
-          ) : null}
+          ) : (
+            <div className="flex flex-col items-end justify-center bg-background px-[26px] py-[34px] text-right text-label text-muted-foreground">
+              다음 프로젝트가 없습니다
+            </div>
+          )}
         </nav>
 
         <footer>
