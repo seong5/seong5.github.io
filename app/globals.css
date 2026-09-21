@@ -56,7 +56,11 @@
   /* ── Fonts ──
      모노가 이 디자인의 시그니처다. 모든 마이크로 라벨(01·STACK·RESULT·
      CONTENTS·기간·카운트)이 JetBrains Mono다. 여기가 무너지면 시안 느낌이 안 난다. */
-  --font-display: var(--font-space-grotesk), 'Space Grotesk', sans-serif;
+  /* Space Grotesk에는 한글 글리프가 없다. Pretendard를 끼워 두지 않으면
+     display를 쓴 한글 제목(상세페이지 섹션 제목)이 OS 기본 고딕으로 떨어져
+     본문과 서체가 갈린다. 영문은 앞의 Space Grotesk가 먼저 잡으므로 영향 없다. */
+  --font-display:
+    var(--font-space-grotesk), 'Space Grotesk', 'Pretendard Variable', Pretendard, sans-serif;
   --font-mono: var(--font-jetbrains-mono), 'JetBrains Mono', ui-monospace, monospace;
   --font-sans:
     'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;

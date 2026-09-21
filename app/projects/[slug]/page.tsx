@@ -53,7 +53,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
 /** 상세 본문 섹션 제목 — 히어로 h1과 경쟁하지 않도록 작고 굵게, 헤어라인으로만 구분 */
 function H2({ children }: { children: string }) {
   return (
-    <h2 className="border-b border-border pb-4 font-display text-title font-bold tracking-[-0.03em]">
+    <h2 className="border-b border-border pb-4 font-display text-title font-bold tracking-[-0.02em]">
       {children}
     </h2>
   );
@@ -78,11 +78,10 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
   const work = project.work;
 
   const tocSections: TocSection[] = [
-    { id: 'overview', label: 'Overview' },
-    ...(shots.length > 0 ? [{ id: 'media', label: 'Screens' }] : []),
-    { id: 'work', label: 'What I did' },
-    ...(project.troubleshooting?.length ? [{ id: 'trouble', label: 'Trouble-Shooting' }] : []),
-    ...(project.insights?.length ? [{ id: 'insights', label: 'Insights' }] : []),
+    { id: 'overview', label: '개요' },
+    { id: 'work', label: '구현 과정' },
+    ...(project.troubleshooting?.length ? [{ id: 'trouble', label: '트러블슈팅' }] : []),
+    ...(project.insights?.length ? [{ id: 'insights', label: '인사이트' }] : []),
   ];
 
   return (
@@ -176,7 +175,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
 
           <main className="flex min-w-0 flex-1 basis-[560px] flex-col gap-[84px]">
             <section id="overview" className="flex scroll-mt-24 flex-col gap-[22px]">
-              <H2>Overview</H2>
+              <H2>개요</H2>
               <MetaList
                 items={[
                   { label: 'ROLE', value: project.role },
@@ -189,38 +188,37 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                 <Eyebrow>STACK</Eyebrow>
                 <StackChips core={stackCore} rest={stackRest} />
               </div>
+              {shots.length > 0 ? (
+                <div className="flex flex-col gap-2.5 pt-2">
+                  <Eyebrow>SCREENS</Eyebrow>
+                  <RevealGroup className="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-3.5">
+                    {shots.map((m) => (
+                      <RevealItem key={m.src}>
+                        <figure className="m-0 flex flex-col gap-2.5">
+                          <div className="overflow-hidden rounded-media border border-border bg-muted">
+                            <Image
+                              src={m.src}
+                              alt={m.alt ?? `${project.title} 화면`}
+                              width={m.w}
+                              height={m.h}
+                              className="w-full"
+                            />
+                          </div>
+                          {m.caption ? (
+                            <figcaption className="text-label text-muted-foreground break-keep">
+                              {m.caption}
+                            </figcaption>
+                          ) : null}
+                        </figure>
+                      </RevealItem>
+                    ))}
+                  </RevealGroup>
+                </div>
+              ) : null}
             </section>
 
-            {shots.length > 0 ? (
-              <section id="media" className="flex scroll-mt-24 flex-col gap-[22px]">
-                <H2>Screens</H2>
-                <RevealGroup className="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-3.5">
-                  {shots.map((m) => (
-                    <RevealItem key={m.src}>
-                      <figure className="m-0 flex flex-col gap-2.5">
-                        <div className="overflow-hidden rounded-media border border-border bg-muted">
-                          <Image
-                            src={m.src}
-                            alt={m.alt ?? `${project.title} 화면`}
-                            width={m.w}
-                            height={m.h}
-                            className="w-full"
-                          />
-                        </div>
-                        {m.caption ? (
-                          <figcaption className="text-label text-muted-foreground break-keep">
-                            {m.caption}
-                          </figcaption>
-                        ) : null}
-                      </figure>
-                    </RevealItem>
-                  ))}
-                </RevealGroup>
-              </section>
-            ) : null}
-
             <section id="work" className="flex scroll-mt-24 flex-col gap-[26px]">
-              <H2>What I did</H2>
+              <H2>구현 과정</H2>
               {work ? (
                 <RevealGroup className="flex flex-col gap-[26px]">
                   {work.map((g) => (
@@ -271,7 +269,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
 
             {project.troubleshooting?.length ? (
               <section id="trouble" className="flex scroll-mt-24 flex-col gap-5">
-                <H2>Trouble-Shooting</H2>
+                <H2>트러블슈팅</H2>
                 <RevealGroup className="flex flex-col gap-5">
                   {project.troubleshooting.map((t, i) => (
                     <RevealItem key={t.title}>
@@ -284,10 +282,11 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
 
             {project.insights?.length ? (
               <section id="insights" className="flex scroll-mt-24 flex-col gap-3">
-                <H2>Insights</H2>
+                <H2>인사이트</H2>
                 <InsightAccordion insights={project.insights} />
               </section>
             ) : null}
+
           </main>
         </div>
 
