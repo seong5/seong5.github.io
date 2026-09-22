@@ -32,5 +32,5 @@ export const INTRO = [
   '사용자 피드백과 문제 지점을 파고들어 눈에 보이는 성과로 전환하여 사용할수록 더욱 나아지는 서비스를 만드는 데 집중합니다.',
 ] as const;
 
-/** 히어로 상태 줄 · OG 좌측 사이드바가 공유한다 */
-export const KICKER = 'FRONTEND DEVELOPER · SEOUL, KR';
+/** 히어로 상태 줄 */
+export const KICKER = 'SOFTWARE ENGINEER · FRONTEND DEVELOPER';
