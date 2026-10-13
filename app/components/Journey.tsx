@@ -15,7 +15,7 @@ import SectionHead from './SectionHead';
  * 아래 Projects 카드가 한 스크롤 안에 들어오게 한다.
  *
  * 전환 이전 6년(호주·JFounders)은 좌측 한 구간으로 압축했다. 노드로 펼치면
- * 개발 경력 6건이 오른쪽 끝에 몰려 정작 중요한 구간이 읽히지 않는다.
+ * 개발 전환 이후 7건이 오른쪽 끝에 몰려 정작 중요한 구간이 읽히지 않는다.
  * 압축 구간은 점선 + 점 없음 — 사건이 아니라 기간이라는 표시다.
  *
  * 1240px(--breakpoint-journey) 아래로는 세로 타임라인으로 전환한다.
@@ -33,8 +33,8 @@ import SectionHead from './SectionHead';
 function Track({ period, dashed = false }: { period: string; dashed?: boolean }) {
   return (
     <>
-      {/* 자간이 곧 폭이다 — 노드 가용폭 136px에 17자 기간이 들어가야 한다.
-          0.12em이면 11px에서 134.6px로 여유가 1.4px뿐이라 2줄이 되고, 그러면 아래 바
+      {/* 자간이 곧 폭이다 — 노드 가용폭 124px에 17자 기간이 들어가야 한다.
+          0.12em이면 11px에서 134.6px로 가용폭을 넘어 2줄이 되고, 그러면 아래 바
           세그먼트가 컬럼마다 다른 높이에서 시작해 가로 바가 어긋난다. */}
       <span className="journey-fade journey-period pr-6 font-mono text-eyebrow tracking-[0.04em] text-muted-foreground max-journey:pr-0">
         {period}
@@ -147,7 +147,7 @@ export default function Journey() {
                     </li>
                   ))}
                 </ul>
-                {/* 뱃지는 세로로 쌓는다 — 노드 폭이 160px 남짓이라 두 개가 가로로 붙으면
+                {/* 뱃지는 세로로 쌓는다 — 노드 폭이 150px 남짓이라 두 개가 가로로 붙으면
                     컬럼마다 줄 수가 달라져 바 아래 정렬이 흐트러진다.
                     items-start가 없으면 뱃지가 컬럼 폭만큼 늘어난다. */}
                 {chips.length ? (
