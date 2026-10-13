@@ -178,7 +178,7 @@ export const projects: Project[] = [
     type: 'Mobile App / Side Project',
     scale: '1인 개발',
     active: true,
-    status: 'App Store v1.0.0 출시',
+    status: 'App Store v1.1.0 출시',
     summary:
       '모임 날짜·장소를 후보 등록과 투표로 정하는 그룹 약속 앱. 단톡방에서 흐지부지되던 약속을 끝까지 정하도록 기획부터 App Store 출시까지 1인 개발로 진행.',
     detail:
@@ -227,7 +227,7 @@ export const projects: Project[] = [
     ],
     metrics: [
       // 결과 지표를 맨 앞에. 날짜가 지나면 숫자와 기준일을 함께 갱신할 것
-      { value: '18명', label: '가입자 · 2026.09.14 기준' },
+      { value: '22명', label: '다운로드 · 2026.10.13 기준' },
       { value: '3 → 1', label: '화면이 여는 실시간 구독', target: { kind: 'trouble', index: 1 } },
       {
         value: '35곳 → 1곳',
