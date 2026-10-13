@@ -84,10 +84,10 @@
   /* Journey 가로 바가 성립하는 하한 — 노드당 폭이 166px 아래로 떨어지면
      역할 한 줄이 3~4줄로 접힌다. 이 아래로는 세로 타임라인으로 전환한다.
 
-     ⚠️ 이 값은 노드 수에 딸려 있다. 노드 6개면 1fr = (1240 - 56) / 7.4 ≈ 160px 라
-     최대폭에서도 166px에 살짝 못 미치고, 1040px에서는 133px까지 떨어져 바가 깨졌다.
-     그래서 전환 폭을 컨테이너 최대폭까지 올렸다 — 노드가 더 늘면 세로로 보내거나
-     --container-page 를 넓혀야 한다. */
+     ⚠️ 이 값은 노드 수에 딸려 있다. 노드 7개면 1fr = (1240 - 56) / 8 = 148px 라
+     최대폭에서도 166px에 못 미치고, 그 아래로는 17자 기간 라벨(약 120px)이 접혀 바가 깨진다.
+     그래서 전환 폭을 컨테이너 최대폭까지 올리고 프롤로그 칸도 1.4fr에서 1fr로 줄였다 —
+     노드가 더 늘면 세로로 보내거나 --container-page 를 넓혀야 한다. */
   --breakpoint-journey: 1240px;
 }
 
@@ -277,7 +277,7 @@
    전환 폭은 --breakpoint-journey와 같은 값을 쓴다. */
 .journey-track {
   display: grid;
-  grid-template-columns: 1.4fr repeat(var(--journey-nodes, 6), 1fr);
+  grid-template-columns: 1fr repeat(var(--journey-nodes, 7), 1fr);
 }
 @media not all and (min-width: 1240px) {
   .journey-track {
