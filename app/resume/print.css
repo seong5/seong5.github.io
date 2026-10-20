@@ -20,6 +20,14 @@
   }
 }
 
+/* 형광펜 — 글자 아래 절반만 칠한다. 이력서는 항상 라이트라 테마 토큰(.hl-marker) 대신 고정색 */
+.resume-hl {
+  background: linear-gradient(transparent 60%, #e3f4a6 60%);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  padding-inline: 0.1em;
+}
+
 /* 인쇄 시 정확히 페이지 단위로 분할 + 색상 유지 */
 @media print {
   html,
