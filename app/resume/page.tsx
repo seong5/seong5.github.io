@@ -14,6 +14,8 @@ export const metadata: Metadata = {
 };
 
 const PORTFOLIO_PROJECTS_URL = 'https://seong5.github.io/#projects';
+// PDF로 저장해도 링크가 살아 있도록 절대 URL로 건다
+const PROJECT_DETAIL_URL = (slug: string) => `https://seong5.github.io/projects/${slug}/`;
 
 /* ── 데이터 (시안 2 PDF 정본) ─────────────────────────────── */
 
@@ -73,6 +75,7 @@ function toResumeTag(p: Project): string | undefined {
 
 const PROJECTS = projects.map((p) => ({
   slug: p.slug,
+  href: PROJECT_DETAIL_URL(p.slug),
   period: toResumePeriod(p.period),
   tag: toResumeTag(p),
   title: p.title,
@@ -182,6 +185,7 @@ function Entry({
   desc,
   points = [],
   stack,
+  href,
 }: {
   period: string;
   tag?: string;
@@ -190,6 +194,7 @@ function Entry({
   desc?: string;
   points?: string[];
   stack?: string[];
+  href?: string;
 }) {
   return (
     <div className="avoid-break grid grid-cols-[112px_1fr] gap-x-5">
@@ -198,7 +203,23 @@ function Entry({
         {tag ? <div className="mt-1 text-[0.6875rem] text-mute">{tag}</div> : null}
       </div>
       <div>
-        <h3 className="text-[0.96875rem] font-semibold tracking-[-.01em] text-ink">{title}</h3>
+        <h3 className="text-[0.96875rem] font-semibold tracking-[-.01em] text-ink">
+          {href ? (
+            <a
+              href={href}
+              target="_blank"
+              rel="noreferrer"
+              className="underline-offset-2 transition hover:underline"
+            >
+              {title}
+              <span aria-hidden className="ml-1 text-[0.75rem] font-normal text-mute">
+                ↗
+              </span>
+            </a>
+          ) : (
+            title
+          )}
+        </h3>
         {org ? <div className="mt-[3px] text-[0.71875rem] text-mute">{org}</div> : null}
         {desc ? (
           <p className="mt-[7px] text-[0.8125rem] font-normal leading-[1.6] text-charcoal">
